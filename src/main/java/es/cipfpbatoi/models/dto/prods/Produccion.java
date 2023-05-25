@@ -33,31 +33,74 @@ public class Produccion {
         this.productora = productora;
         this.poster = poster;
         this.plataforma = plataforma;
+        this.visualizaciones = visualizaciones;
         this.web = web;
         this.tipo = tipo;
     }
+
 
     public void setVisualizaciones(int visualizaciones) {
         this.visualizaciones = visualizaciones;
     }
 
-    @Override
-    public String toString() {
-        return "Produccion{" +
-                "id='" + id + '\'' +
-                ", titulo='" + titulo + '\'' +
-                ", calificacion=" + calificacion +
-                ", fecha_lanzamiento=" + fecha_lanzamiento +
-                ", duracion=" + duracion +
-                ", genero=" + genero +
-                ", director='" + director + '\'' +
-                ", actores=" + actores +
-                ", guion='" + guion + '\'' +
-                ", productora='" + productora + '\'' +
-                ", poster='" + poster + '\'' +
-                ", plataforma=" + plataforma +
-                ", web='" + web + '\'' +
-                ", tipo=" + tipo +
-                "}\n";
+    public String getId() {
+        return id;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Calificacion getCalificacion() {
+        return calificacion;
+    }
+
+    public LocalDate getFecha_lanzamiento() {
+        return fecha_lanzamiento;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public Set<String> getGenero() {
+        return genero;
+    }
+
+    public Set<String> getActores() {
+        return actores;
+    }
+
+    public String getGuion() {
+        return guion;
+    }
+
+    public String getProductora() {
+        return productora;
+    }
+
+    public String getUrl_trailer() {
+        return url_trailer;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public Set<String> getPlataforma() {
+        return plataforma;
+    }
+
+    public int getVisualizaciones() {
+        return visualizaciones;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
 }

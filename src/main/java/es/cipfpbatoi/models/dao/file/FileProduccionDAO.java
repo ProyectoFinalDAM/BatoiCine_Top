@@ -1,5 +1,7 @@
 package es.cipfpbatoi.models.dao.file;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Calificacion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -14,7 +16,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.util.ArrayList;
+
 public class FileProduccionDAO implements ProduccionDAO {
+
     private static final String DATABASE_FILE = "resources/database/peliculas_series.csv";
     private final File file;
     public FileProduccionDAO() {
@@ -91,7 +96,7 @@ public class FileProduccionDAO implements ProduccionDAO {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+
 
     @Override
     public void save(Produccion produccion) {
@@ -127,6 +132,11 @@ public class FileProduccionDAO implements ProduccionDAO {
 
         return null;
 
+    }
+
+    @Override
+    public Produccion getById(String dni) throws NotFoundException, DatabaseErrorException {
+        return null;
     }
 }
 
