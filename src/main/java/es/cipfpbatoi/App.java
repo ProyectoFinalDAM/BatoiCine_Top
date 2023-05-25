@@ -1,3 +1,5 @@
+package es.cipfpbatoi;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX es.cipfpbatoi.App
  */
 public class App extends Application {
 
