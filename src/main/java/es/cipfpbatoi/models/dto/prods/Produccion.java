@@ -9,7 +9,7 @@ public class Produccion {
     private Calificacion calificacion;
     private LocalDate fecha_lanzamiento;
     private int duracion;
-    private int id_genero;
+    private Set<String> genero;
     private Set<String> actores;
     private String guion;
     private String productora;
@@ -20,13 +20,13 @@ public class Produccion {
     private String web;
     private Tipo tipo;
 
-    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, int id_genero, Set<String> actores, String guion, String productora, String url_trailer, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, Set<String> actores, String guion, String productora, String url_trailer, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
         this.id = id;
         this.titulo = titulo;
         this.calificacion = calificacion;
         this.fecha_lanzamiento = fecha_lanzamiento;
         this.duracion = duracion;
-        this.id_genero = id_genero;
+        this.genero = genero;
         this.actores = actores;
         this.guion = guion;
         this.productora = productora;
@@ -58,8 +58,8 @@ public class Produccion {
         return duracion;
     }
 
-    public int getId_genero() {
-        return id_genero;
+    public Set<String> getGenero() {
+        return genero;
     }
 
     public Set<String> getActores() {

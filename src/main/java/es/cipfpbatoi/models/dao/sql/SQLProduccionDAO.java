@@ -32,7 +32,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
 
         ArrayList<Produccion> produccions = new ArrayList<>();
-        connection = new MySqlConnection(IP, DATABASE, NOMBRE_USUARIO, "1234").getConnection();
+        connection = new MySqlConnection().co;
 
         try (
                 Statement statement = connection.createStatement();
@@ -58,7 +58,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         Calificacion calificacion = Calificacion.valueOf(rs.getString("calificacion"));
         LocalDate fechaLanzamiento = rs.getDate("fechaLanzamiento").toLocalDate();
         int duracion = rs.getInt("duracion");
-        int id_genero = rs.getInt("id_genero");
+        Set<String> genero = Collections.singleton(rs.getString("genero"));
         Set<String> actor = Collections.singleton(rs.getString("actor"));
         String guion = rs.getString("guion");
         String productora = rs.getString("productora");
@@ -69,7 +69,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String web = rs.getString("web");
         Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
 
-        return new Produccion(id, titulo, calificacion, fechaLanzamiento, duracion, id_genero, actor, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo);
+        return new Produccion(id, titulo, calificacion, fechaLanzamiento, duracion, genero, actor, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
             preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString() );
             preparedStatement.setInt( 5, produccion.getDuracion() );
-            preparedStatement.setInt( 6, produccion.getId_genero() );
+            preparedStatement.setString( 6, produccion.getGenero().toString());
             preparedStatement.setString( 7, produccion.getActores().toString());
             preparedStatement.setString( 8, produccion.getGuion() );
             preparedStatement.setString( 9, produccion.getProductora() );
