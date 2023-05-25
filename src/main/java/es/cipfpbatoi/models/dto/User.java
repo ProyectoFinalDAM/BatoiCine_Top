@@ -11,4 +11,20 @@ public class User {
         this.apellidos = apellidos;
         this.contrasenya = contrasenya;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public String getContrasenya() {
+        return contrasenya;
+    }
 }
