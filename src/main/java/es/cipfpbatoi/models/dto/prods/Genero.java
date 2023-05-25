@@ -6,6 +6,23 @@ public class Genero {
     private String descripcion;
 
     public Genero(int id, String cod, String descripcion) {
+ andreuFrancés
+        this.id = id;
+        this.cod = cod;
+        this.descripcion = descripcion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+
         this.id          = id;
         this.cod         = cod;
         this.descripcion = descripcion;
@@ -15,5 +32,6 @@ public class Genero {
     @Override
     public String toString() {
         return this.id + this.cod;
+ main
     }
 }
