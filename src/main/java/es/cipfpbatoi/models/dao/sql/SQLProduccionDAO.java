@@ -16,12 +16,6 @@ import java.util.Set;
 
 public class SQLProduccionDAO implements ProduccionDAO {
 
-    public static final String IP = "???";
-
-    public static final String DATABASE = "BatoiCine_Top";
-
-    public static final String NOMBRE_USUARIO = "batoi";
-
     public static final String NOMBRE_TABLA = "";
 
     private Connection connection;
@@ -30,9 +24,8 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public ArrayList<Produccion> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
-
-        ArrayList<Produccion> produccions = new ArrayList<>();
         connection = new MySqlConnection().conectar();
+        ArrayList<Produccion> produccions = new ArrayList<>();
 
         try (
                 Statement statement = connection.createStatement();
@@ -107,7 +100,6 @@ public class SQLProduccionDAO implements ProduccionDAO {
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s WHERE id = ?", NOMBRE_TABLA);
         connection = new MySqlConnection().conectar();
-
         try (
                 PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
