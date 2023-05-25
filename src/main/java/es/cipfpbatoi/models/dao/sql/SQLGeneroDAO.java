@@ -62,6 +62,4 @@ public class SQLGeneroDAO implements GeneroDAO {
             e.printStackTrace();
         }
     }
-
-
 }

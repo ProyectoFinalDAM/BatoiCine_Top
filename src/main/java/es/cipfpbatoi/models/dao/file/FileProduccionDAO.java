@@ -16,6 +16,11 @@ public class FileProduccionDAO implements ProduccionDAO {
     }
 
     @Override
+    public ArrayList<Produccion> findAll() {
+        return null;
+    }
+
+    @Override
     public void save(Produccion produccion) {
 
     }
