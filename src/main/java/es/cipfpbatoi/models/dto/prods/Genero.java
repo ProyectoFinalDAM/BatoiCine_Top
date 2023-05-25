@@ -21,12 +21,12 @@ public class Genero {
 
     public String getDescripcion() {
         return descripcion;
-
     }
 
 
     @Override
     public String toString() {
         return this.id + this.cod;
+
     }
 }
