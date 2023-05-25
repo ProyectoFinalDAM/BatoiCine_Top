@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface ProduccionDAO {
     ArrayList<Produccion> findAll() throws DatabaseErrorException;
-    void save(Produccion produccion) throws DatabaseErrorException, NotFoundException;
+    void save(Produccion produccion) throws DatabaseErrorException;
 
     Produccion getById (String dni) throws NotFoundException, DatabaseErrorException;
 }
