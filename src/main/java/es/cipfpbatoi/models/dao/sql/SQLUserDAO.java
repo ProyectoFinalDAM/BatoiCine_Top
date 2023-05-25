@@ -39,7 +39,7 @@ public class SQLUserDAO implements UserDAO {
         String id = resultSet.getString("id");
         String nombre = resultSet.getString("nombre");
         String apellidos = resultSet.getString("descripcion");
-        String contrasenya = resultSet.getString("contraseña");;
+        String contrasenya = resultSet.getString("contraseña");
         return new User(id, nombre, apellidos, contrasenya);
     }
 
