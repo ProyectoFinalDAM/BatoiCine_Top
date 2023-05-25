@@ -6,7 +6,7 @@ import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Calificacion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
-import es.cipfpbatoi.services.MySqlConnection;
+import es.cipfpbatoi.models.services.MySqlConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -32,7 +32,6 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
 
         ArrayList<Produccion> produccions = new ArrayList<>();
-        connection = new MySqlConnection().co;
 
         try (
                 Statement statement = connection.createStatement();
@@ -75,7 +74,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
         String sql = String.format( "INSERT INTO %s (id, titulo, calificacion, fechaLanzamiento, duracion, id_genero, actor, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", NOMBRE_TABLA );
-        connection = new MySqlConnection( IP, DATABASE, NOMBRE_USUARIO, "1234" ).getConnection();
+        connection = new MySqlConnection().conectar();
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
@@ -106,7 +105,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s WHERE id = ?", NOMBRE_TABLA);
-        connection = new MySqlConnection(IP, DATABASE, NOMBRE_USUARIO, "1234").getConnection();
+        connection = new MySqlConnection().conectar();
 
         try (
                 PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)

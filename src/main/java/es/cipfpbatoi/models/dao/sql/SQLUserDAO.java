@@ -2,8 +2,6 @@ package es.cipfpbatoi.models.dao.sql;
 
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
-import es.cipfpbatoi.models.dto.prods.Genero;
-import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.services.MySqlConnection;
 
 import java.sql.*;
