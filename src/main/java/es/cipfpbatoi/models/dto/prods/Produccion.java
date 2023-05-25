@@ -33,11 +33,28 @@ public class Produccion {
         this.productora = productora;
         this.poster = poster;
         this.plataforma = plataforma;
-        this.visualizaciones = visualizaciones;
+        this.visualizaciones = 0;
         this.web = web;
         this.tipo = tipo;
     }
 
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, Set<String> actores, String guion, String productora, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
+        this.id = id;
+        this.titulo = titulo;
+        this.calificacion = calificacion;
+        this.fecha_lanzamiento = fecha_lanzamiento;
+        this.duracion = duracion;
+        this.genero = genero;
+        this.director = director;
+        this.actores = actores;
+        this.guion = guion;
+        this.productora = productora;
+        this.poster = poster;
+        this.plataforma = plataforma;
+        this.visualizaciones = visualizaciones;
+        this.web = web;
+        this.tipo = tipo;
+    }
 
     public void setVisualizaciones(int visualizaciones) {
         this.visualizaciones = visualizaciones;
@@ -79,10 +96,6 @@ public class Produccion {
         return productora;
     }
 
-    public String getUrl_trailer() {
-        return url_trailer;
-    }
-
     public String getPoster() {
         return poster;
     }
@@ -103,4 +116,7 @@ public class Produccion {
         return tipo;
     }
 
+    public String getDirector() {
+        return director;
+    }
 }

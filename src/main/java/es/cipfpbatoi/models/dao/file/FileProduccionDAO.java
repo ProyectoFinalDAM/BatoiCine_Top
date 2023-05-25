@@ -29,30 +29,30 @@ public class FileProduccionDAO implements ProduccionDAO {
     public ArrayList<Produccion> findAll() {
         ArrayList<Produccion> producciones = new ArrayList<>();
 
-        try (FileReader fileReader = new FileReader(this.file)){
+        try (FileReader fileReader = new FileReader(this.file)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             bufferedReader.readLine();
             do {
                 String register = bufferedReader.readLine();
-                if (register ==null){
+                if (register == null) {
                     return producciones;
-                } else if(!register.isBlank()){
+                } else if (!register.isBlank()) {
                     String[] fields = register.split(";");
                     String id = fields[0];
                     String titulo = fields[1];
                     Calificacion calificacion;
-                    if (fields[2].equals("PG-13")){
-                        calificacion= Calificacion.PG13;
+                    if (fields[2].equals("PG-13")) {
+                        calificacion = Calificacion.PG13;
                     } else {
                         calificacion = Calificacion.valueOf(fields[2]);
                     }
                     char[] caracteres = fields[3].toCharArray();
                     LocalDate fecha_lanzamiento;
-                    if (caracteres.length==8){
+                    if (caracteres.length == 8) {
                         caracteres[2] = Character.toUpperCase(caracteres[2]);
                         String fechaValida = new String(caracteres);
-                        fecha_lanzamiento = getAnyoFormateado("0"+fechaValida);
-                    } else if (caracteres.length==9 || caracteres.length==10) {
+                        fecha_lanzamiento = getAnyoFormateado("0" + fechaValida);
+                    } else if (caracteres.length == 9 || caracteres.length == 10) {
                         caracteres[3] = Character.toUpperCase(caracteres[3]);
                         String fechaValida = new String(caracteres);
                         fecha_lanzamiento = getAnyoFormateado(fechaValida);
@@ -62,25 +62,25 @@ public class FileProduccionDAO implements ProduccionDAO {
                     }
                     String duracion = fields[4];
                     int mins;
-                    if (duracion.equals("N/A")){
+                    if (duracion.equals("N/A")) {
                         mins = 0;
                     } else {
-                        mins= Integer.parseInt(duracion.split(" ")[0]);
+                        mins = Integer.parseInt(duracion.split(" ")[0]);
                     }
-                    String genero= fields[5];
-                    String director= fields[6];
-                    String actores= fields[7];
-                    String guion= fields[8];
-                    String poster= fields[9];
+                    String genero = fields[5];
+                    String director = fields[6];
+                    String actores = fields[7];
+                    String guion = fields[8];
+                    String poster = fields[9];
                     Tipo tipo = null;
-                    if (fields[10].equals("movie")){
-                        tipo= Tipo.MOVIE;
+                    if (fields[10].equals("movie")) {
+                        tipo = Tipo.MOVIE;
                     } else if (fields[10].equals("tv-show")) {
-                        tipo= Tipo.TVSHOW;
+                        tipo = Tipo.TVSHOW;
                     }
-                    String productora= fields[11];
-                    String web= fields[12];
-                    String plataforma= fields[13];
+                    String productora = fields[11];
+                    String web = fields[12];
+                    String plataforma = fields[13];
 
 
                     Set<String> actoresSet = new HashSet<>(Arrays.asList(actores.split(", ")));
@@ -96,7 +96,7 @@ public class FileProduccionDAO implements ProduccionDAO {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+    }
 
     @Override
     public void save(Produccion produccion) {
