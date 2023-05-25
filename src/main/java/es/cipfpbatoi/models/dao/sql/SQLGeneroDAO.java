@@ -1,6 +1,5 @@
 package es.cipfpbatoi.models.dao.sql;
 
- andreuFrancés
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.GeneroDAO;
 import es.cipfpbatoi.models.dto.prods.Genero;
@@ -66,6 +65,4 @@ public class SQLGeneroDAO implements GeneroDAO {
 
 public class SQLGeneroDAO {
 
-
- main
 }
