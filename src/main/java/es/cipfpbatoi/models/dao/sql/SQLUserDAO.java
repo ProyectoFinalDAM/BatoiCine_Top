@@ -63,4 +63,16 @@ public class SQLUserDAO implements UserDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean validUser(String name, String password) {
+        for (User user: findAll()) {
+            if (user.getNombre().equals(name)){
+                if (user.getContrasenya().equals(password)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
