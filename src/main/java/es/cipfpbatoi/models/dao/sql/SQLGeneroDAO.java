@@ -63,6 +63,5 @@ public class SQLGeneroDAO implements GeneroDAO {
         }
     }
 
-public class SQLGeneroDAO {
 
 }

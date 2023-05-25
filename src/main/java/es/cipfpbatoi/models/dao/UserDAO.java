@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface UserDAO {
     ArrayList<User> findAll();
-    void save(Produccion produccion);
+    void save(User user);
 }
