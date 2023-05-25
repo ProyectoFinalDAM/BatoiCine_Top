@@ -10,10 +10,13 @@ import java.util.ArrayList;
 public class FileProduccionDAO implements ProduccionDAO {
 
 
-
-
     @Override
     public ArrayList<Produccion> findAll() throws DatabaseErrorException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> findAll() {
         return null;
     }
 
