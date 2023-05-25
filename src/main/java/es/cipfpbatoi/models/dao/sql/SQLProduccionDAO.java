@@ -16,7 +16,8 @@ import java.util.Set;
 
 public class SQLProduccionDAO implements ProduccionDAO {
 
-    public static final String NOMBRE_TABLA = "";
+    public static final String NOMBRE_TABLA = "Produccion";
+
 
     private Connection connection;
 
