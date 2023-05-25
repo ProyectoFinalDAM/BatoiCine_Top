@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class SQLUserDAO implements UserDAO {
     private Connection connection;
 
-    private static final String TABLE_NAME = "BatoiCine_top";
+    private static final String TABLE_NAME = "Usuario";
     @Override
     public ArrayList<User> findAll() {
         String sql = String.format("SELECT * FROM %s", TABLE_NAME);
@@ -38,14 +38,16 @@ public class SQLUserDAO implements UserDAO {
 
         String id = resultSet.getString("id");
         String nombre = resultSet.getString("nombre");
-        String apellidos = resultSet.getString("descripcion");
-        String contrasenya = resultSet.getString("contraseña");
+
+        String apellidos = resultSet.getString("apellidos");
+        String contrasenya = resultSet.getString("contraseña");;
+
         return new User(id, nombre, apellidos, contrasenya);
     }
 
     @Override
     public void save(User user) {
-        String sql = String.format("INSERT INTO %s (id, nombre, descripcion, contraseña) VALUES (?,?,?,?)" ,
+        String sql = String.format("INSERT INTO %s (id, nombre, apellidos, contraseña) VALUES (?,?,?,?)" ,
                 TABLE_NAME);
         connection = new MySqlConnection().conectar();
         try (
