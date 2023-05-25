@@ -15,6 +15,26 @@ public class Temporada {
         this.capitulos       = capitulos;
     }
 
+    public int getPelicula() {
+        return pelicula;
+    }
+
+    public int getTemporada() {
+        return temporada;
+    }
+
+    public int getAnyoLanzamiento() {
+        return anyoLanzamiento;
+    }
+
+    public String getGuion() {
+        return guion;
+    }
+
+    public int getCapitulos() {
+        return capitulos;
+    }
+
     @Override
     public String toString() {
         return this.pelicula + "";
