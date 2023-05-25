@@ -32,6 +32,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
 
         ArrayList<Produccion> produccions = new ArrayList<>();
+        connection = new MySqlConnection().conectar();
 
         try (
                 Statement statement = connection.createStatement();
