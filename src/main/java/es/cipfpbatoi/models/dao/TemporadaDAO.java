@@ -1,4 +1,4 @@
 package es.cipfpbatoi.models.dao;
 
-public class SQLUserDAO {
+public interface TemporadaDAO {
 }
