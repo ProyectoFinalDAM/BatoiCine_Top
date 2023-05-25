@@ -21,14 +21,7 @@ public class FileGeneroDAO implements GeneroDAO {
         this.file = new File( FILE_DATABASE );
     }
 
-    public static void main(String[] args) {
-        FileGeneroDAO fileGeneroDAO = new FileGeneroDAO();
-        ArrayList<Genero> g = fileGeneroDAO.findAll();
 
-        for ( Genero j: g) {
-            System.out.println(j);
-        }
-    }
     @Override
     public void save(Genero genero) {
 
