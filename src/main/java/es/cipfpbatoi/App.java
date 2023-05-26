@@ -30,15 +30,6 @@ public class App extends Application {
         LoginController loginController= new LoginController();
         SQLProduccionDAO sqlProduccionDAO= new SQLProduccionDAO();
         FileProduccionDAO fileProduccionDAO= new FileProduccionDAO();
-
-        for (Produccion produccion: fileProduccionDAO.findAll()) {
-            try {
-                sqlProduccionDAO.save(produccion);
-            } catch (DatabaseErrorException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
