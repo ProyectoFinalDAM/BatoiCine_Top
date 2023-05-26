@@ -1,5 +1,15 @@
 package es.cipfpbatoi;
 
+import es.cipfpbatoi.controllers.ChangeScene;
+import es.cipfpbatoi.controllers.LoginController;
+import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dao.file.FileGeneroDAO;
+import es.cipfpbatoi.models.dao.file.FileProduccionDAO;
+import es.cipfpbatoi.models.dao.sql.SQLGeneroDAO;
+import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
+import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
+import es.cipfpbatoi.models.dto.prods.Genero;
+import es.cipfpbatoi.models.dto.prods.Produccion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,18 +27,20 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
+        LoginController loginController= new LoginController();
+        SQLProduccionDAO sqlProduccionDAO= new SQLProduccionDAO();
+        FileProduccionDAO fileProduccionDAO= new FileProduccionDAO();
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+        for (Produccion produccion: fileProduccionDAO.findAll()) {
+            try {
+                sqlProduccionDAO.save(produccion);
+            } catch (DatabaseErrorException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        ChangeScene.change(stage, loginController, "/views/login.fxml");
+
     }
 
     public static void main(String[] args) {

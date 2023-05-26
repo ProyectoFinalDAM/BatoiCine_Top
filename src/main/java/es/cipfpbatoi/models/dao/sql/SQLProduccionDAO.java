@@ -63,7 +63,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
-        String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, actores, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, actores, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         connection = new MySqlConnection().conectar();
 
         try (
@@ -74,9 +74,11 @@ public class SQLProduccionDAO implements ProduccionDAO {
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
             preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString() );
             preparedStatement.setInt( 5, produccion.getDuracion() );
-            preparedStatement.setString( 6, produccion.getGenero().toString());
+            String generosString = String.join(",", produccion.getGenero());
+            preparedStatement.setString( 6, generosString);
             preparedStatement.setString( 7, produccion.getDirector());
-            preparedStatement.setString( 8, produccion.getActores().toString());
+            String actoresString = String.join(",", produccion.getActores());
+            preparedStatement.setString( 8, actoresString);
             preparedStatement.setString( 9, produccion.getGuion() );
             preparedStatement.setString( 10, produccion.getProductora());
             preparedStatement.setString( 11, produccion.getPoster() );

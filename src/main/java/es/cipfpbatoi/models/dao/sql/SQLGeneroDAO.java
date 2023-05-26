@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SQLGeneroDAO implements GeneroDAO {
     private Connection connection;
 
-    private static final String TABLE_NAME = "BatoiCine_top";
+    private static final String TABLE_NAME = "Genero";
     @Override
     public ArrayList<Genero> findAll() {
         String sql = String.format("SELECT * FROM %s", TABLE_NAME);
