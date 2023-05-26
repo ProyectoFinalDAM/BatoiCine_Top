@@ -36,31 +36,45 @@ public class SQLUserDAO implements UserDAO {
     }
     private User getUserFromRegister(ResultSet resultSet) throws SQLException {
 
-        String id = resultSet.getString("id");
+        int id = resultSet.getInt("id");
         String nombre = resultSet.getString("nombre");
-        String apellidos = resultSet.getString("apellidos");
         String contrasenya = resultSet.getString("contraseña");;
 
-        return new User(id, nombre, apellidos, contrasenya);
+        return new User(id, nombre, contrasenya);
     }
 
     @Override
     public void save(User user) {
-        String sql = String.format("INSERT INTO %s (id, nombre, apellidos, contraseña) VALUES (?,?,?,?)" ,
+        String sql = String.format("INSERT INTO %s (id, nombre, contraseña) VALUES (?,?,?)" ,
                 TABLE_NAME);
         connection = new MySqlConnection().conectar();
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            preparedStatement.setString(1, user.getId());
+            preparedStatement.setInt(1, user.getId());
             preparedStatement.setString(2, user.getNombre());
-            preparedStatement.setString(3, user.getApellidos() );
-            preparedStatement.setString(4, user.getContrasenya() );
+            preparedStatement.setString(3, user.getContrasenya() );
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public int getLastCod(){
+        int lastId = 0;
+        connection =  new MySqlConnection().conectar();
+        try (Statement statement = connection.createStatement();) {
+            ResultSet rs = statement.executeQuery("SELECT MAX(id) AS maxId FROM Usuario");
+            while (rs.next()) {
+                int value = rs.getInt("maxId");
+                lastId= value+1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lastId;
+
     }
 
     @Override
