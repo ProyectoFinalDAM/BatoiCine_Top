@@ -26,7 +26,7 @@ public class SQLActorDAO implements ActorDAO {
         ) {
 
             while (resultSet.next()) {
-                Actor actor = geTemporadaFromResultset(resultSet);
+                Actor actor = getActorFromResultset(resultSet);
                 actores.add(actor);
             }
 
@@ -38,7 +38,7 @@ public class SQLActorDAO implements ActorDAO {
         return actores;
     }
 
-    private Actor geTemporadaFromResultset(ResultSet rs) throws SQLException {
+    private Actor getActorFromResultset(ResultSet rs) throws SQLException {
         String id = rs.getString("id_actor");
         String nombre = rs.getString("nombre");
 
