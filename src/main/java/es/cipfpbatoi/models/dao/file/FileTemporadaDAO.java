@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.dao.file;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dao.TemporadaDAO;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Temporada;
@@ -51,6 +52,11 @@ public class FileTemporadaDAO implements TemporadaDAO {
         return temporadas;
     }
 
+    @Override
+    public void save(Temporada temporada) throws DatabaseErrorException {
+
+    }
+
     private Temporada getTemporadaFromRegister(String register) {
         String[] fields = register.split( Validator.REGEX_TEMPORADAS );
         int pelicula = Integer.parseInt(fields[PELICULA]);
@@ -65,8 +71,4 @@ public class FileTemporadaDAO implements TemporadaDAO {
         return new BufferedReader(new FileReader(file));
     }
 
-    @Override
-    public void save(Produccion produccion) {
-
-    }
 }
