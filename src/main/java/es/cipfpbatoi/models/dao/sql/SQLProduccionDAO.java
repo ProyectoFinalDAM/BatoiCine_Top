@@ -72,7 +72,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
             preparedStatement.setString( 1, produccion.getId() );
             preparedStatement.setString( 2, produccion.getTitulo() );
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
-            preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString() );
+            preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString());
             preparedStatement.setInt( 5, produccion.getDuracion() );
             String generosString = String.join(",", produccion.getGenero());
             preparedStatement.setString( 6, generosString);
