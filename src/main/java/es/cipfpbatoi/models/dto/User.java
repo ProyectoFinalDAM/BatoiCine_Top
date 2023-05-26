@@ -11,6 +11,10 @@ public class User {
         this.contrasenya = contrasenya;
     }
 
+    public User(int id) {
+        this.id= id;
+    }
+
     public int getId() {
         return id;
     }
@@ -22,5 +26,13 @@ public class User {
 
     public String getContrasenya() {
         return contrasenya;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
     }
 }
