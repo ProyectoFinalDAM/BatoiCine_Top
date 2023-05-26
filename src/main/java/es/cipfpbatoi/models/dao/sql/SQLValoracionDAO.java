@@ -14,13 +14,15 @@ public class SQLValoracionDAO implements ValoracionDAO {
 
     private Connection connection;
 
+    public SQLValoracionDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
 
     @Override
     public ArrayList<Valoracion> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
 
         ArrayList<Valoracion> valoracions = new ArrayList<>();
-        connection = new MySqlConnection().conectar();
 
         try (
                 Statement statement = connection.createStatement();
@@ -52,7 +54,6 @@ public class SQLValoracionDAO implements ValoracionDAO {
     @Override
     public void save(Valoracion valoracion) throws DatabaseErrorException {
         String sql = String.format( "INSERT INTO %s (id_produccion, id_usuario, nota, comentario) VALUES (?,?,?,?)", NOMBRE_TABLA );
-        connection = new MySqlConnection().conectar();
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )

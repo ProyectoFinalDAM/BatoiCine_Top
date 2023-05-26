@@ -17,16 +17,17 @@ import java.util.Set;
 public class SQLProduccionDAO implements ProduccionDAO {
     private Connection connection;
 
+    public SQLProduccionDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
+
     @Override
     public ArrayList<Produccion> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM Produccion");
-        connection = new MySqlConnection().conectar();
         ArrayList<Produccion> produccions = new ArrayList<>();
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)
-        ) {
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Produccion produccion = geProduccionFromResultset(resultSet);
@@ -63,11 +64,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
         String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        connection = new MySqlConnection().conectar();
-
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString( 1, produccion.getId() );
             preparedStatement.setString( 2, produccion.getTitulo() );
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
@@ -95,10 +92,8 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
         String sql = String.format("SELECT * FROM Produccion WHERE id = ?");
-        connection = new MySqlConnection().conectar();
-        try (
-                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+
+        try (PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -108,7 +103,6 @@ public class SQLProduccionDAO implements ProduccionDAO {
                     return produccion;
                 }
             }
-
             throw new NotFoundException("No existe la producción con el id: " + id);
 
         } catch (SQLException e) {
@@ -117,15 +111,5 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
     }
 
-    /*
-    public Produccion encontrarPorId(String dni) throws DatabaseErrorException, NotFoundException {
-        try {
-            return getById(dni);
-        } catch (NotFoundException ex) {
-            throw new NotFoundException("No ha sido posible encontrar la producción.");
-        }
-    }
-
-     */
 
 }
