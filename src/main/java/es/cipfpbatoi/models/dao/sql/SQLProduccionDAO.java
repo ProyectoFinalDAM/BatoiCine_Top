@@ -49,7 +49,6 @@ public class SQLProduccionDAO implements ProduccionDAO {
         int duracion = rs.getInt("duracion");
         Set<String> genero = Collections.singleton(rs.getString("genero"));
         String director = rs.getString("director");
-        Set<String> actor = Collections.singleton(rs.getString("actor"));
         String guion = rs.getString("guion");
         String productora = rs.getString("productora");
         String poster = rs.getString("poster");
@@ -58,12 +57,12 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String web = rs.getString("web");
         Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
 
-        return new Produccion(id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, actor, guion, productora, poster, plataforma, visualizaciones, web, tipo);
+        return new Produccion(id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo);
     }
 
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
-        String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, actores, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         connection = new MySqlConnection().conectar();
 
         try (
@@ -72,20 +71,19 @@ public class SQLProduccionDAO implements ProduccionDAO {
             preparedStatement.setString( 1, produccion.getId() );
             preparedStatement.setString( 2, produccion.getTitulo() );
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
-            preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString() );
+            preparedStatement.setDate( 4, Date.valueOf(produccion.getFecha_lanzamiento()));
             preparedStatement.setInt( 5, produccion.getDuracion() );
             String generosString = String.join(",", produccion.getGenero());
             preparedStatement.setString( 6, generosString);
             preparedStatement.setString( 7, produccion.getDirector());
-            String actoresString = String.join(",", produccion.getActores());
-            preparedStatement.setString( 8, actoresString);
-            preparedStatement.setString( 9, produccion.getGuion() );
-            preparedStatement.setString( 10, produccion.getProductora());
-            preparedStatement.setString( 11, produccion.getPoster() );
-            preparedStatement.setString( 12, produccion.getPlataforma().toString());
-            preparedStatement.setInt( 13, produccion.getVisualizaciones() );
-            preparedStatement.setString( 14, produccion.getWeb() );
-            preparedStatement.setString( 15, produccion.getTipo().toString());
+            preparedStatement.setString( 8, produccion.getGuion());
+            preparedStatement.setString( 9, produccion.getProductora());
+            preparedStatement.setString( 10, produccion.getPoster() );
+            String plataformasString = String.join(",", produccion.getPlataforma());
+            preparedStatement.setString( 11, plataformasString);
+            preparedStatement.setInt( 12, produccion.getVisualizaciones() );
+            preparedStatement.setString( 13, produccion.getWeb() );
+            preparedStatement.setString( 14, produccion.getTipo().toString());
             preparedStatement.executeUpdate();
 
         } catch ( SQLException e ) {

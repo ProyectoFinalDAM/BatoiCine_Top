@@ -11,7 +11,6 @@ public class Produccion {
     private int duracion;
     private Set<String> genero;
     private String director;
-    private Set<String> actores;
     private String guion;
     private String productora;
     private String poster;
@@ -20,7 +19,7 @@ public class Produccion {
     private String web;
     private Tipo tipo;
 
-    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, Set<String> actores, String guion, String productora, String poster, Set<String> plataforma, String web, Tipo tipo) {
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, String guion, String productora, String poster, Set<String> plataforma, String web, Tipo tipo) {
         this.id = id;
         this.titulo = titulo;
         this.calificacion = calificacion;
@@ -28,7 +27,6 @@ public class Produccion {
         this.duracion = duracion;
         this.genero = genero;
         this.director = director;
-        this.actores = actores;
         this.guion = guion;
         this.productora = productora;
         this.poster = poster;
@@ -38,7 +36,7 @@ public class Produccion {
         this.tipo = tipo;
     }
 
-    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, Set<String> actores, String guion, String productora, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, String guion, String productora, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
         this.id = id;
         this.titulo = titulo;
         this.calificacion = calificacion;
@@ -46,7 +44,6 @@ public class Produccion {
         this.duracion = duracion;
         this.genero = genero;
         this.director = director;
-        this.actores = actores;
         this.guion = guion;
         this.productora = productora;
         this.poster = poster;
@@ -82,10 +79,6 @@ public class Produccion {
 
     public Set<String> getGenero() {
         return genero;
-    }
-
-    public Set<String> getActores() {
-        return actores;
     }
 
     public String getGuion() {

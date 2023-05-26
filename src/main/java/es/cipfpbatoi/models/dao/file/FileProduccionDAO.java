@@ -11,10 +11,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -46,7 +43,11 @@ public class FileProduccionDAO implements ProduccionDAO {
                     } else {
                         calificacion = Calificacion.valueOf(fields[2]);
                     }
-                    char[] caracteres = fields[3].toCharArray();
+                    String fechaTexto= fields[3];
+                    if (fechaTexto.contains("sept")){
+                        fechaTexto = fechaTexto.replace("sept", "sep");
+                    }
+                    char[] caracteres = fechaTexto.toCharArray();
                     LocalDate fecha_lanzamiento;
                     if (caracteres.length == 8) {
                         caracteres[2] = Character.toUpperCase(caracteres[2]);
@@ -69,7 +70,6 @@ public class FileProduccionDAO implements ProduccionDAO {
                     }
                     String genero = fields[5];
                     String director = fields[6];
-                    String actores = fields[7];
                     String guion = fields[8];
                     String poster = fields[9];
                     Tipo tipo = null;
@@ -82,14 +82,9 @@ public class FileProduccionDAO implements ProduccionDAO {
                     String web = fields[12];
                     String plataforma = fields[13];
 
-
-                    Set<String> actoresSet = new HashSet<>(Arrays.asList(actores.split(", ")));
                     Set<String> plataformas = new HashSet<>(Arrays.asList(plataforma.split(", ")));
                     Set<String> generos = new HashSet<>(Arrays.asList(genero.split(", ")));
-
-                    // cambiar constructor
-                    producciones.add(new Produccion(id, titulo, calificacion, fecha_lanzamiento, mins, generos, director, actoresSet, guion, productora, poster, plataformas, web, tipo));
-
+                    producciones.add(new Produccion(id, titulo, calificacion, fecha_lanzamiento, mins, generos, director, guion, productora, poster, plataformas, web, tipo));
                 }
             } while (true);
 
@@ -105,9 +100,16 @@ public class FileProduccionDAO implements ProduccionDAO {
 
     private LocalDate getAnyoFormateado(String fecha){
 
-        DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("dd-MMM-yy");
+        DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
         DateTimeFormatter formato2 = DateTimeFormatter.ofPattern("dd MMM yy");
         DateTimeFormatter formato3 = DateTimeFormatter.ofPattern("dd MMM yyyy");
+
+        if (fecha.contains("Sep")){
+            String[] datos = fecha.split("-");
+            if (datos.length == 3 && datos[2].startsWith("0")) {
+                fecha = septiembreValido(fecha);
+            }
+        }
 
         try {
             LocalDate fechaFormateada = LocalDate.parse(fecha, formato1);
@@ -132,6 +134,13 @@ public class FileProduccionDAO implements ProduccionDAO {
 
         return null;
 
+    }
+    private static String septiembreValido(String dateString) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(dateString, inputFormatter);
+
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        return date.format(outputFormatter);
     }
 
     @Override
