@@ -1,9 +1,7 @@
 package es.cipfpbatoi.models.dao.file;
 
-import es.cipfpbatoi.exception.DatabaseErrorException;
-import es.cipfpbatoi.models.dao.ActorDAO;
-import es.cipfpbatoi.models.dto.prods.Actor;
-import es.cipfpbatoi.models.dto.prods.Genero;
+import es.cipfpbatoi.models.dao.ActuaDAO;
+import es.cipfpbatoi.models.dto.prods.Actua;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,54 +9,54 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileActorDAO implements ActorDAO {
+public class FileActuaDAO implements ActuaDAO {
 
-    private static final String FILE_DATABASE = "resources/database/Actores.txt";
+    private static final String FILE_DATABASE = "resources/database/Actua.txt";
 
     private static final int ID_ACTOR = 0;
 
-    private static final int NOMBRE = 1;
+    private static final int ID_PRODUCCION = 1;
 
     private static final String FIELD_SEPARATOR = ";";
     private File file;
 
 
-    public FileActorDAO() {
+    public FileActuaDAO() {
         this.file = new File( FILE_DATABASE );
     }
 
     @Override
-    public void save(Actor actor) throws DatabaseErrorException {
+    public void save(Actua actua) {
         //No se usa el save.
     }
 
     @Override
-    public ArrayList<Actor> findAll(){
-        ArrayList<Actor> autores = new ArrayList<>();
+    public ArrayList<Actua> findAll(){
+        ArrayList<Actua> actua = new ArrayList<>();
         try {
             try (BufferedReader bufferedReader = getReader()) {
                 bufferedReader.readLine();
                 do {
                     String register = bufferedReader.readLine();
                     if (register == null) {
-                        return autores;
+                        return actua;
                     }
-                    autores.add(getActorFromRegister(register));
+                    actua.add(getActuaFromRegister(register));
                 } while (true);
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        return autores;
+        return actua;
     }
 
-    private Actor getActorFromRegister(String register) {
+    private Actua getActuaFromRegister(String register) {
         String[] fields = register.split(FIELD_SEPARATOR);
 
-        String id = fields[ID_ACTOR];
-        String nombre = fields[NOMBRE];
+        String id_actor = fields[ID_ACTOR];
+        String id_produccion = fields[ID_PRODUCCION];
 
-        return new Actor( id, nombre );
+        return new Actua( id_actor, id_produccion );
     }
 
     private BufferedReader getReader() throws IOException {
