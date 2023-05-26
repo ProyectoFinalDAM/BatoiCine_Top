@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.respositories;
 
+import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.services.MySqlConnection;
@@ -26,6 +27,9 @@ public class UserRepository {
 
     public boolean validUser(String name, String password) {
         return userDAO.validUser(name, password);
+    }
+    public User getById(int id) throws UserNotExistException{
+        return userDAO.getById(id);
     }
     public int getLastCod(){
         return userDAO.getLastCod();

@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.dao.sql;
 
+import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.services.MySqlConnection;
@@ -75,6 +76,25 @@ public class SQLUserDAO implements UserDAO {
         }
         return lastId;
 
+    }
+
+    @Override
+    public User getById(int id) throws UserNotExistException {
+        connection =  new MySqlConnection().conectar();
+        try (Statement statement = connection.createStatement();) {
+            String sql="SELECT * FROM Usuario WHERE id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                int idUser = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String password = rs.getString("contraseña");
+                return new User(idUser, nombre, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new UserNotExistException();
     }
 
     @Override

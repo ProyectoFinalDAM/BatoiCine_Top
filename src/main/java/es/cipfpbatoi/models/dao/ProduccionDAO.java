@@ -11,7 +11,6 @@ public interface ProduccionDAO {
 
     ArrayList<Produccion> findAll() throws DatabaseErrorException;
     void save(Produccion produccion) throws DatabaseErrorException;
-
-    Produccion getById (String dni) throws NotFoundException, DatabaseErrorException;
+    Produccion getById (String id) throws NotFoundException, DatabaseErrorException;
 
 }

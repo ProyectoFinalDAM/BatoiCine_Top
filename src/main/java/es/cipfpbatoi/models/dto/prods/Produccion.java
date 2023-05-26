@@ -20,6 +20,10 @@ public class Produccion {
     private String web;
     private Tipo tipo;
 
+    public Produccion(String id) {
+        this.id = id;
+    }
+
     public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, String guion, String productora, String poster, Set<String> plataforma, String web, Tipo tipo) {
         this.id = id;
         this.titulo = titulo;
@@ -56,6 +60,54 @@ public class Produccion {
 
     public void setVisualizaciones(int visualizaciones) {
         this.visualizaciones = visualizaciones;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setCalificacion(Calificacion calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public void setFecha_lanzamiento(LocalDate fecha_lanzamiento) {
+        this.fecha_lanzamiento = fecha_lanzamiento;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    public void setGenero(Set<String> genero) {
+        this.genero = genero;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setGuion(String guion) {
+        this.guion = guion;
+    }
+
+    public void setProductora(String productora) {
+        this.productora = productora;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public void setPlataforma(Set<String> plataforma) {
+        this.plataforma = plataforma;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
 
     public String getId() {
