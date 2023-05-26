@@ -16,18 +16,19 @@ import java.util.Set;
 
 public class SQLTemporadaDAO implements TemporadaDAO {
     public static final String NOMBRE_TABLA = "Temporada";
-
     private Connection connection;
+
+    public SQLTemporadaDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
+
     @Override
     public ArrayList<Temporada> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
-        connection = new MySqlConnection().conectar();
         ArrayList<Temporada> temporadas = new ArrayList<>();
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)
-        ) {
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Temporada temporada = geTemporadaFromResultset(resultSet);
@@ -49,18 +50,14 @@ public class SQLTemporadaDAO implements TemporadaDAO {
         String guion = rs.getString("plot");
         int capitulos = rs.getInt("capitulos");
 
-
         return new Temporada(pelicula, temporada, anyoLanzamiento,guion,capitulos);
     }
 
     @Override
     public void save(Temporada temporada) throws DatabaseErrorException {
         String sql = String.format( "INSERT INTO %s (id_produccion, temporada, anyo_lanzamiento, plot, duracion, capitulos) VALUES (?,?,?,?,?,?)", NOMBRE_TABLA );
-        connection = new MySqlConnection().conectar();
 
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setInt( 1, temporada.getPelicula() );
             preparedStatement.setInt( 2, temporada.getTemporada() );
             preparedStatement.setInt( 3, temporada.getAnyoLanzamiento());

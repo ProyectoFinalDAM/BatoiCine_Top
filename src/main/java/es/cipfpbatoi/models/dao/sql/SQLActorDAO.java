@@ -9,21 +9,20 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SQLActorDAO implements ActorDAO {
-
     public static final String NOMBRE_TABLA = "Actor";
-
     private Connection connection;
+
+    public SQLActorDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
 
     @Override
     public ArrayList<Actor> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
-        connection = new MySqlConnection().conectar();
         ArrayList<Actor> actores = new ArrayList<>();
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)
-        ) {
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Actor actor = getActorFromResultset(resultSet);
@@ -42,18 +41,14 @@ public class SQLActorDAO implements ActorDAO {
         String id = rs.getString("id_actor");
         String nombre = rs.getString("nombre");
 
-
         return new Actor(id, nombre);
     }
 
     @Override
     public void save(Actor actor) throws DatabaseErrorException {
         String sql = String.format( "INSERT INTO %s (id_actor, nombre) VALUES (?,?)", NOMBRE_TABLA );
-        connection = new MySqlConnection().conectar();
 
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
-        ) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString( 1, actor.getId() );
             preparedStatement.setString( 2, actor.getNombre() );
             preparedStatement.executeUpdate();
