@@ -8,5 +8,8 @@ import java.util.ArrayList;
 public interface UserDAO {
     ArrayList<User> findAll();
     void save(User user);
+
+    int getLastCod();
+
     boolean validUser(String name, String password);
 }

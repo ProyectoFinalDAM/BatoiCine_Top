@@ -10,6 +10,7 @@ import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.respositories.UserRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,17 +28,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        LoginController loginController= new LoginController();
-        SQLProduccionDAO sqlProduccionDAO= new SQLProduccionDAO();
-        FileProduccionDAO fileProduccionDAO= new FileProduccionDAO();
-
-        for (Produccion produccion: fileProduccionDAO.findAll()) {
-            try {
-                sqlProduccionDAO.save(produccion);
-            } catch (DatabaseErrorException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        SQLUserDAO sqlUserDAO= new SQLUserDAO();
+        UserRepository userRepository= new UserRepository(sqlUserDAO);
+        LoginController loginController= new LoginController(userRepository);
 
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
