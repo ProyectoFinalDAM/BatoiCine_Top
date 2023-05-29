@@ -1,13 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="logoImageView" fitHeight="62.0" fitWidth="62.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Text fx:id="peliculasText" layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peliculas">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text fx:id="seriesText" layoutX="310.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Series">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <TextField fx:id="searchTextField" layoutX="480.0" layoutY="29.0" prefHeight="31.0" prefWidth="231.0" style="-fx-border-radius: 50px;" />
+      <ComboBox fx:id="generoComboBox" layoutX="761.0" layoutY="29.0" prefHeight="31.0" prefWidth="190.0" />
+      <ImageView fx:id="lupaImageView" fitHeight="31.0" fitWidth="31.0" layoutX="444.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
+      <Text layoutX="53.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Más recomendadas">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text fx:id="peliculasText1" layoutX="53.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="· Peliculas">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text fx:id="peliculasText11" layoutX="53.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="· Series">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Line endX="-1.220703143189894E-5" endY="-7.62939453125E-6" layoutY="83.0" startX="997.8999633789062" startY="-7.62939453125E-6" />
+   </children>
 </AnchorPane>
