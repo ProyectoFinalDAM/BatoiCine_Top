@@ -136,37 +136,36 @@ id;nombre
 135;Taylor Lautner
 136;Peter Facinelli
 137;Caroline Aaron
-138;Kim Basinger
-139;Brenda Ballard
-140;Will Beinbrink
-141;Samuel L. Jackson
-142;Kim Staunton
-143;Zac Efron
-144;Charlie Tahan
-145;Amanda Crew
-146;Augustus Prew
-147;Steve Martin
-148;Bonnie Hunt
-149;Tom Welling
-150;Rob Brown
-151;Robert Ri'chard
-152;Rick Gonzalez
-153;Kris Kristofferson
-154;Christopher Walken
-155;John Hurt
-156;Sam Waterston
-157;Antony Acker
-158;Mark Barrett
-159;Richard Bellos
-160;Suzanne Bianqui
-161;Tommy Lee Jones
-162;Ashley Judd
-163;Benjamin Weir
-164;Jay Brazeau
-165;Jim Carrey
-166;Jeff Daniels
-167;Rob Riggle
-168;Laurie Holden
-169;Christian Bale
-170;Joel Edgerton
-171;John C. Reilly
+138;Brenda Ballard
+139;Will Beinbrink
+140;Samuel L. Jackson
+141;Kim Staunton
+142;Zac Efron
+143;Charlie Tahan
+144;Amanda Crew
+145;Augustus Prew
+146;Steve Martin
+147;Bonnie Hunt
+148;Tom Welling
+149;Rob Brown
+150;Robert Ri'chard
+151;Rick Gonzalez
+152;Kris Kristofferson
+153;Christopher Walken
+154;John Hurt
+155;Sam Waterston
+156;Antony Acker
+157;Mark Barrett
+158;Richard Bellos
+159;Suzanne Bianqui
+160;Tommy Lee Jones
+161;Ashley Judd
+162;Benjamin Weir
+163;Jay Brazeau
+164;Jim Carrey
+165;Jeff Daniels
+166;Rob Riggle
+167;Laurie Holden
+168;Christian Bale
+169;Joel Edgerton
+170;John C. Reilly
