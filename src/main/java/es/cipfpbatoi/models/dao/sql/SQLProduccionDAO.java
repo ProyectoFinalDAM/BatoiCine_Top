@@ -15,29 +15,19 @@ import java.util.Collections;
 import java.util.Set;
 
 public class SQLProduccionDAO implements ProduccionDAO {
-
-    public static final String IP = "???";
-
-    public static final String DATABASE = "BatoiCine_Top";
-
-    public static final String NOMBRE_USUARIO = "batoi";
-
-    public static final String NOMBRE_TABLA = "";
-
     private Connection connection;
 
+    public SQLProduccionDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
 
     @Override
     public ArrayList<Produccion> findAll() throws DatabaseErrorException {
-        String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
-
+        String sql = String.format("SELECT * FROM Produccion");
         ArrayList<Produccion> produccions = new ArrayList<>();
-        connection = new MySqlConnection().conectar();
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)
-        ) {
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Produccion produccion = geProduccionFromResultset(resultSet);
@@ -56,45 +46,41 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String id = rs.getString("id");
         String titulo = rs.getString("titulo");
         Calificacion calificacion = Calificacion.valueOf(rs.getString("calificacion"));
-        LocalDate fechaLanzamiento = rs.getDate("fechaLanzamiento").toLocalDate();
+        LocalDate fecha_lanzamiento = rs.getDate("fecha_lanzamiento").toLocalDate();
         int duracion = rs.getInt("duracion");
         Set<String> genero = Collections.singleton(rs.getString("genero"));
-        Set<String> actor = Collections.singleton(rs.getString("actor"));
+        String director = rs.getString("director");
         String guion = rs.getString("guion");
         String productora = rs.getString("productora");
-        String url_trailer = rs.getString("url_trailer");
         String poster = rs.getString("poster");
         Set<String> plataforma = Collections.singleton(rs.getString("plataforma"));
         int visualizaciones = rs.getInt("visualizaciones");
         String web = rs.getString("web");
         Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
 
-        return new Produccion(id, titulo, calificacion, fechaLanzamiento, duracion, genero, actor, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo);
+        return new Produccion(id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo);
     }
 
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
-        String sql = String.format( "INSERT INTO %s (id, titulo, calificacion, fechaLanzamiento, duracion, id_genero, actor, guion, productora, url_trailer, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", NOMBRE_TABLA );
-        connection = new MySqlConnection().conectar();
-
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
-        ) {
+        String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString( 1, produccion.getId() );
             preparedStatement.setString( 2, produccion.getTitulo() );
             preparedStatement.setString( 3, produccion.getCalificacion().toString() );
-            preparedStatement.setString( 4, produccion.getFecha_lanzamiento().toString() );
+            preparedStatement.setDate( 4, Date.valueOf(produccion.getFecha_lanzamiento()));
             preparedStatement.setInt( 5, produccion.getDuracion() );
-            preparedStatement.setString( 6, produccion.getGenero().toString());
-            preparedStatement.setString( 7, produccion.getActores().toString());
-            preparedStatement.setString( 8, produccion.getGuion() );
-            preparedStatement.setString( 9, produccion.getProductora() );
-            preparedStatement.setString( 10, produccion.getUrl_trailer() );
-            preparedStatement.setString( 11, produccion.getPoster() );
-            preparedStatement.setString( 12, produccion.getPlataforma().toString());
-            preparedStatement.setInt( 13, produccion.getVisualizaciones() );
-            preparedStatement.setString( 14, produccion.getWeb() );
-            preparedStatement.setString( 15, produccion.getTipo().toString());
+            String generosString = String.join(",", produccion.getGenero());
+            preparedStatement.setString( 6, generosString);
+            preparedStatement.setString( 7, produccion.getDirector());
+            preparedStatement.setString( 8, produccion.getGuion());
+            preparedStatement.setString( 9, produccion.getProductora());
+            preparedStatement.setString( 10, produccion.getPoster() );
+            String plataformasString = String.join(",", produccion.getPlataforma());
+            preparedStatement.setString( 11, plataformasString);
+            preparedStatement.setInt( 12, produccion.getVisualizaciones() );
+            preparedStatement.setString( 13, produccion.getWeb() );
+            preparedStatement.setString( 14, produccion.getTipo().toString());
             preparedStatement.executeUpdate();
 
         } catch ( SQLException e ) {
@@ -105,12 +91,9 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
-        String sql = String.format("SELECT * FROM %s WHERE id = ?", NOMBRE_TABLA);
-        connection = new MySqlConnection().conectar();
+        String sql = String.format("SELECT * FROM Produccion WHERE id = ?");
 
-        try (
-                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -120,7 +103,6 @@ public class SQLProduccionDAO implements ProduccionDAO {
                     return produccion;
                 }
             }
-
             throw new NotFoundException("No existe la producción con el id: " + id);
 
         } catch (SQLException e) {
@@ -129,15 +111,5 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
     }
 
-    /*
-    public Produccion encontrarPorId(String dni) throws DatabaseErrorException, NotFoundException {
-        try {
-            return getById(dni);
-        } catch (NotFoundException ex) {
-            throw new NotFoundException("No ha sido posible encontrar la producción.");
-        }
-    }
-
-     */
 
 }

@@ -8,8 +8,9 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import java.util.ArrayList;
 
 public interface ProduccionDAO {
+
     ArrayList<Produccion> findAll() throws DatabaseErrorException;
     void save(Produccion produccion) throws DatabaseErrorException;
+    Produccion getById (String id) throws NotFoundException, DatabaseErrorException;
 
-    Produccion getById (String dni) throws NotFoundException, DatabaseErrorException;
 }

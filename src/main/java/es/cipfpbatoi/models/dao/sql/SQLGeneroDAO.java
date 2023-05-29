@@ -12,19 +12,20 @@ import java.util.ArrayList;
 
 public class SQLGeneroDAO implements GeneroDAO {
     private Connection connection;
+    private static final String TABLE_NAME = "Genero";
 
-    private static final String TABLE_NAME = "BatoiCine_top";
+    public SQLGeneroDAO() {
+        this.connection= new MySqlConnection().conectar();
+    }
+
     @Override
     public ArrayList<Genero> findAll() {
         String sql = String.format("SELECT * FROM %s", TABLE_NAME);
 
         ArrayList<Genero> generos = new ArrayList<>();
-        connection = new MySqlConnection().conectar();
 
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql);
-        ) {
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Genero genero = getGeneroFromRegister(resultSet);
@@ -47,12 +48,8 @@ public class SQLGeneroDAO implements GeneroDAO {
 
     @Override
     public void save(Genero genero) {
-        String sql = String.format("INSERT INTO %s (id, cod, descripcion) VALUES (?,?,?)" ,
-                TABLE_NAME);
-        connection = new MySqlConnection().conectar();
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+        String sql = String.format("INSERT INTO %s (id, cod, descripcion) VALUES (?,?,?)" , TABLE_NAME);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, genero.getId());
             preparedStatement.setString(2, genero.getCod());
             preparedStatement.setString(3, genero.getDescripcion() );

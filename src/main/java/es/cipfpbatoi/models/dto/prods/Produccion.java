@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.dto.prods;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -10,31 +11,102 @@ public class Produccion {
     private LocalDate fecha_lanzamiento;
     private int duracion;
     private Set<String> genero;
-    private Set<String> actores;
+    private String director;
     private String guion;
     private String productora;
-    private String url_trailer;
     private String poster;
     private Set<String> plataforma;
     private int visualizaciones;
     private String web;
     private Tipo tipo;
 
-    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, Set<String> actores, String guion, String productora, String url_trailer, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
+    public Produccion(String id) {
+        this.id = id;
+    }
+
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, String guion, String productora, String poster, Set<String> plataforma, String web, Tipo tipo) {
         this.id = id;
         this.titulo = titulo;
         this.calificacion = calificacion;
         this.fecha_lanzamiento = fecha_lanzamiento;
         this.duracion = duracion;
         this.genero = genero;
-        this.actores = actores;
+        this.director = director;
         this.guion = guion;
         this.productora = productora;
-        this.url_trailer = url_trailer;
+        this.poster = poster;
+        this.plataforma = plataforma;
+        this.visualizaciones = 0;
+        this.web = web;
+        this.tipo = tipo;
+    }
+
+    public Produccion(String id, String titulo, Calificacion calificacion, LocalDate fecha_lanzamiento, int duracion, Set<String> genero, String director, String guion, String productora, String poster, Set<String> plataforma, int visualizaciones, String web, Tipo tipo) {
+        this.id = id;
+        this.titulo = titulo;
+        this.calificacion = calificacion;
+        this.fecha_lanzamiento = fecha_lanzamiento;
+        this.duracion = duracion;
+        this.genero = genero;
+        this.director = director;
+        this.guion = guion;
+        this.productora = productora;
         this.poster = poster;
         this.plataforma = plataforma;
         this.visualizaciones = visualizaciones;
         this.web = web;
+        this.tipo = tipo;
+    }
+
+    public void setVisualizaciones(int visualizaciones) {
+        this.visualizaciones = visualizaciones;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setCalificacion(Calificacion calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public void setFecha_lanzamiento(LocalDate fecha_lanzamiento) {
+        this.fecha_lanzamiento = fecha_lanzamiento;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    public void setGenero(Set<String> genero) {
+        this.genero = genero;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setGuion(String guion) {
+        this.guion = guion;
+    }
+
+    public void setProductora(String productora) {
+        this.productora = productora;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public void setPlataforma(Set<String> plataforma) {
+        this.plataforma = plataforma;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 
@@ -62,20 +134,12 @@ public class Produccion {
         return genero;
     }
 
-    public Set<String> getActores() {
-        return actores;
-    }
-
     public String getGuion() {
         return guion;
     }
 
     public String getProductora() {
         return productora;
-    }
-
-    public String getUrl_trailer() {
-        return url_trailer;
     }
 
     public String getPoster() {
@@ -98,5 +162,7 @@ public class Produccion {
         return tipo;
     }
 
-
+    public String getDirector() {
+        return director;
+    }
 }

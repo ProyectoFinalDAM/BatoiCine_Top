@@ -1,19 +1,21 @@
 package es.cipfpbatoi.models.dto;
 
 public class User {
-    private String id;
+    private int id;
     private String nombre;
-    private String apellidos;
     private String contrasenya;
 
-    public User(String id, String nombre, String apellidos, String contrasenya) {
+    public User(int id, String nombre, String contrasenya) {
         this.id = id;
         this.nombre = nombre;
-        this.apellidos = apellidos;
         this.contrasenya = contrasenya;
     }
 
-    public String getId() {
+    public User(int id) {
+        this.id= id;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -21,11 +23,16 @@ public class User {
         return nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
 
     public String getContrasenya() {
         return contrasenya;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
     }
 }
