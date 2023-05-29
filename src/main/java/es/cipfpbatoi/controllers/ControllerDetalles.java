@@ -2,13 +2,15 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
-import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +29,12 @@ public class ControllerDetalles implements Initializable {
     private Button verifiar;
     @FXML
     private TextField descripcion;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private ImageView flecha;
+    @FXML
+    private ImageView portadaProduccion;
 
     private ValoracionDAO valoracionDAO;
     private RankingDAO rankingDAO;
@@ -40,6 +48,16 @@ public class ControllerDetalles implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
+            flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+            portadaProduccion.setImage(new Image(getPathImage(produccion.getPoster())));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private String getPathImage(String fileName) throws URISyntaxException {
+        return getClass().getResource(fileName).toURI().toString();
     }
 }
