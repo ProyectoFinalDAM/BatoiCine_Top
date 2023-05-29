@@ -9,10 +9,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="647.0" prefWidth="988.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="logoImageView" fitHeight="90.0" fitWidth="90.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
-      <Pane layoutX="319.0" layoutY="146.0" prefHeight="356.0" prefWidth="350.0" style="-fx-background-color: #EAEAEA; -fx-border-color: BLACK;">
+      <Pane layoutX="325.0" layoutY="185.0" prefHeight="330.0" prefWidth="350.0" style="-fx-background-color: #EAEAEA; -fx-border-color: BLACK;">
          <children>
             <TextField fx:id="nameTextField" layoutX="63.0" layoutY="99.0" prefHeight="36.0" prefWidth="224.0" promptText="Nombre" />
             <Text layoutX="63.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
