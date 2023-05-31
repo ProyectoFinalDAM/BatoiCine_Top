@@ -58,8 +58,14 @@ public class SearchController implements Initializable {
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
 
-        if ( textFieldSearch == null ){
+        if ( textFieldSearch.getText() == null ){
            coincidencias.addAll( this.produccionRepository.getCoincidenciaGenero( generoComboBox.getValue()));
+        } else if ( textFieldSearch.getText() == null  && generoComboBox.getValue() == null) {
+            try {
+                coincidencias.addAll( this.produccionRepository.findAll() );
+            } catch (DatabaseErrorException e) {
+                throw new RuntimeException( e );
+            }
         } else {
             coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
         }
