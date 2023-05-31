@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +28,9 @@ public class ControllerDetalles implements Initializable {
     private Button verifiar;
     @FXML
     private TextField descripcion;
+    @FXML
+    private ImageView portada;
+
 
     private ValoracionDAO valoracionDAO;
     private RankingDAO rankingDAO;
@@ -40,6 +44,7 @@ public class ControllerDetalles implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        this.descripcion.setText(produccion.getGuion());
+        this.portada = new ImageView(produccion.getPoster());
     }
 }

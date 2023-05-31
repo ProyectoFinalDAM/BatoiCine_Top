@@ -11,8 +11,8 @@
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="logoImageView" fitHeight="62.0" fitWidth="62.0" layoutX="32.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="402.0" fitWidth="428.0" layoutX="32.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField layoutX="489.0" layoutY="218.0" prefHeight="284.0" prefWidth="385.0" />
+      <ImageView fx:id="portada" fitHeight="402.0" fitWidth="428.0" layoutX="32.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="descripcion" layoutX="489.0" layoutY="218.0" prefHeight="284.0" prefWidth="385.0" />
       <Label layoutX="616.0" layoutY="175.0" text="Descripción">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -27,6 +27,6 @@
       <Button layoutX="284.0" layoutY="561.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" text="5" />
       <Button layoutX="360.0" layoutY="561.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="99.0" text="Valorar" />
       <ImageView fx:id="logoImageView1" fitHeight="30.0" fitWidth="28.0" layoutX="888.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" onAction="#haciaAtras" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
+      <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
    </children>
 </AnchorPane>
