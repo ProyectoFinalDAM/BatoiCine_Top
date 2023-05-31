@@ -3,6 +3,7 @@ package es.cipfpbatoi.models.dao;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 
@@ -17,6 +18,7 @@ public interface ProduccionDAO {
     void save(Produccion produccion) throws DatabaseErrorException;
     Produccion getById (String id) throws NotFoundException, DatabaseErrorException;
     String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException;
-
+    Produccion getCoincidenciaTitulo(String text);
+    ArrayList<Produccion> getCoincidenciaGenero(Genero genero);
 
 }
