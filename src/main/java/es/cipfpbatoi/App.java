@@ -4,12 +4,14 @@ import es.cipfpbatoi.controllers.ChangeScene;
 import es.cipfpbatoi.controllers.ControllerDetalles;
 import es.cipfpbatoi.controllers.LoginController;
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.file.FileGeneroDAO;
 import es.cipfpbatoi.models.dao.file.FileProduccionDAO;
 import es.cipfpbatoi.models.dao.sql.*;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
 import es.cipfpbatoi.models.respositories.UserRepository;
 import es.cipfpbatoi.models.respositories.ValoracionRepository;
@@ -39,7 +41,9 @@ public class App extends Application {
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
         ValoracionRepository valoracionRepository = new ValoracionRepository(sqlValoracionDAO);
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
-        ControllerDetalles controllerDetalles = new ControllerDetalles(valoracionRepository, rankingRepository, produccions.get(0));
+        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
+        ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
+        ControllerDetalles controllerDetalles = new ControllerDetalles(valoracionRepository, rankingRepository, produccions.get(0), produccionRepository);
 
         ChangeScene.change(stage, controllerDetalles, "/views/detail_production.fxml");
 
