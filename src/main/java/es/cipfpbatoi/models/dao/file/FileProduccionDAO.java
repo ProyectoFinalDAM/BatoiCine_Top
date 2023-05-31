@@ -4,6 +4,7 @@ import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Calificacion;
+import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
 
@@ -165,6 +166,16 @@ public class FileProduccionDAO implements ProduccionDAO {
 
     @Override
     public String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException {
+        return null;
+    }
+
+    @Override
+    public Produccion getCoincidenciaTitulo(String text) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         return null;
     }
 }

@@ -4,6 +4,7 @@ import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Calificacion;
+import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.services.MySqlConnection;
@@ -203,5 +204,41 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return null;
     }
 
+    @Override
+    public Produccion getCoincidenciaTitulo(String text) {
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
+             ResultSet resultSet = preparedStatement.executeQuery(sql)){
+            preparedStatement.setString(1, text);
+                return geProduccionFromResultset( resultSet );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql =  String.format( "SELECT * FROM Produccion WHERE genero=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
+             ResultSet resultSet = preparedStatement.executeQuery(sql)){
+            preparedStatement.setString(1, genero.getDescripcion());
+
+            while (resultSet.next()) {
+                produccions.add( geProduccionFromResultset( resultSet ) );
+            }
+
+            return produccions;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
+

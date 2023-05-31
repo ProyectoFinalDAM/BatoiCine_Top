@@ -3,9 +3,11 @@ package es.cipfpbatoi.models.respositories;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
+import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import java.util.ArrayList;
+import java.util.PrimitiveIterator;
 
 public class ProduccionRepository {
     private ProduccionDAO produccionDAO;
@@ -28,5 +30,13 @@ public class ProduccionRepository {
     }
     public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException{
         return this.produccionDAO.getRecommendedSeries();
+    }
+
+    public Produccion getCoincidenciaTitulo(String titulo){
+        return this.produccionDAO.getCoincidenciaTitulo( titulo );
+    }
+
+    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero){
+        return this.produccionDAO.getCoincidenciaGenero( genero );
     }
 }
