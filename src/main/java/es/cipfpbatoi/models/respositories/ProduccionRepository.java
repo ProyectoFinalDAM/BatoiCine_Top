@@ -19,6 +19,11 @@ public class ProduccionRepository {
     public ArrayList<Produccion> findAll() throws DatabaseErrorException{
         return this.produccionDAO.findAll();
     }
+
+    public ArrayList<Produccion> findAll(String tipo) throws DatabaseErrorException{
+        return this.produccionDAO.findAll(tipo);
+    }
+
     public void save(Produccion produccion) throws DatabaseErrorException{
         this.produccionDAO.save(produccion);
     }

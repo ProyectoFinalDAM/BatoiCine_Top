@@ -3,7 +3,10 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
+import es.cipfpbatoi.models.respositories.RankingRepository;
+import es.cipfpbatoi.models.respositories.ValoracionRepository;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +32,8 @@ import java.util.ResourceBundle;
 public class SearchController implements Initializable {
 
     private ProduccionRepository produccionRepository;
+    private RankingRepository rankingRepository;
+    private ValoracionRepository valoracionRepository;
 
     private String titulo;
     private Genero genero;
@@ -42,6 +47,8 @@ public class SearchController implements Initializable {
 
     public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero) {
         this.produccionRepository = produccionRepository;
+        this.valoracionRepository = valoracionRepository;
+        this.rankingRepository = rankingRepository;
         this.titulo = titulo;
         this.genero = genero;
 
@@ -52,14 +59,20 @@ public class SearchController implements Initializable {
         this.textFieldSearch.setText( this.titulo );
         this.generoComboBox.setValue( this.genero );
         this.portadaListView.setItems( getData() );
-        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController());
+        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
     }
 
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
 
-        if ( textFieldSearch == null ){
+        if ( textFieldSearch.getText() == null ){
            coincidencias.addAll( this.produccionRepository.getCoincidenciaGenero( generoComboBox.getValue()));
+        } else if ( textFieldSearch.getText() == null  && generoComboBox.getValue() == null) {
+            try {
+                coincidencias.addAll( this.produccionRepository.findAll() );
+            } catch (DatabaseErrorException e) {
+                throw new RuntimeException( e );
+            }
         } else {
             coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
         }
@@ -74,19 +87,26 @@ public class SearchController implements Initializable {
     @FXML
     private void goBack(MouseEvent event){
         try {
-            MainController mainController = new MainController(produccionRepository);
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository);
             ChangeScene.change( (Stage) event, mainController, "/resource/views/main.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private void changeToPeliculas(javafx.scene.input.MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a peliculas");
+    private ArrayList<Produccion> getAllFilms(javafx.scene.input.MouseEvent event){
+         try {
+             return this.produccionRepository.findAll( Tipo.MOVIE.toString() );
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException( e );
+        }
     }
-    @FXML
-    private void changeToSeries(javafx.scene.input.MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a series");
+
+    private ArrayList<Produccion> getAllSeries(javafx.scene.input.MouseEvent event){
+        try {
+            return this.produccionRepository.findAll( Tipo.TVSHOW.toString() );
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException( e );
+        }
     }
 }
