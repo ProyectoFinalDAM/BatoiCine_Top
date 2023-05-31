@@ -51,19 +51,15 @@ public class ControllerDetalles implements Initializable {
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
-
-
     private ProduccionRepository produccionRepository;
-
-   
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
 
 
-    public ControllerDetalles(ValoracionDAO valoracionDAO, RankingDAO rankingDAO, Produccion produccion, ProduccionRepository produccionRepository) {
-        this.valoracionDAO = valoracionDAO;
-        this.rankingDAO = rankingDAO;
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository) {
+        this.valoracionRepository = valoracionRepository;
+        this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
     }
@@ -80,7 +76,6 @@ public class ControllerDetalles implements Initializable {
             ex.printStackTrace();
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
