@@ -91,7 +91,6 @@ public class ControllerDetalles implements Initializable {
             ex.printStackTrace();
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

@@ -24,6 +24,9 @@
       <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="882.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" onAction="#haciaAtras" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
       <AnchorPane layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">
+      <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="888.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" onAction="#haciaAtras" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
+      <AnchorPane fx:id="contendor" layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">
          <children>
             <Label fx:id="descripcion" text="Label">
                <font>
