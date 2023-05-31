@@ -3,6 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
@@ -87,12 +88,19 @@ public class SearchController implements Initializable {
         }
     }
 
-    @FXML
-    private void changeToPeliculas(javafx.scene.input.MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a peliculas");
+    private ArrayList<Produccion> getAllFilms(javafx.scene.input.MouseEvent event){
+         try {
+             return this.produccionRepository.findAll( Tipo.MOVIE.toString() );
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException( e );
+        }
     }
-    @FXML
-    private void changeToSeries(javafx.scene.input.MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a series");
+
+    private ArrayList<Produccion> getAllSeries(javafx.scene.input.MouseEvent event){
+        try {
+            return this.produccionRepository.findAll( Tipo.TVSHOW.toString() );
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException( e );
+        }
     }
 }
