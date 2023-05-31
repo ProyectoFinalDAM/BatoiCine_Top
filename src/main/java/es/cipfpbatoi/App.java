@@ -3,6 +3,7 @@ package es.cipfpbatoi;
 import es.cipfpbatoi.controllers.ChangeScene;
 import es.cipfpbatoi.controllers.ControllerDetalles;
 import es.cipfpbatoi.controllers.LoginController;
+import es.cipfpbatoi.controllers.MainController;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dao.RankingDAO;
@@ -42,9 +43,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException, DatabaseErrorException {
         SQLUserDAO sqlUserDAO = new SQLUserDAO();
-        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
-//        UserRepository userRepository= new UserRepository(sqlUserDAO);
-//        LoginController loginController= new LoginController(userRepository);
+        UserRepository userRepository= new UserRepository(sqlUserDAO);
+        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();  
         SQLValoracionDAO sqlValoracionDAO = new SQLValoracionDAO();
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
@@ -52,9 +52,8 @@ public class App extends Application {
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
         SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
-        ControllerDetalles controllerDetalles = new ControllerDetalles(valoracionRepository, rankingRepository, produccions.get(0), produccionRepository);
-
-        ChangeScene.change(stage, controllerDetalles, "/views/detail_production.fxml");
+        LoginController loginController= new LoginController(userRepository, produccionRepository);
+        ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
 
