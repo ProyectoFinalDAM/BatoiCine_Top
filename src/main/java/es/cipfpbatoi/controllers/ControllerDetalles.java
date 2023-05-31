@@ -5,6 +5,8 @@ import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.respositories.RankingRepository;
+import es.cipfpbatoi.models.respositories.ValoracionRepository;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 
@@ -47,14 +49,13 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private ImageView flecha;
    
-
-    private ValoracionDAO valoracionDAO;
-    private RankingDAO rankingDAO;
+    RankingRepository rankingRepository;
+    private ValoracionRepository valoracionRepository;
     private Produccion produccion;
 
-    public ControllerDetalles(ValoracionDAO valoracionDAO, RankingDAO rankingDAO, Produccion produccion) {
-        this.valoracionDAO = valoracionDAO;
-        this.rankingDAO = rankingDAO;
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion) {
+        this.valoracionRepository = valoracionRepository;
+        this.rankingRepository = rankingRepository;
         this.produccion = produccion;
     }
 
