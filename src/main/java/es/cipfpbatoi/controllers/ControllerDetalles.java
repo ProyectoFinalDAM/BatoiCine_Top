@@ -3,6 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.prods.Estrella;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
@@ -15,13 +16,19 @@ import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 
 import java.io.IOException;
@@ -31,6 +38,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
+
     @FXML
     private Button uno;
     @FXML
@@ -51,6 +59,14 @@ public class ControllerDetalles implements Initializable {
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
+
+    @FXML
+    private HBox container;
+
+    private static final int NUM_ESTRELLAS = 5;
+    private static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
+    private static final Color ESTRELLA_APAGADA_COLOR = Color.LIGHTGRAY;
+
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
@@ -91,6 +107,12 @@ public class ControllerDetalles implements Initializable {
         descripcion.setText(produccion.getGuion());
         descripcion.setWrapText(true);
         descripcion.setPrefWidth(370);
+
+        for (int i = 0; i < NUM_ESTRELLAS; i++) {
+            Estrella estrella = new Estrella(i);
+            container.getChildren().add(estrella);
+        }
+
     }
 
     private String getPathImage(String fileName) throws URISyntaxException {
