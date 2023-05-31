@@ -5,6 +5,7 @@ import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -43,16 +44,19 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private ImageView flecha;
     @FXML
+
+    private ProduccionRepository produccionRepository;
    
 
     private ValoracionDAO valoracionDAO;
     private RankingDAO rankingDAO;
     private Produccion produccion;
 
-    public ControllerDetalles(ValoracionDAO valoracionDAO, RankingDAO rankingDAO, Produccion produccion) {
+    public ControllerDetalles(ValoracionDAO valoracionDAO, RankingDAO rankingDAO, Produccion produccion, ProduccionRepository produccionRepository) {
         this.valoracionDAO = valoracionDAO;
         this.rankingDAO = rankingDAO;
         this.produccion = produccion;
+        this.produccionRepository = produccionRepository;
     }
 
 
@@ -60,7 +64,7 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private void haciaAtras(ActionEvent event) {
         try {
-            MainController mainController = new MainController();
+            MainController mainController = new MainController(produccionRepository);
             ChangeScene.change(event, mainController, "/views/main.fxml");
         } catch ( IOException ex) {
             ex.printStackTrace();
@@ -72,7 +76,8 @@ public class ControllerDetalles implements Initializable {
         try {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-            portadaProduccion.setImage(new Image(getPathImage(produccion.getPoster())));
+            portada.setImage(new Image(produccion.getPoster()));
+
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -80,6 +85,5 @@ public class ControllerDetalles implements Initializable {
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
-
     }
 }
