@@ -2,15 +2,14 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
+import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Estrella;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.*;
 import javafx.beans.binding.Bindings;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
 
 import javafx.event.ActionEvent;
 
@@ -71,16 +70,27 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
+    private EsFavoritaRepository esFavoritaRepository;
+    private User user;
+
+
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, EsFavoritaRepository esFavoritaRepository, User user) {
+
     private Initializable controllerAnterior;
     private String vista;
 
     public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
+
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
+        this.esFavoritaRepository = esFavoritaRepository;
+        this.user = user;
+
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
+
     }
 
 
@@ -92,6 +102,11 @@ public class ControllerDetalles implements Initializable {
         } catch ( IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @FXML
+    private void verMasTarde(ActionEvent event) {
+        esFavoritaRepository.save(user, produccion);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
