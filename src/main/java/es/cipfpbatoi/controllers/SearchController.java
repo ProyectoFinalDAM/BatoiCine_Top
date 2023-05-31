@@ -88,16 +88,15 @@ public class SearchController implements Initializable {
         }
     }
 
-    @FXML
-    public ArrayList<Produccion> getAllFilms(javafx.scene.input.MouseEvent event){
+    private ArrayList<Produccion> getAllFilms(javafx.scene.input.MouseEvent event){
          try {
              return this.produccionRepository.findAll( Tipo.MOVIE.toString() );
         } catch (DatabaseErrorException e) {
             throw new RuntimeException( e );
         }
     }
-    @FXML
-    public ArrayList<Produccion> getAllSeries(javafx.scene.input.MouseEvent event){
+
+    private ArrayList<Produccion> getAllSeries(javafx.scene.input.MouseEvent event){
         try {
             return this.produccionRepository.findAll( Tipo.TVSHOW.toString() );
         } catch (DatabaseErrorException e) {
