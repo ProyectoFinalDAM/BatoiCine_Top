@@ -55,23 +55,24 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
+    private Initializable controllerAnterior;
+    private String vista;
 
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository) {
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
+        this.controllerAnterior= controllerAnterior;
+        this.vista= vista;
     }
 
 
     //Método para salir de la vista de detalles y volver a la principal
     @FXML
     private void haciaAtras(ActionEvent event) {
-
         try {
-            MainController mainController = new MainController(produccionRepository);
-            ChangeScene.change(event, mainController, "/views/main.fxml");
+            ChangeScene.change(event, controllerAnterior, vista);
         } catch ( IOException ex) {
             ex.printStackTrace();
         }
