@@ -5,14 +5,18 @@ import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 
 import java.io.IOException;
@@ -35,14 +39,13 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private Button verifiar;
     @FXML
-    private TextField descripcion;
+    private Label descripcion;
     @FXML
     private ImageView portada;
-
+    @FXML
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
-    @FXML
    
 
     private ValoracionDAO valoracionDAO;
@@ -59,12 +62,12 @@ public class ControllerDetalles implements Initializable {
     //Método para salir de la vista de detalles y volver a la principal
     @FXML
     private void haciaAtras(ActionEvent event) {
-        try {
-            MainController mainController = new MainController();
-            ChangeScene.change(event, mainController, "/views/main.fxml");
-        } catch ( IOException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            MainController mainController = new MainController();
+//            ChangeScene.change(event, mainController, "/views/main.fxml");
+//        } catch ( IOException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     @Override
@@ -72,10 +75,14 @@ public class ControllerDetalles implements Initializable {
         try {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-            portadaProduccion.setImage(new Image(getPathImage(produccion.getPoster())));
+            portada.setImage(new Image (produccion.getPoster()));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+
+        descripcion.setText(produccion.getGuion());
+        descripcion.setWrapText(true);
+        descripcion.setPrefWidth(370);
     }
 
     private String getPathImage(String fileName) throws URISyntaxException {
