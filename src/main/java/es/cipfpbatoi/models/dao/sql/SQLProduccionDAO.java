@@ -42,10 +42,79 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return produccions;
     }
 
+    @Override
+    public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException {
+        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='movie' ORDER BY puntos DESC");
+        ArrayList<Produccion> produccions = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Produccion produccion = geProduccionFromResultset(resultSet);
+                produccions.add(produccion);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en la conexión o acceso a la base de datos (select)");
+        }
+
+        return produccions;
+    }
+
+    @Override
+    public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException {
+        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='tv-show' ORDER BY puntos DESC");
+        ArrayList<Produccion> produccions = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Produccion produccion = geProduccionFromResultset(resultSet);
+                produccions.add(produccion);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en la conexión o acceso a la base de datos (select)");
+        }
+
+        return produccions;
+    }
+
+    @Override
+    public ArrayList<Produccion> findAll(String tipo) throws DatabaseErrorException {
+        String sql = String.format("SELECT * FROM Produccion WHERE tipo=?");
+        ArrayList<Produccion> produccions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
+             ResultSet resultSet = preparedStatement.executeQuery(sql)) {
+            preparedStatement.setString(1, tipo);
+            while (resultSet.next()) {
+                Produccion produccion = geProduccionFromResultset(resultSet);
+                produccions.add(produccion);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en la conexión o acceso a la base de datos (select)");
+        }
+
+        return produccions;
+    }
+
     private Produccion geProduccionFromResultset(ResultSet rs) throws SQLException {
         String id = rs.getString("id");
         String titulo = rs.getString("titulo");
-        Calificacion calificacion = Calificacion.valueOf(rs.getString("calificacion"));
+        Calificacion calificacion;
+        if (rs.getString("calificacion").equals("PG-13")){
+            calificacion = Calificacion.PG13;
+        } else {
+            calificacion = Calificacion.valueOf(rs.getString("calificacion"));
+
+        }
         LocalDate fecha_lanzamiento = rs.getDate("fecha_lanzamiento").toLocalDate();
         int duracion = rs.getInt("duracion");
         Set<String> genero = Collections.singleton(rs.getString("genero"));
@@ -56,7 +125,12 @@ public class SQLProduccionDAO implements ProduccionDAO {
         Set<String> plataforma = Collections.singleton(rs.getString("plataforma"));
         int visualizaciones = rs.getInt("visualizaciones");
         String web = rs.getString("web");
-        Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
+        Tipo tipo = null;
+        if (rs.getString("tipo").equals("movie")){
+            tipo= Tipo.MOVIE;
+        } else if (rs.getString("tipo").equals("tv-show")) {
+            tipo= Tipo.TVSHOW;
+        }
 
         return new Produccion(id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo);
     }
@@ -91,7 +165,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
-        String sql = String.format("SELECT * FROM Produccion WHERE id = ?");
+        String sql = String.format("SELECT * FROM Produccion WHERE id=?");
 
         try (PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, id);
@@ -109,6 +183,24 @@ public class SQLProduccionDAO implements ProduccionDAO {
             e.printStackTrace();
             throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (select)");
         }
+    }
+
+    @Override
+    public String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException {
+        String sql = String.format("SELECT poster FROM Produccion WHERE id=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
+             ResultSet resultSet = preparedStatement.executeQuery(sql)) {
+            preparedStatement.setString(1, produccion.getId());
+            while (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en la conexión o acceso a la base de datos (select)");
+        }
+        return null;
     }
 
 

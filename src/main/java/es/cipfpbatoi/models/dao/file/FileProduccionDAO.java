@@ -94,6 +94,21 @@ public class FileProduccionDAO implements ProduccionDAO {
     }
 
     @Override
+    public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> findAll(String tipo) throws DatabaseErrorException {
+        return null;
+    }
+
+    @Override
     public void save(Produccion produccion) {
         // No se usa en el File
     }
@@ -145,6 +160,11 @@ public class FileProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getById(String dni) throws NotFoundException, DatabaseErrorException {
+        return null;
+    }
+
+    @Override
+    public String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException {
         return null;
     }
 }

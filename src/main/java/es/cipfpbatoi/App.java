@@ -10,6 +10,7 @@ import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.UserRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +31,9 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         SQLUserDAO sqlUserDAO= new SQLUserDAO();
         UserRepository userRepository= new UserRepository(sqlUserDAO);
-        LoginController loginController= new LoginController(userRepository);
-
+        SQLProduccionDAO produccionDAO= new SQLProduccionDAO();
+        ProduccionRepository produccionRepository= new ProduccionRepository(produccionDAO);
+        LoginController loginController= new LoginController(userRepository, produccionRepository);
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
