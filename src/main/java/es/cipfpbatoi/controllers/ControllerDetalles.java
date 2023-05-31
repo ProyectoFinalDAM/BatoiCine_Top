@@ -5,9 +5,12 @@ import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+
 import es.cipfpbatoi.models.respositories.RankingRepository;
 import es.cipfpbatoi.models.respositories.ValoracionRepository;
 import javafx.beans.binding.Bindings;
+import es.cipfpbatoi.models.respositories.ProduccionRepository;
+
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -48,27 +51,34 @@ public class ControllerDetalles implements Initializable {
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
+
+
+    private ProduccionRepository produccionRepository;
+
    
-    RankingRepository rankingRepository;
+    private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
 
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion) {
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
+
+    public ControllerDetalles(ValoracionDAO valoracionDAO, RankingDAO rankingDAO, Produccion produccion, ProduccionRepository produccionRepository) {
+        this.valoracionDAO = valoracionDAO;
+        this.rankingDAO = rankingDAO;
         this.produccion = produccion;
+        this.produccionRepository = produccionRepository;
     }
 
 
     //Método para salir de la vista de detalles y volver a la principal
     @FXML
     private void haciaAtras(ActionEvent event) {
-//        try {
-//            MainController mainController = new MainController();
-//            ChangeScene.change(event, mainController, "/views/main.fxml");
-//        } catch ( IOException ex) {
-//            ex.printStackTrace();
-//        }
+
+        try {
+            MainController mainController = new MainController(produccionRepository);
+            ChangeScene.change(event, mainController, "/views/main.fxml");
+        } catch ( IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -77,6 +87,7 @@ public class ControllerDetalles implements Initializable {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
             portada.setImage(new Image (produccion.getPoster()));
+
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +99,5 @@ public class ControllerDetalles implements Initializable {
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
-
     }
 }
