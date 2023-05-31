@@ -2,8 +2,11 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
+import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,8 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
 import java.io.IOException;
 import java.net.URISyntaxException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,11 +37,13 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private TextField descripcion;
     @FXML
+    private ImageView portada;
+
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
     @FXML
-    private ImageView portadaProduccion;
+   
 
     private ValoracionDAO valoracionDAO;
     private RankingDAO rankingDAO;
@@ -47,6 +54,7 @@ public class ControllerDetalles implements Initializable {
         this.rankingDAO = rankingDAO;
         this.produccion = produccion;
     }
+
 
     //Método para salir de la vista de detalles y volver a la principal
     @FXML
@@ -72,5 +80,6 @@ public class ControllerDetalles implements Initializable {
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
+
     }
 }
