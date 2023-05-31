@@ -3,6 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
+import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.UserRepository;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.event.ActionEvent;
@@ -33,9 +34,11 @@ public class LoginController implements Initializable {
     private Button signUpButton;
 
     private UserRepository userRepository;
+    private ProduccionRepository produccionRepository;
 
-    public LoginController(UserRepository userRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository) {
         this.userRepository = userRepository;
+        this.produccionRepository= produccionRepository;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class LoginController implements Initializable {
         try {
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController();
+                MainController mainController= new MainController(produccionRepository);
                 ChangeScene.change(stage, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){

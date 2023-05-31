@@ -23,4 +23,10 @@ public class ProduccionRepository {
     public Produccion getById (String id) throws NotFoundException, DatabaseErrorException{
         return this.produccionDAO.getById(id);
     }
+    public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException{
+        return this.produccionDAO.getRecommendedFilms();
+    }
+    public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException{
+        return this.produccionDAO.getRecommendedSeries();
+    }
 }
