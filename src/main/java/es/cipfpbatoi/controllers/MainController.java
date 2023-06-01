@@ -1,13 +1,11 @@
 package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
-import es.cipfpbatoi.models.respositories.GeneroRepository;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,6 +52,7 @@ public class MainController implements Initializable {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
+    private User user;
     @FXML
     private Button buttonBuscar;
 
@@ -63,6 +62,13 @@ public class MainController implements Initializable {
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
     }
+    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user) {
+        this.produccionRepository = produccionRepository;
+        this.valoracionRepository = valoracionRepository;
+        this.rankingRepository = rankingRepository;
+        this.generoRepository= generoRepository;
+        this.user = user;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,8 +76,8 @@ public class MainController implements Initializable {
         this.seriesListView.setItems(getSeries());
         peliculasListView.setOrientation(Orientation.HORIZONTAL);
         this.peliculasListView.setItems(getPeliculas());
-        this.peliculasListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/main.fxml"));
-        this.seriesListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository,this, "/views/main.fxml"));
+        this.peliculasListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/main.fxml", user));
+        this.seriesListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository,this, "/views/main.fxml", user));
         try {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             lupaImageView.setImage(new Image(getPathImage("/images/lupaIcon.png")));

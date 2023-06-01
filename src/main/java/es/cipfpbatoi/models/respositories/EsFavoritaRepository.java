@@ -58,4 +58,7 @@ public class EsFavoritaRepository {
     public void save(User user, Produccion produccion){
         esFavoritaDAO.save(user,produccion);
     }
+    public void eliminar(User user, Produccion produccion) throws DatabaseErrorException{
+        esFavoritaDAO.eliminar(user, produccion);
+    }
 }
