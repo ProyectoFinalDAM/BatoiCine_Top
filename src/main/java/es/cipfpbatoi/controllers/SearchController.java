@@ -37,6 +37,8 @@ public class SearchController implements Initializable {
 
     private String titulo;
     private Genero genero;
+
+    private Tipo tipo;
     @FXML private Text peliculasText;
     @FXML private Text seriesText;
     @FXML private TextField textFieldSearch;
@@ -47,11 +49,20 @@ public class SearchController implements Initializable {
 
     public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero) {
         this.produccionRepository = produccionRepository;
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
         this.titulo = titulo;
         this.genero = genero;
 
+    }
+
+    public SearchController(ProduccionRepository produccionRepository, Tipo tipo) {
+        this.produccionRepository = produccionRepository;
+        this.tipo                 = tipo;
+    }
+
+    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository) {
+        this.produccionRepository = produccionRepository;
+        this.rankingRepository    = rankingRepository;
+        this.valoracionRepository = valoracionRepository;
     }
 
     @Override
@@ -94,7 +105,7 @@ public class SearchController implements Initializable {
         }
     }
 
-    private ArrayList<Produccion> getAllFilms(javafx.scene.input.MouseEvent event){
+    private ArrayList<Produccion> getAllFilms(){
          try {
              return this.produccionRepository.findAll( Tipo.MOVIE.toString() );
         } catch (DatabaseErrorException e) {
@@ -102,7 +113,7 @@ public class SearchController implements Initializable {
         }
     }
 
-    private ArrayList<Produccion> getAllSeries(javafx.scene.input.MouseEvent event){
+    private ArrayList<Produccion> getAllSeries(){
         try {
             return this.produccionRepository.findAll( Tipo.TVSHOW.toString() );
         } catch (DatabaseErrorException e) {
