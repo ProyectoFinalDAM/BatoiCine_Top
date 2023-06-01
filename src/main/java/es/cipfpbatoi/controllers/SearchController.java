@@ -93,7 +93,7 @@ public class SearchController implements Initializable {
             } catch (DatabaseErrorException e) {
                 throw new RuntimeException( e );
             }
-        } else {
+        } else if ( generoComboBox.getValue() == null ){
             coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
         }
 
