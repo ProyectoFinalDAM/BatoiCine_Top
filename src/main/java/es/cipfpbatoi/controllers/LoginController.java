@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginController implements Initializable {
     @FXML
@@ -80,7 +81,9 @@ public class LoginController implements Initializable {
                 throw new UserAlreadyExistsException();
             } else {
                 if (!nameTextField.getText().equals("") && !passwordTextField.getText().equals("")){
-                    userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(), passwordTextField.getText()));
+                    String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
+
+                    userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
                     AlertCreator.infoAlert("Registrado correctamente.");
                     this.passwordTextField.clear();
                     this.nameTextField.clear();
