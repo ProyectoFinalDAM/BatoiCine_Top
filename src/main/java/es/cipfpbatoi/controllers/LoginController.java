@@ -3,10 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.UserRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,12 +36,14 @@ public class LoginController implements Initializable {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
+    private GeneroRepository generoRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
+        this.generoRepository= generoRepository;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class LoginController implements Initializable {
         try {
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository);
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository);
                 ChangeScene.change(stage, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){

@@ -20,9 +20,7 @@
       <Button layoutX="697.0" layoutY="522.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="132.0" text="Ver más tarde" />
       <Line endX="898.3333129882812" endY="-7.62939453125E-6" layoutX="104.0" layoutY="86.0" startX="-104.0" startY="-7.62939453125E-6" />
       <Button layoutX="360.0" layoutY="561.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="99.0" text="Valorar" />
-      <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="882.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" onAction="#haciaAtras" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
-      <AnchorPane layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">
+      <AnchorPane layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0"/>
       <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="888.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="916.0" layoutY="32.0" mnemonicParsing="false" onAction="#haciaAtras" prefHeight="30.0" prefWidth="62.0" text="Atrás" />
       <AnchorPane fx:id="contendor" layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">

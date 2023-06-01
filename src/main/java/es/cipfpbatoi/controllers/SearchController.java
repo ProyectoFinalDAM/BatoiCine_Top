@@ -4,6 +4,7 @@ import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
+import es.cipfpbatoi.models.respositories.GeneroRepository;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
 import es.cipfpbatoi.models.respositories.ValoracionRepository;
@@ -34,6 +35,7 @@ public class SearchController implements Initializable {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
+    private GeneroRepository generoRepository;
 
     private String titulo;
     private Genero genero;
@@ -45,13 +47,13 @@ public class SearchController implements Initializable {
     @FXML private ListView<Produccion> portadaListView;
     @FXML private Label productionType;
 
-    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero) {
+    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
+        this.generoRepository= generoRepository;
         this.rankingRepository = rankingRepository;
         this.titulo = titulo;
         this.genero = genero;
-
     }
 
     @Override
@@ -87,7 +89,7 @@ public class SearchController implements Initializable {
     @FXML
     private void goBack(MouseEvent event){
         try {
-            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository);
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository);
             ChangeScene.change( (Stage) event, mainController, "/resource/views/main.fxml");
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,10 +13,7 @@ import es.cipfpbatoi.models.dao.sql.*;
 import es.cipfpbatoi.models.dto.prods.Estrella;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.UserRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -44,7 +41,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, DatabaseErrorException {
         SQLUserDAO sqlUserDAO = new SQLUserDAO();
         UserRepository userRepository= new UserRepository(sqlUserDAO);
-        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();  
+
         SQLValoracionDAO sqlValoracionDAO = new SQLValoracionDAO();
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
@@ -52,7 +49,9 @@ public class App extends Application {
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
         SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
-        LoginController loginController= new LoginController(userRepository, produccionRepository);
+        SQLGeneroDAO sqlGeneroDAO= new SQLGeneroDAO();
+        GeneroRepository generoRepository= new GeneroRepository(sqlGeneroDAO);
+        LoginController loginController= new LoginController(userRepository, produccionRepository, generoRepository);
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
