@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
+
     @FXML
     private Label descripcion;
     @FXML
@@ -60,12 +61,15 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
+    private EsFavoritaRepository esFavoritaRepository;
+    private User user;
+
 
     private Initializable controllerAnterior;
 
     private String vista;
 
-    private User user;
+
 
     public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
         this.valoracionRepository = valoracionRepository;
