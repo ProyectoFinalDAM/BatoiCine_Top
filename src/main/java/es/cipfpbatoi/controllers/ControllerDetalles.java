@@ -118,6 +118,7 @@ public class ControllerDetalles implements Initializable {
                 throw new RuntimeException(e);
             }
 
+
             descripcion.setText(produccion.getGuion());
             descripcion.setWrapText(true);
             descripcion.setPrefWidth(370);
