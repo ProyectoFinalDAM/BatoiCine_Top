@@ -64,6 +64,18 @@ public class SQLVisualizarDAO implements VisualizarDAO {
 
     @Override
     public void save(Visualizar visualizar) throws DatabaseErrorException {
+        String sql = String.format( "INSERT INTO Visualizar (id_produccion, id_usuario) VALUES (?,?)");
 
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
+        ) {
+            preparedStatement.setString( 1, visualizar.getId_produccion());
+            preparedStatement.setInt( 2, visualizar.getId_usuario());
+            preparedStatement.executeUpdate();
+
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            throw new DatabaseErrorException( "Ha ocurrido un error en el acceso o conexión a la base de datos" );
+        }
     }
 }

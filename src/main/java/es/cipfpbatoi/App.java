@@ -50,11 +50,12 @@ public class App extends Application {
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
         ValoracionRepository valoracionRepository = new ValoracionRepository(sqlValoracionDAO);
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
-
+        SQLVisualizarDAO sqlVisualizarDAO= new SQLVisualizarDAO();
+        VisualizarRepository visualizarRepository= new VisualizarRepository(sqlVisualizarDAO);
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
         SQLGeneroDAO sqlGeneroDAO= new SQLGeneroDAO();
         GeneroRepository generoRepository= new GeneroRepository(sqlGeneroDAO);
-        LoginController loginController= new LoginController(userRepository, produccionRepository, generoRepository,valoracionRepository, rankingRepository);
+        LoginController loginController= new LoginController(userRepository, produccionRepository, generoRepository,valoracionRepository, rankingRepository, visualizarRepository);
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
