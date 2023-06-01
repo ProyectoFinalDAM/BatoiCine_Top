@@ -111,6 +111,7 @@ public class SearchController implements Initializable {
         this.generoComboBox.setDisable(true);
         this.textFieldSearch.setEditable(false);
         this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml", user, visualizarRepository));
+        this.portadaListView.setPrefWidth(this.portadaListView.getFixedCellSize() * 4);
     }
 
     private ArrayList<Produccion> getCoincidencias(){
@@ -252,4 +253,15 @@ public class SearchController implements Initializable {
         }
     }
 
+    @FXML
+    private void showFilms(MouseEvent event){
+        this.portadaListView.setItems( FXCollections.observableList( getAllFilms() ) );
+        this.portadaListView.refresh();
+    }
+
+    @FXML
+    private void showShows(MouseEvent event){
+        this.portadaListView.setItems( FXCollections.observableList( getAllSeries() ) );
+        this.portadaListView.refresh();
+    }
 }
