@@ -104,6 +104,7 @@ public class SearchController implements Initializable {
 
         this.generoComboBox.setDisable(true);
         this.textFieldSearch.setEditable(false);
+        this.portadaListView.setPrefWidth(this.portadaListView.getFixedCellSize() * 4);
         this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
     }
 
