@@ -38,18 +38,7 @@ import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
 
-    @FXML
-    private Button uno;
-    @FXML
-    private Button dos;
-    @FXML
-    private Button tres;
-    @FXML
-    private Button cuatro;
-    @FXML
-    private Button cinco;
-    @FXML
-    private Button verifiar;
+
     @FXML
     private Label descripcion;
     @FXML
@@ -73,11 +62,10 @@ public class ControllerDetalles implements Initializable {
     private EsFavoritaRepository esFavoritaRepository;
     private User user;
 
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, EsFavoritaRepository esFavoritaRepository, User user) {
-
     private Initializable controllerAnterior;
     private String vista;
+
+
 
     public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
 
@@ -85,9 +73,6 @@ public class ControllerDetalles implements Initializable {
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
-        this.esFavoritaRepository = esFavoritaRepository;
-        this.user = user;
-
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
 
