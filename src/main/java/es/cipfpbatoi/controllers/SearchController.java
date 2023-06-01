@@ -58,7 +58,8 @@ public class SearchController implements Initializable {
         this.valoracionRepository = valoracionRepository;
     }
 
-    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo) {
+    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository) {
+        this.generoRepository= generoRepository;
         this.produccionRepository = produccionRepository;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
@@ -70,14 +71,20 @@ public class SearchController implements Initializable {
         this.textFieldSearch.setText( this.titulo );
         this.generoComboBox.setValue( this.genero );
 
-        if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
+        if( textFieldSearch.getText()==null || textFieldSearch.getText().equals("") && generoComboBox.getValue() == null){
+            if ( this.tipo != null && this.tipo.equals( Tipo.MOVIE ) ) {
+                this.portadaListView.setItems( getAllFilms() );
+            } else if (this.tipo != null && this.tipo.equals( Tipo.TVSHOW )){
+                this.portadaListView.setItems( getAllSeries() );
+            }else{
+                this.portadaListView.setItems( getData() );
+            }
+        }else if(textFieldSearch.getText().equals("")  && generoComboBox.getValue() != null){
             this.portadaListView.setItems( getData() );
         }else if(textFieldSearch.getText() != null  && generoComboBox.getValue() == null){
             this.portadaListView.setItems( getData() );
-        }else if ( this.tipo != null && this.tipo.equals( Tipo.MOVIE ) ) {
-            this.portadaListView.setItems( getAllFilms() );
-        } else {
-            this.portadaListView.setItems( getAllSeries() );
+        }else if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
+            this.portadaListView.setItems( getData() );
         }
 
         this.generoComboBox.setDisable(true);
@@ -89,12 +96,14 @@ public class SearchController implements Initializable {
         ArrayList<Produccion> coincidencias = new ArrayList<>();
 
         try {
-            if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
-                coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
-            } else if ( textFieldSearch.getText() == null ){
+            if (textFieldSearch.getText()==null || textFieldSearch.getText().equals("") && generoComboBox.getValue() == null) {
+                coincidencias.addAll( this.produccionRepository.findAll());
+            } else if ( textFieldSearch.getText().equals("") && generoComboBox.getValue() != null){
                 coincidencias.addAll( this.produccionRepository.getCoincidenciaGenero( generoComboBox.getValue()));
-            } else if ( textFieldSearch.getText() == null  && generoComboBox.getValue() == null) {
-                coincidencias.addAll( this.produccionRepository.findAll() );
+            } else if(textFieldSearch.getText() != null  && generoComboBox.getValue() == null){
+                coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
+            } else if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
+                coincidencias.addAll( this.produccionRepository.getCoincidenciaGeneroTitulo( textFieldSearch.getText(),generoComboBox.getValue() ) );
             } else if ( generoComboBox.getValue() == null ){
                 coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
             } else {
@@ -123,8 +132,8 @@ public class SearchController implements Initializable {
     }
 
     private ObservableList<Produccion> getAllFilms(){
-         try {
-             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
+        try {
+            return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
         } catch (DatabaseErrorException e) {
             throw new RuntimeException( e );
         }

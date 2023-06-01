@@ -91,46 +91,46 @@ public class ControllerDetalles implements Initializable {
         this.vista= vista;
     }
 
-        //Método para salir de la vista de detalles y volver a la principal
-        @FXML
-        private void haciaAtras (MouseEvent event){
-            try {
-                ChangeScene.change(event, controllerAnterior, vista);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    //Método para salir de la vista de detalles y volver a la principal
+    @FXML
+    private void haciaAtras (MouseEvent event){
+        try {
+            ChangeScene.change(event, controllerAnterior, vista);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void verMasTarde(ActionEvent event) {
+        esFavoritaRepository.save(user, produccion);
+    }
+
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle){
+        try {
+            logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
+            flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+            portada.setImage(new Image(produccion.getPoster()));
+            corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
 
-        @FXML
-        private void verMasTarde(ActionEvent event) {
-            esFavoritaRepository.save(user, produccion);
+
+        descripcion.setText(produccion.getGuion());
+        descripcion.setWrapText(true);
+        descripcion.setPrefWidth(370);
+
+        for (int i = 0; i < NUM_ESTRELLAS; i++) {
+            Estrella estrella = new Estrella(i);
+            container.getChildren().add(estrella);
         }
 
-        @Override
-        public void initialize (URL url, ResourceBundle resourceBundle){
-            try {
-                logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
-                flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-                portada.setImage(new Image(produccion.getPoster()));
-                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+    }
 
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-
-
-            descripcion.setText(produccion.getGuion());
-            descripcion.setWrapText(true);
-            descripcion.setPrefWidth(370);
-
-            for (int i = 0; i < NUM_ESTRELLAS; i++) {
-                Estrella estrella = new Estrella(i);
-                container.getChildren().add(estrella);
-            }
-
-        }
-
-        private String getPathImage (String fileName) throws URISyntaxException {
-            return getClass().getResource(fileName).toURI().toString();
-        }
+    private String getPathImage (String fileName) throws URISyntaxException {
+        return getClass().getResource(fileName).toURI().toString();
+    }
 }

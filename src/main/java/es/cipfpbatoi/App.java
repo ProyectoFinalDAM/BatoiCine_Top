@@ -41,9 +41,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, DatabaseErrorException {
         SQLUserDAO sqlUserDAO = new SQLUserDAO();
         UserRepository userRepository= new UserRepository(sqlUserDAO);
-
         SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
-
         SQLValoracionDAO sqlValoracionDAO = new SQLValoracionDAO();
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
