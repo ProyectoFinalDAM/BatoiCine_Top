@@ -4,6 +4,7 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
 import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.VisualizarRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ public class PosterPordController extends ListCell<Produccion> {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
+    private VisualizarRepository visualizarRepository;
     private Produccion produccion;
     private Initializable controllerAnterior;
     private String vista;

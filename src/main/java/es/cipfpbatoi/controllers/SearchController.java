@@ -65,6 +65,7 @@ public class SearchController implements Initializable {
         this.genero = genero;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
+        this.produccions= new ArrayList<>();
     }
 
     public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository) {
@@ -73,6 +74,7 @@ public class SearchController implements Initializable {
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
         this.tipo                 = tipo;
+        this.produccions= new ArrayList<>();
     }
 
     @Override
