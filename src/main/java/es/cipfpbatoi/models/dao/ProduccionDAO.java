@@ -19,6 +19,7 @@ public interface ProduccionDAO {
     Produccion getById (String id) throws NotFoundException, DatabaseErrorException;
     String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException;
     Produccion getCoincidenciaTitulo(String text);
+
     ArrayList<Produccion> getCoincidenciaGenero(Genero genero);
     ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero);
 

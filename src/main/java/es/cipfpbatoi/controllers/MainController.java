@@ -118,7 +118,7 @@ public class MainController implements Initializable {
     private void changeToPeliculas(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE, generoRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -128,7 +128,7 @@ public class MainController implements Initializable {
     private void changeToSeries(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
