@@ -240,6 +240,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
     @Override
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -261,6 +262,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
 
 }
 
