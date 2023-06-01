@@ -239,6 +239,5 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
-
 }
 
