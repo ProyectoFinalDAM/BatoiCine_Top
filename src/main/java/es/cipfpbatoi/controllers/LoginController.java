@@ -39,18 +39,21 @@ public class LoginController implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
+    private VisualizarRepository visualizarRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
+        this.visualizarRepository= visualizarRepository;
     }
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, VisualizarRepository visualizarRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.generoRepository= generoRepository;
+        this.visualizarRepository= visualizarRepository;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class LoginController implements Initializable {
         try {
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, userRepository.getUser(nameTextField.getText(), passwordTextField.getText()));
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
                 ChangeScene.change(stage, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
