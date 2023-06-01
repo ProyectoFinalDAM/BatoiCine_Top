@@ -239,6 +239,27 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+    @Override
+    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=? AND genero=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
+            preparedStatement.setString(1, titulo);
+            preparedStatement.setString(2, genero.getDescripcion());
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                produccions.add( geProduccionFromResultset( resultSet ) );
+            }
+
+            return produccions;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
 
