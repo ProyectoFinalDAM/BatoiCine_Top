@@ -211,8 +211,9 @@ public class SQLProduccionDAO implements ProduccionDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, text);
             ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
                 return geProduccionFromResultset( resultSet );
-
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

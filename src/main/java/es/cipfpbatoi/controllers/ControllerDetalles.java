@@ -93,7 +93,6 @@ public class ControllerDetalles implements Initializable {
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
-
     }
 
 

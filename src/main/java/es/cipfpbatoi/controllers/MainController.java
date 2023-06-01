@@ -57,7 +57,6 @@ public class MainController implements Initializable {
     @FXML
     private Button buttonBuscar;
 
-
     public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
@@ -102,7 +101,7 @@ public class MainController implements Initializable {
     private void buscarProduccion(ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository);
+            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -113,7 +112,7 @@ public class MainController implements Initializable {
     private void changeToPeliculas(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, Tipo.MOVIE);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -123,7 +122,7 @@ public class MainController implements Initializable {
     private void changeToSeries(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, Tipo.TVSHOW);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);

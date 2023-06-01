@@ -49,22 +49,20 @@ public class SearchController implements Initializable {
     @FXML private ListView<Produccion> portadaListView;
     @FXML private Label productionType;
 
-    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository) {
+    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository) {
         this.produccionRepository = produccionRepository;
         this.generoRepository= generoRepository;
         this.titulo = titulo;
         this.genero = genero;
+        this.rankingRepository    = rankingRepository;
+        this.valoracionRepository = valoracionRepository;
     }
 
-    public SearchController(ProduccionRepository produccionRepository, Tipo tipo) {
-        this.produccionRepository = produccionRepository;
-        this.tipo                 = tipo;
-    }
-
-    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository) {
+    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo) {
         this.produccionRepository = produccionRepository;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
+        this.tipo                 = tipo;
     }
 
     @Override
@@ -74,30 +72,38 @@ public class SearchController implements Initializable {
 
         if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
             this.portadaListView.setItems( getData() );
-        } else if ( this.tipo.equals( Tipo.MOVIE ) ) {
+        }else if(textFieldSearch.getText() != null  && generoComboBox.getValue() == null){
+            this.portadaListView.setItems( getData() );
+        }else if ( this.tipo != null && this.tipo.equals( Tipo.MOVIE ) ) {
             this.portadaListView.setItems( getAllFilms() );
         } else {
             this.portadaListView.setItems( getAllSeries() );
         }
 
-
+        this.generoComboBox.setDisable(true);
+        this.textFieldSearch.setEditable(false);
         this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
     }
 
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
 
-        if ( textFieldSearch.getText() == null ){
-           coincidencias.addAll( this.produccionRepository.getCoincidenciaGenero( generoComboBox.getValue()));
-        } else if ( textFieldSearch.getText() == null  && generoComboBox.getValue() == null) {
-            try {
+        try {
+            if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
+                coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
+            } else if ( textFieldSearch.getText() == null ){
+                coincidencias.addAll( this.produccionRepository.getCoincidenciaGenero( generoComboBox.getValue()));
+            } else if ( textFieldSearch.getText() == null  && generoComboBox.getValue() == null) {
                 coincidencias.addAll( this.produccionRepository.findAll() );
-            } catch (DatabaseErrorException e) {
-                throw new RuntimeException( e );
+            } else if ( generoComboBox.getValue() == null ){
+                coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
+            } else {
+                coincidencias.addAll(this.produccionRepository.findAll());
             }
-        } else if ( generoComboBox.getValue() == null ){
-            coincidencias.add( this.produccionRepository.getCoincidenciaTitulo( textFieldSearch.getText() ) );
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException(e);
         }
+
 
         return coincidencias;
     }
