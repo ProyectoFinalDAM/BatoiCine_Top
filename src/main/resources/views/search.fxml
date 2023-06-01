@@ -17,12 +17,12 @@
          <image>
             <Image url="@../images/LogoBatoiCineTop.png" />
          </image></ImageView>
-      <Text fx:id="peliculasText" layoutX="150.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Peliculas">
+      <Text fx:id="peliculasText" layoutX="150.0" layoutY="54.0" onMouseClicked="#showFilms" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Peliculas">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
       </Text>
-      <Text fx:id="seriesText" layoutX="310.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Series">
+      <Text fx:id="seriesText" layoutX="310.0" layoutY="54.0" onMouseClicked="#showShows" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Series">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
