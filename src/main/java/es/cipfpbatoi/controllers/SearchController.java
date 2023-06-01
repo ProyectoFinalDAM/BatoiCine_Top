@@ -168,7 +168,7 @@ public class SearchController implements Initializable {
         try {
             nextPage(portadaListView, hlAtras, hlSiguiente);
         } catch (WrongParameterException ex) {
-            AlertCreator.errorAlert("Fallo");
+            AlertCreator.infoAlert(ex.getMessage());
         }
     }
 
@@ -228,6 +228,22 @@ public class SearchController implements Initializable {
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);
         return fadeTransition;
+    }
+
+    private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            showPageWithTransition(listView, atras, siguiente);
+        }
+    }
+
+    @FXML
+    private void handleLinkAtras() {
+        try {
+            previousPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException ex) {
+            AlertCreator.infoAlert(ex.getMessage());
+        }
     }
 
 }

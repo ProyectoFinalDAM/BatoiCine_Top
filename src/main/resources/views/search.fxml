@@ -47,12 +47,12 @@
       </ImageView>
       <AnchorPane layoutX="51.0" layoutY="399.0" prefHeight="87.0" prefWidth="898.0">
          <children>
-            <Hyperlink fx:id="hlAtras" layoutY="-3.0" prefHeight="60.0" prefWidth="176.0" text="&lt;&lt;Atras">
+            <Hyperlink fx:id="hlAtras" layoutY="-3.0" onAction="#handleLinkAtras" prefHeight="60.0" prefWidth="176.0" text="&lt;&lt;Atras">
                <font>
                   <Font size="32.0" />
                </font>
             </Hyperlink>
-            <Hyperlink fx:id="hlSiguiente" layoutX="712.0" layoutY="-1.0" prefHeight="60.0" prefWidth="186.0" text="Siguiente&gt;&gt;">
+            <Hyperlink fx:id="hlSiguiente" layoutX="712.0" layoutY="-1.0" onAction="#handleLinkSiguiente" prefHeight="60.0" prefWidth="186.0" text="Siguiente&gt;&gt;">
                <font>
                   <Font size="32.0" />
                </font>
