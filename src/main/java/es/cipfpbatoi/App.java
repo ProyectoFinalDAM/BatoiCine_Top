@@ -44,7 +44,9 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, DatabaseErrorException {
         SQLUserDAO sqlUserDAO = new SQLUserDAO();
         UserRepository userRepository= new UserRepository(sqlUserDAO);
-        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();  
+
+        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
+
         SQLValoracionDAO sqlValoracionDAO = new SQLValoracionDAO();
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
@@ -52,7 +54,9 @@ public class App extends Application {
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
 
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
-        LoginController loginController= new LoginController(userRepository, produccionRepository);
+        SQLGeneroDAO sqlGeneroDAO= new SQLGeneroDAO();
+        GeneroRepository generoRepository= new GeneroRepository(sqlGeneroDAO);
+        LoginController loginController= new LoginController(userRepository, produccionRepository, generoRepository);
         ChangeScene.change(stage, loginController, "/views/login.fxml");
 
     }
