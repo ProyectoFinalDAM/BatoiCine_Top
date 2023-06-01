@@ -247,4 +247,15 @@ public class SearchController implements Initializable {
         }
     }
 
+    @FXML
+    private void showFilms(MouseEvent event){
+        this.portadaListView.setItems( FXCollections.observableList( getAllFilms() ) );
+        this.portadaListView.refresh();
+    }
+
+    @FXML
+    private void showShows(MouseEvent event){
+        this.portadaListView.setItems( FXCollections.observableList( getAllSeries() ) );
+        this.portadaListView.refresh();
+    }
 }
