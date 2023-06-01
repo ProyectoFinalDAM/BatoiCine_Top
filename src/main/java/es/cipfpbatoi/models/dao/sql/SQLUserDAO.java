@@ -4,6 +4,7 @@ import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.services.MySqlConnection;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class SQLUserDAO implements UserDAO {
     public boolean validUser(String name, String password) {
         for (User user: findAll()) {
             if (user.getNombre().equals(name)){
-                if (user.getContrasenya().equals(password)){
+                if (BCrypt.checkpw(password, user.getContrasenya())) {
                     return true;
                 }
             }
