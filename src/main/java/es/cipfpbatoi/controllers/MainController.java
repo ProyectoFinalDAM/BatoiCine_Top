@@ -3,6 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.GeneroRepository;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
@@ -56,11 +57,11 @@ public class MainController implements Initializable {
     @FXML
     private Button buttonBuscar;
 
-
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository) {
+    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
+        this.generoRepository= generoRepository;
     }
 
     @Override
@@ -77,6 +78,10 @@ public class MainController implements Initializable {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+        this.generoComboBox.setItems(getGeneros());
+    }
+    private ObservableList<Genero> getGeneros(){
+        return FXCollections.observableArrayList(generoRepository.findAll());
     }
     private ObservableList<Produccion> getPeliculas(){
         try {
@@ -96,7 +101,7 @@ public class MainController implements Initializable {
     private void buscarProduccion(ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue());
+            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -105,12 +110,26 @@ public class MainController implements Initializable {
 
     @FXML
     private void changeToPeliculas(MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a peliculas");
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
+            ChangeScene.change(stage, searchController, "/views/search.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
     private void changeToSeries(MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a series");
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE);
+            ChangeScene.change(stage, searchController, "/views/search.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
     }

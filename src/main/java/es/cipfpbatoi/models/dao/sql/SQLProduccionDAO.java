@@ -90,9 +90,9 @@ public class SQLProduccionDAO implements ProduccionDAO {
         String sql = String.format("SELECT * FROM Produccion WHERE tipo=?");
         ArrayList<Produccion> produccions = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
-             ResultSet resultSet = preparedStatement.executeQuery(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString(1, tipo);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Produccion produccion = geProduccionFromResultset(resultSet);
                 produccions.add(produccion);
@@ -208,11 +208,12 @@ public class SQLProduccionDAO implements ProduccionDAO {
     public Produccion getCoincidenciaTitulo(String text) {
         String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=?");
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
-             ResultSet resultSet = preparedStatement.executeQuery(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, text);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
                 return geProduccionFromResultset( resultSet );
-
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
