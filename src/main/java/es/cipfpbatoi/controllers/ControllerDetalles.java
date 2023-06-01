@@ -61,7 +61,6 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
-    private EsFavoritaRepository esFavoritaRepository;
     private User user;
 
 
