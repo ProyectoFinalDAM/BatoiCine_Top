@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -39,18 +40,6 @@ import java.util.ResourceBundle;
 public class ControllerDetalles implements Initializable {
 
     @FXML
-    private Button uno;
-    @FXML
-    private Button dos;
-    @FXML
-    private Button tres;
-    @FXML
-    private Button cuatro;
-    @FXML
-    private Button cinco;
-    @FXML
-    private Button verifiar;
-    @FXML
     private Label descripcion;
     @FXML
     private ImageView portada;
@@ -62,6 +51,8 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private HBox container;
 
+    private EsFavoritaRepository esFavoritaRepository;
+
     private static final int NUM_ESTRELLAS = 5;
     private static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
     private static final Color ESTRELLA_APAGADA_COLOR = Color.LIGHTGRAY;
@@ -70,20 +61,13 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
-    private EsFavoritaRepository esFavoritaRepository;
     private User user;
+
+
     private Initializable controllerAnterior;
+
     private String vista;
 
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, EsFavoritaRepository esFavoritaRepository, User user) {
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
-        this.produccion = produccion;
-        this.produccionRepository = produccionRepository;
-        this.esFavoritaRepository = esFavoritaRepository;
-        this.user = user;
-    }
 
 
     public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
@@ -92,16 +76,16 @@ public class ControllerDetalles implements Initializable {
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
-        this.vista= vista;
+        this.vista = vista;
+        //this.esFavoritaRepository = esFavoritaRepository;
     }
-
 
     //Método para salir de la vista de detalles y volver a la principal
     @FXML
-    private void haciaAtras(ActionEvent event) {
+    private void haciaAtras (MouseEvent event){
         try {
             ChangeScene.change(event, controllerAnterior, vista);
-        } catch ( IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -110,12 +94,13 @@ public class ControllerDetalles implements Initializable {
     private void verMasTarde(ActionEvent event) {
         esFavoritaRepository.save(user, produccion);
     }
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize (URL url, ResourceBundle resourceBundle){
         try {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-            portada.setImage(new Image (produccion.getPoster()));
+            portada.setImage(new Image(produccion.getPoster()));
 
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
@@ -132,7 +117,7 @@ public class ControllerDetalles implements Initializable {
 
     }
 
-    private String getPathImage(String fileName) throws URISyntaxException {
+    private String getPathImage (String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
     }
 }
