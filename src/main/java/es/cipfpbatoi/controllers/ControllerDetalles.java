@@ -1,7 +1,11 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
+import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
+import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Estrella;
@@ -50,11 +54,8 @@ public class ControllerDetalles implements Initializable {
 
     @FXML
     private ImageView corazon;
-
     @FXML
     private HBox container;
-
-    private EsFavoritaRepository esFavoritaRepository;
 
     private static final int NUM_ESTRELLAS = 5;
     private static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
@@ -64,6 +65,7 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
+    private EsFavoritaRepository esFavoritaRepository;
     private User user;
 
     private Initializable controllerAnterior;
@@ -72,12 +74,12 @@ public class ControllerDetalles implements Initializable {
 
 
 
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, EsFavoritaRepository esFavoritaRepository, User user) {
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista,  User user) {
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
-        this.esFavoritaRepository = esFavoritaRepository;
+        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
         this.user = user;
     }
 
@@ -102,8 +104,29 @@ public class ControllerDetalles implements Initializable {
         }
 
         @FXML
-        private void verMasTarde(ActionEvent event) {
+        private void verMasTarde(ActionEvent event) throws DatabaseErrorException, NotFoundException {
+            if (esFavorita()){
+                esFavoritaRepository.eliminar(user, produccion);
+            }else {
             esFavoritaRepository.save(user, produccion);
+            }
+        }
+
+        private boolean esFavorita()throws DatabaseErrorException, NotFoundException{
+            for (Produccion produccion1:esFavoritaRepository.getUserFavs(this.user)) {
+                if (produccion1.equals(this.produccion)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
+            if (favorita){
+                corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
+            }else {
+                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+            }
         }
 
         @Override
@@ -112,9 +135,9 @@ public class ControllerDetalles implements Initializable {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
                 portada.setImage(new Image(produccion.getPoster()));
-                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+                actualizarEsFavorita(esFavorita());
 
-            } catch (URISyntaxException e) {
+            } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
                 throw new RuntimeException(e);
             }
 

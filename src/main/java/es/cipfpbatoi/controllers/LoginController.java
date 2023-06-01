@@ -38,11 +38,16 @@ public class LoginController implements Initializable {
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
+        this.generoRepository= generoRepository;
+    }
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository) {
+        this.userRepository = userRepository;
+        this.produccionRepository= produccionRepository;
         this.generoRepository= generoRepository;
     }
 
@@ -60,7 +65,7 @@ public class LoginController implements Initializable {
         try {
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository);
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, userRepository.getUser(nameTextField.getText(), passwordTextField.getText()));
                 ChangeScene.change(stage, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
@@ -95,6 +100,7 @@ public class LoginController implements Initializable {
     private boolean validUser() {
         return userRepository.validUser(nameTextField.getText(), passwordTextField.getText());
     }
+
     private String errorTextFields(){
         StringBuilder error= new StringBuilder();
         if (nameTextField.getText().equals("")){
