@@ -26,7 +26,7 @@ public class Genero {
 
     @Override
     public String toString() {
-        return this.id + this.cod;
+        return this.descripcion;
 
     }
 }
