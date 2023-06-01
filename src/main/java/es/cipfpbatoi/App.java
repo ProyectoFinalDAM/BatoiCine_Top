@@ -5,6 +5,7 @@ import es.cipfpbatoi.controllers.ControllerDetalles;
 import es.cipfpbatoi.controllers.LoginController;
 import es.cipfpbatoi.controllers.MainController;
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dao.EsFavoritaDAO;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.file.FileGeneroDAO;
@@ -19,7 +20,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
 import javafx.scene.layout.HBox;
+
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -41,13 +44,12 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, DatabaseErrorException {
         SQLUserDAO sqlUserDAO = new SQLUserDAO();
         UserRepository userRepository= new UserRepository(sqlUserDAO);
-
+        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
         SQLValoracionDAO sqlValoracionDAO = new SQLValoracionDAO();
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
         ValoracionRepository valoracionRepository = new ValoracionRepository(sqlValoracionDAO);
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
-        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
         SQLGeneroDAO sqlGeneroDAO= new SQLGeneroDAO();
         GeneroRepository generoRepository= new GeneroRepository(sqlGeneroDAO);

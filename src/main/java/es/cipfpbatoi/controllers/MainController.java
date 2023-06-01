@@ -3,6 +3,7 @@ package es.cipfpbatoi.controllers;
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.GeneroRepository;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
@@ -110,11 +111,23 @@ public class MainController implements Initializable {
 
     @FXML
     private void changeToPeliculas(MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a peliculas");
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            SearchController searchController= new SearchController(produccionRepository, Tipo.MOVIE);
+            ChangeScene.change(stage, searchController, "/views/search.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
     private void changeToSeries(MouseEvent event){
-        AlertCreator.infoAlert("Cambiar a series");
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            SearchController searchController= new SearchController(produccionRepository, Tipo.TVSHOW);
+            ChangeScene.change(stage, searchController, "/views/search.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
