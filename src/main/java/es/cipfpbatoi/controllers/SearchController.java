@@ -132,8 +132,8 @@ public class SearchController implements Initializable {
     }
 
     private ObservableList<Produccion> getAllFilms(){
-         try {
-             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
+        try {
+            return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
         } catch (DatabaseErrorException e) {
             throw new RuntimeException( e );
         }

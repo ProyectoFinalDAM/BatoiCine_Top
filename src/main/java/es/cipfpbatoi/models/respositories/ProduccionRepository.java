@@ -44,7 +44,9 @@ public class ProduccionRepository {
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero){
         return this.produccionDAO.getCoincidenciaGenero( genero );
     }
-    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero){
-        return produccionDAO.getCoincidenciaGeneroTitulo(titulo,genero);
+
+    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
+        return produccionDAO.getCoincidenciaGeneroTitulo(titulo, genero);
     }
+
 }

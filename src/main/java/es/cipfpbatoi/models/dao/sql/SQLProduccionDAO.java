@@ -206,7 +206,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getCoincidenciaTitulo(String text) {
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=?");
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ?");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, "%" + text + "%");
@@ -222,7 +222,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=? AND genero LIKE ?");
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ? AND genero LIKE ?");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, "%" + titulo + "%");
@@ -260,6 +260,8 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
+
 
 }
 
