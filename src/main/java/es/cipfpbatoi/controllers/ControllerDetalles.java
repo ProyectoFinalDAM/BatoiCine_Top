@@ -61,7 +61,6 @@ public class ControllerDetalles implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private Produccion produccion;
-    private EsFavoritaRepository esFavoritaRepository;
     private User user;
 
 
@@ -106,6 +105,7 @@ public class ControllerDetalles implements Initializable {
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
+
 
             descripcion.setText(produccion.getGuion());
             descripcion.setWrapText(true);
