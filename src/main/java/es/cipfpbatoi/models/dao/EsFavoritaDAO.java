@@ -10,5 +10,6 @@ public interface EsFavoritaDAO {
     ArrayList<Produccion> getUserFavs(User user) throws DatabaseErrorException;
     ArrayList<User> getProdUsers(Produccion produccion) throws DatabaseErrorException;
     void save(User user, Produccion produccion);
+    void eliminar(User user, Produccion produccion) throws DatabaseErrorException;
 
 }

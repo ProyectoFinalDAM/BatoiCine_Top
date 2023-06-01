@@ -38,5 +38,9 @@ public class UserRepository {
 
     }
 
+    public User getUser(String name, String password) throws UserNotExistException {
+        return userDAO.getUser(name, password);
+    }
+
 
 }

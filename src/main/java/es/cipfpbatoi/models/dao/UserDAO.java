@@ -12,5 +12,6 @@ public interface UserDAO {
     int getLastCod();
     User getById(int id) throws UserNotExistException;
     boolean validUser(String name, String password);
+    User getUser(String name, String password) throws UserNotExistException;
 
 }
