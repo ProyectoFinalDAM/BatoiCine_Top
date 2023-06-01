@@ -8,6 +8,7 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.respositories.ProduccionRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ProduccionDAO {
 
@@ -22,5 +23,4 @@ public interface ProduccionDAO {
 
     ArrayList<Produccion> getCoincidenciaGenero(Genero genero);
     ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero);
-
 }
