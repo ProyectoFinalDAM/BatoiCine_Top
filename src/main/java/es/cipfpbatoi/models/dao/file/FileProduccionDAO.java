@@ -175,13 +175,14 @@ public class FileProduccionDAO implements ProduccionDAO {
     }
 
     @Override
-    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
+    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         return null;
     }
 
     @Override
-    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
+    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         return null;
     }
+
 }
 

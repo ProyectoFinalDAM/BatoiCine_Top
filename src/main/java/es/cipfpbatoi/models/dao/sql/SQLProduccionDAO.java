@@ -190,9 +190,9 @@ public class SQLProduccionDAO implements ProduccionDAO {
     public String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException {
         String sql = String.format("SELECT poster FROM Produccion WHERE id=?");
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
-             ResultSet resultSet = preparedStatement.executeQuery(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString(1, produccion.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 return resultSet.getString(1);
             }
@@ -206,10 +206,10 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getCoincidenciaTitulo(String text) {
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=?");
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ?");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
-            preparedStatement.setString(1, text);
+            preparedStatement.setString(1, "%" + text + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 return geProduccionFromResultset( resultSet );
@@ -219,38 +219,36 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+    @Override
+    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ? AND genero LIKE ?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
+            preparedStatement.setString(1, "%" + titulo + "%");
+            preparedStatement.setString(2, "%" + genero.getCod() + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add( geProduccionFromResultset( resultSet ) );
+            }
+
+            return produccions;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql =  String.format( "SELECT * FROM Produccion WHERE genero=?");
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
-             ResultSet resultSet = preparedStatement.executeQuery(sql)){
-            preparedStatement.setString(1, genero.getDescripcion());
-
-            while (resultSet.next()) {
-                produccions.add( geProduccionFromResultset( resultSet ) );
-            }
-
-            return produccions;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
-        ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo=? AND genero=?");
+        String sql =  String.format( "SELECT * FROM Produccion WHERE genero LIKE ?");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
-            preparedStatement.setString(1, titulo);
-            preparedStatement.setString(2, genero.getDescripcion());
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
-
+            preparedStatement.setString(1, "%" + genero.getCod() + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 produccions.add( geProduccionFromResultset( resultSet ) );
             }
@@ -262,6 +260,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
 
 
 }
