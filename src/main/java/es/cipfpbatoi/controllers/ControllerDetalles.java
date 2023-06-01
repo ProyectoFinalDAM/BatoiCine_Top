@@ -49,6 +49,9 @@ public class ControllerDetalles implements Initializable {
     private ImageView flecha;
 
     @FXML
+    private ImageView corazon;
+
+    @FXML
     private HBox container;
 
     private EsFavoritaRepository esFavoritaRepository;
@@ -90,10 +93,10 @@ public class ControllerDetalles implements Initializable {
             }
         }
 
-    @FXML
-    private void verMasTarde(ActionEvent event) {
-        esFavoritaRepository.save(user, produccion);
-    }
+        @FXML
+        private void verMasTarde(ActionEvent event) {
+            esFavoritaRepository.save(user, produccion);
+        }
 
         @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
@@ -101,6 +104,7 @@ public class ControllerDetalles implements Initializable {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
                 portada.setImage(new Image(produccion.getPoster()));
+                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
 
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
