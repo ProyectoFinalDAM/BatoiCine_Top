@@ -104,7 +104,7 @@ public class ControllerDetalles implements Initializable {
         }
 
         @FXML
-        private void verMasTarde(ActionEvent event) throws DatabaseErrorException, NotFoundException {
+        private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException {
             if (esFavorita()){
                 esFavoritaRepository.eliminar(user, produccion);
             }else {
