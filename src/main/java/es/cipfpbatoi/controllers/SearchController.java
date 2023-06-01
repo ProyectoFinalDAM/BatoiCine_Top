@@ -69,7 +69,16 @@ public class SearchController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.textFieldSearch.setText( this.titulo );
         this.generoComboBox.setValue( this.genero );
-        this.portadaListView.setItems( getData() );
+
+        if(textFieldSearch.getText() != null  && generoComboBox.getValue() != null){
+            this.portadaListView.setItems( getData() );
+        } else if ( this.tipo.equals( Tipo.MOVIE ) ) {
+            this.portadaListView.setItems( getAllFilms() );
+        } else {
+            this.portadaListView.setItems( getAllSeries() );
+        }
+
+
         this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
     }
 
@@ -105,17 +114,17 @@ public class SearchController implements Initializable {
         }
     }
 
-    private ArrayList<Produccion> getAllFilms(){
+    private ObservableList<Produccion> getAllFilms(){
          try {
-             return this.produccionRepository.findAll( Tipo.MOVIE.toString() );
+             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
         } catch (DatabaseErrorException e) {
             throw new RuntimeException( e );
         }
     }
 
-    private ArrayList<Produccion> getAllSeries(){
+    private ObservableList<Produccion> getAllSeries(){
         try {
-            return this.produccionRepository.findAll( Tipo.TVSHOW.toString() );
+            return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.TVSHOW.toString() ));
         } catch (DatabaseErrorException e) {
             throw new RuntimeException( e );
         }
