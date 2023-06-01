@@ -2,13 +2,11 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.WrongParameterException;
+import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
-import es.cipfpbatoi.models.respositories.GeneroRepository;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
+import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -41,6 +39,8 @@ public class SearchController implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
+    private VisualizarRepository visualizarRepository;
+    private User user;
 
     private String titulo;
     private Genero genero;
@@ -58,21 +58,27 @@ public class SearchController implements Initializable {
 
     private ArrayList<Produccion> produccions;
 
-    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository) {
+    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user) {
         this.produccionRepository = produccionRepository;
         this.generoRepository= generoRepository;
         this.titulo = titulo;
         this.genero = genero;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
+        this.visualizarRepository= visualizarRepository;
+        this.produccions= new ArrayList<>();
+        this.user= user;
     }
 
-    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository) {
+    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository, VisualizarRepository visualizarRepository, User user) {
         this.generoRepository= generoRepository;
         this.produccionRepository = produccionRepository;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
         this.tipo                 = tipo;
+        this.visualizarRepository= visualizarRepository;
+        this.produccions= new ArrayList<>();
+        this.user= user;
     }
 
     @Override
@@ -104,8 +110,8 @@ public class SearchController implements Initializable {
 
         this.generoComboBox.setDisable(true);
         this.textFieldSearch.setEditable(false);
+        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml", user, visualizarRepository));
         this.portadaListView.setPrefWidth(this.portadaListView.getFixedCellSize() * 4);
-        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
     }
 
     private ArrayList<Produccion> getCoincidencias(){
@@ -140,7 +146,7 @@ public class SearchController implements Initializable {
     @FXML
     private void goBack(MouseEvent event){
         try {
-            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository);
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, visualizarRepository);
             ChangeScene.change(event, mainController, "/views/main.fxml");
         } catch (IOException e) {
             e.printStackTrace();

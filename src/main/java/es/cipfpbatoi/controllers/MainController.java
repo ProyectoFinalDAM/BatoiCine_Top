@@ -5,6 +5,7 @@ import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
+import es.cipfpbatoi.models.dto.prods.Visualizar;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
@@ -52,22 +53,25 @@ public class MainController implements Initializable {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
+    private VisualizarRepository visualizarRepository;
     private User user;
     @FXML
     private Button buttonBuscar;
 
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository) {
+    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, VisualizarRepository visualizarRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
+        this.visualizarRepository= visualizarRepository;
     }
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user) {
+    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
         this.user = user;
+        this.visualizarRepository= visualizarRepository;
     }
 
     @Override
@@ -76,8 +80,8 @@ public class MainController implements Initializable {
         this.seriesListView.setItems(getSeries());
         peliculasListView.setOrientation(Orientation.HORIZONTAL);
         this.peliculasListView.setItems(getPeliculas());
-        this.peliculasListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/main.fxml", user));
-        this.seriesListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository,this, "/views/main.fxml", user));
+        this.peliculasListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/main.fxml", user, visualizarRepository));
+        this.seriesListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository,this, "/views/main.fxml", user, visualizarRepository));
         try {
             logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
             lupaImageView.setImage(new Image(getPathImage("/images/lupaIcon.png")));
@@ -107,7 +111,7 @@ public class MainController implements Initializable {
     private void buscarProduccion(ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository);
+            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository, visualizarRepository, user);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -118,7 +122,7 @@ public class MainController implements Initializable {
     private void changeToPeliculas(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE, generoRepository);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE, generoRepository, visualizarRepository, user);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -128,7 +132,7 @@ public class MainController implements Initializable {
     private void changeToSeries(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository, visualizarRepository, user);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
