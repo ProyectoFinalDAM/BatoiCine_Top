@@ -50,7 +50,7 @@ public class App extends Application {
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
         ValoracionRepository valoracionRepository = new ValoracionRepository(sqlValoracionDAO);
         ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
-        SQLProduccionDAO sqlProduccionDAO = new SQLProduccionDAO();
+
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
         LoginController loginController= new LoginController(userRepository, produccionRepository);
         ChangeScene.change(stage, loginController, "/views/login.fxml");
