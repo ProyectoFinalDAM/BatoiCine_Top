@@ -61,7 +61,7 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
 
     @Override
     public void eliminar(User user, Produccion produccion) throws DatabaseErrorException {
-        String sql = String.format("DELETE FROM %s WHERE id = ?", "Es_Favorita");
+        String sql = String.format("DELETE FROM %s WHERE id_produccion = ? AND id_usuario = ?", "Es_Favorita");
         connection =  new MySqlConnection().conectar();
         try (
                 PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)

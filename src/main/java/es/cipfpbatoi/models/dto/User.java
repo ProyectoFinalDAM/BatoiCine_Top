@@ -35,4 +35,6 @@ public class User {
     public void setContrasenya(String contrasenya) {
         this.contrasenya = contrasenya;
     }
+
+
 }

@@ -1,5 +1,6 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
@@ -68,6 +69,7 @@ public class LoginController implements Initializable {
     @FXML
     private void loginUser(ActionEvent event) throws IOException {
         try {
+            userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
@@ -125,7 +127,6 @@ public class LoginController implements Initializable {
         }
         return String.valueOf(error);
     }
-
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
