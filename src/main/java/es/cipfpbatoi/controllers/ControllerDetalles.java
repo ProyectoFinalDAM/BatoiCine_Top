@@ -13,6 +13,7 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import es.cipfpbatoi.models.respositories.*;
+import es.cipfpbatoi.utils.URLChecker;
 import javafx.beans.binding.Bindings;
 
 import javafx.event.ActionEvent;
@@ -134,7 +135,11 @@ public class ControllerDetalles implements Initializable {
             try {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-                portada.setImage(new Image(produccion.getPoster()));
+                if ( URLChecker.checkURL( produccion.getPoster() ) ) {
+                    portada.setImage(new Image(produccion.getPoster()));
+                } else {
+                    portada.setImage( new Image( getPathImage( "/images/default.png" ) ) );
+                }
                 //actualizarEsFavorita(esFavorita());
 
             } catch (URISyntaxException e) {

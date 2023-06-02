@@ -8,6 +8,7 @@ import es.cipfpbatoi.models.respositories.ProduccionRepository;
 import es.cipfpbatoi.models.respositories.RankingRepository;
 import es.cipfpbatoi.models.respositories.ValoracionRepository;
 import es.cipfpbatoi.models.respositories.VisualizarRepository;
+import es.cipfpbatoi.utils.URLChecker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import static es.cipfpbatoi.utils.URLChecker.checkURL;
 
 public class PosterPordController extends ListCell<Produccion> {
     @FXML
@@ -82,6 +85,18 @@ public class PosterPordController extends ListCell<Produccion> {
     private void setPosterImage(Produccion produccion) {
         posterImageView.maxHeight(225);
         posterImageView.maxWidth(150);
-        posterImageView.setImage(new Image(produccion.getPoster()));
+            try {
+                if ( URLChecker.checkURL( produccion.getPoster() ) ) {
+                    posterImageView.setImage(new Image(produccion.getPoster()));
+                } else {
+                    posterImageView.setImage( new Image( getPathImage( "/images/default.png" ) ) );
+                }
+            } catch (URISyntaxException e) {
+                throw new RuntimeException( e );
+            }
+    }
+
+    private String getPathImage(String fileName) throws URISyntaxException {
+        return getClass().getResource(fileName).toURI().toString();
     }
 }
