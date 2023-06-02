@@ -72,25 +72,15 @@ public class ControllerDetalles implements Initializable {
 
     private String vista;
 
-
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista,  User user) {
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
-        this.produccion = produccion;
-        this.produccionRepository = produccionRepository;
-        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
-        this.user = user;
-    }
-
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user) {
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
+        this.user = user;
+        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
     }
 
         //Método para salir de la vista de detalles y volver a la principal
@@ -104,17 +94,19 @@ public class ControllerDetalles implements Initializable {
         }
 
         @FXML
-        private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException {
+        private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
             if (esFavorita()){
                 esFavoritaRepository.eliminar(user, produccion);
+                actualizarEsFavorita(false);
             }else {
             esFavoritaRepository.save(user, produccion);
+            actualizarEsFavorita(true);
             }
         }
 
         private boolean esFavorita()throws DatabaseErrorException, NotFoundException{
             for (Produccion produccion1:esFavoritaRepository.getUserFavs(this.user)) {
-                if (produccion1.equals(this.produccion)){
+                if (produccion1.getId().equals(this.produccion.getId())){
                     return true;
                 }
             }
@@ -135,9 +127,9 @@ public class ControllerDetalles implements Initializable {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
                 portada.setImage(new Image(produccion.getPoster()));
-                //actualizarEsFavorita(esFavorita());
+                actualizarEsFavorita(esFavorita());
 
-            } catch (URISyntaxException e) {
+            } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
                 throw new RuntimeException(e);
             }
 

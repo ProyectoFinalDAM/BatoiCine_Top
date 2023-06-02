@@ -1,13 +1,8 @@
 package es.cipfpbatoi.controllers;
 
-import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Produccion;
-import es.cipfpbatoi.models.dto.prods.Visualizar;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
-import es.cipfpbatoi.models.respositories.RankingRepository;
-import es.cipfpbatoi.models.respositories.ValoracionRepository;
-import es.cipfpbatoi.models.respositories.VisualizarRepository;
+import es.cipfpbatoi.models.respositories.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,11 +23,13 @@ public class PosterPordController extends ListCell<Produccion> {
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
-    private VisualizarRepository visualizarRepository;
     private Produccion produccion;
     private Initializable controllerAnterior;
-    private User user;
+    private GeneroRepository generoRepository;
     private String vista;
+    private VisualizarRepository visualizarRepository;
+    private User user;
+
     public PosterPordController(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user, VisualizarRepository visualizarRepository) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/views/posterProd.fxml"));
@@ -47,8 +44,8 @@ public class PosterPordController extends ListCell<Produccion> {
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
-        this.visualizarRepository= visualizarRepository;
-        this.user= user;
+        this.visualizarRepository = visualizarRepository;
+        this.user = user;
     }
     @Override
     protected void updateItem(Produccion produccion, boolean empty) {
@@ -66,12 +63,8 @@ public class PosterPordController extends ListCell<Produccion> {
     @FXML
     private void changeToProduccion(MouseEvent event){
         try {
-            visualizarRepository.save(new Visualizar(produccion.getId(), user.getId()));
-        } catch (DatabaseErrorException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            ControllerDetalles controllerDetalles= new ControllerDetalles(valoracionRepository, rankingRepository, produccion, produccionRepository, this.controllerAnterior, this.vista);
+
+            ControllerDetalles controllerDetalles= new ControllerDetalles(valoracionRepository, rankingRepository, produccion, produccionRepository, this.controllerAnterior, this.vista, user);
             ChangeScene.change(event, controllerDetalles, "/views/detail_production.fxml");
         } catch ( IOException ex) {
             ex.printStackTrace();

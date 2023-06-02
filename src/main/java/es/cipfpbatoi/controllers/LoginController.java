@@ -69,6 +69,7 @@ public class LoginController implements Initializable {
     @FXML
     private void loginUser(ActionEvent event) throws IOException {
         try {
+            userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
