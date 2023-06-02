@@ -1,6 +1,7 @@
 package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
@@ -39,6 +40,7 @@ public class SearchController implements Initializable {
 
     private String titulo;
     private Genero genero;
+    private User user;
 
     private Tipo tipo;
     @FXML private Text peliculasText;
@@ -49,13 +51,14 @@ public class SearchController implements Initializable {
     @FXML private ListView<Produccion> portadaListView;
     @FXML private Label productionType;
 
-    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository) {
+    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, User user) {
         this.produccionRepository = produccionRepository;
         this.generoRepository= generoRepository;
         this.titulo = titulo;
         this.genero = genero;
         this.rankingRepository    = rankingRepository;
         this.valoracionRepository = valoracionRepository;
+        this.user = user;
     }
 
     public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository) {
@@ -89,7 +92,7 @@ public class SearchController implements Initializable {
 
         this.generoComboBox.setDisable(true);
         this.textFieldSearch.setEditable(false);
-        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml"));
+        this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml",user));
     }
 
     private ArrayList<Produccion> getCoincidencias(){

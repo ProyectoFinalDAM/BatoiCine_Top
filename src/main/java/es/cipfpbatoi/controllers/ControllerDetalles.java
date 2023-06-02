@@ -72,25 +72,15 @@ public class ControllerDetalles implements Initializable {
 
     private String vista;
 
-
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista,  User user) {
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
-        this.produccion = produccion;
-        this.produccionRepository = produccionRepository;
-        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
-        this.user = user;
-    }
-
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
+    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user) {
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.produccion = produccion;
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
+        this.user = user;
+        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
     }
 
         //Método para salir de la vista de detalles y volver a la principal
