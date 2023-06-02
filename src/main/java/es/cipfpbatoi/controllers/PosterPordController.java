@@ -59,7 +59,6 @@ public class PosterPordController extends ListCell<Produccion> {
         if (empty) {
             setGraphic(null);
         } else {
-
             setPosterImage(produccion);
             setGraphic(root);
         }
