@@ -14,12 +14,12 @@ public class VisualizarRepository {
     public VisualizarRepository(VisualizarDAO visualizarDAO) {
         this.visualizarDAO = visualizarDAO;
     }
-    public ArrayList<User> getProdUsers(Produccion produccion) throws DatabaseErrorException{
-        return visualizarDAO.getProdUsers(produccion);
+    public ArrayList<User> getProdUsers(String id_produccion) throws DatabaseErrorException{
+        return visualizarDAO.getProdUsers(id_produccion);
     }
 
-    public ArrayList<User> getProdProducciones(Produccion produccion) throws DatabaseErrorException{
-        return visualizarDAO.getProdProducciones(produccion);
+    ArrayList<Produccion> getUserProducciones(int id_user) throws DatabaseErrorException{
+        return visualizarDAO.getUserProducciones(id_user);
     }
     public void save(Visualizar visualizar) throws DatabaseErrorException{
         visualizarDAO.save(visualizar);

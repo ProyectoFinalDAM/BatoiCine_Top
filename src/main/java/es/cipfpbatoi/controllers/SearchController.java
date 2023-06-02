@@ -83,6 +83,7 @@ public class SearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         this.textFieldSearch.setText( this.titulo );
         this.generoComboBox.setValue( this.genero );
 
@@ -92,7 +93,7 @@ public class SearchController implements Initializable {
                 this.produccions.addAll( getAllFilms() );
             } else if (this.tipo != null && this.tipo.equals( Tipo.TVSHOW )){
                 this.portadaListView.setItems( getAllSeries() );
-                this.produccions.addAll( getAllFilms() );
+                this.produccions.addAll( getAllSeries() );
             }else{
                 this.portadaListView.setItems( getData() );
                 this.produccions.addAll( getData() );
@@ -111,11 +112,11 @@ public class SearchController implements Initializable {
         this.generoComboBox.setDisable(true);
         this.textFieldSearch.setEditable(false);
         this.portadaListView.setCellFactory((ListView<Produccion> p) -> new PosterPordController(valoracionRepository, rankingRepository, produccionRepository, this, "/views/search.fxml", user, visualizarRepository));
-
+        this.totalDataToShow= this.produccions.size();
         try {
             showPage(portadaListView, hlAtras, hlSiguiente);
-        } catch (WrongParameterException ex) {
-            AlertCreator.infoAlert(ex.getMessage());
+        } catch (WrongParameterException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -202,18 +203,41 @@ public class SearchController implements Initializable {
         });
         fadeOut.play();
     }
-
+    private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            showPageWithTransition(listView, atras, siguiente);
+        }
+    }
+    @FXML
+    private void handleLinkAtras() {
+        try {
+            previousPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException ex) {
+            AlertCreator.infoAlert(ex.getMessage());
+        }
+    }
     private void showPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         listView.getItems().clear();
         List<Produccion> pageData = fetchDataForPage();
         listView.getItems().addAll(pageData);
         updateLinksState(atras, siguiente);
     }
-
     private List<Produccion> fetchDataForPage() throws WrongParameterException {
         int startIndex = currentPageIndex * FILAS_POR_PAGINA;
         int endIndex = Math.min(startIndex + FILAS_POR_PAGINA, totalDataToShow);
         return findAll(startIndex, endIndex);
+    }
+    private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
+        previousPageButton.setDisable(currentPageIndex <= 0);
+        int totalPageCount = (int) Math.ceil((double) totalDataToShow / FILAS_POR_PAGINA);
+        nextPageButton.setDisable(currentPageIndex >= totalPageCount - 1);
+    }
+    private FadeTransition createFadeTransition(double fromValue, double toValue) {
+        FadeTransition fadeTransition = new FadeTransition(new Duration(1000), portadaListView);
+        fadeTransition.setFromValue(fromValue);
+        fadeTransition.setToValue(toValue);
+        return fadeTransition;
     }
 
     private List<Produccion> findAll(int fromIndex, int toIndex) throws WrongParameterException {
@@ -229,44 +253,15 @@ public class SearchController implements Initializable {
         return this.produccions.subList(fromIndex, toIndex);
     }
 
-    private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
-        previousPageButton.setDisable(currentPageIndex <= 0);
-        int totalPageCount = (int) Math.ceil((double) totalDataToShow / FILAS_POR_PAGINA);
-        nextPageButton.setDisable(currentPageIndex >= totalPageCount - 1);
-    }
-
-    private FadeTransition createFadeTransition(double fromValue, double toValue) {
-        FadeTransition fadeTransition = new FadeTransition(new Duration(1000), portadaListView);
-        fadeTransition.setFromValue(fromValue);
-        fadeTransition.setToValue(toValue);
-        return fadeTransition;
-    }
-
-    private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPageWithTransition(listView, atras, siguiente);
-        }
-    }
-
-    @FXML
-    private void handleLinkAtras() {
-        try {
-            previousPage(portadaListView, hlAtras, hlSiguiente);
-        } catch (WrongParameterException ex) {
-            AlertCreator.infoAlert(ex.getMessage());
-        }
-    }
-
     @FXML
     private void showFilms(MouseEvent event){
-        this.portadaListView.setItems( FXCollections.observableList( getAllFilms() ) );
-        this.portadaListView.refresh();
+        this.portadaListView.setItems( getAllFilms() );
+        this.produccions.addAll( getAllFilms() );
     }
 
     @FXML
     private void showShows(MouseEvent event){
-        this.portadaListView.setItems( FXCollections.observableList( getAllSeries() ) );
-        this.portadaListView.refresh();
+        this.portadaListView.setItems( getAllSeries() );
+        this.produccions.addAll( getAllSeries() );
     }
 }
