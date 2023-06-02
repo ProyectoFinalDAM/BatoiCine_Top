@@ -27,10 +27,10 @@ public class PosterPordController extends ListCell<Produccion> {
     private Initializable controllerAnterior;
     private GeneroRepository generoRepository;
     private String vista;
-
+    private VisualizarRepository visualizarRepository;
     private User user;
 
-    public PosterPordController(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user) {
+    public PosterPordController(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user, VisualizarRepository visualizarRepository) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/views/posterProd.fxml"));
         loader.setController(this);
@@ -44,7 +44,7 @@ public class PosterPordController extends ListCell<Produccion> {
         this.produccionRepository = produccionRepository;
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
-
+        this.visualizarRepository = visualizarRepository;
         this.user = user;
     }
     @Override
