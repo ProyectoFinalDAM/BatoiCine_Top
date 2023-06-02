@@ -109,26 +109,6 @@ public class SQLUserDAO implements UserDAO {
             }
         }
         throw new UserNotExistException();
-
-
-        /*String sql = String.format("SELECT * FROM Usuario WHERE nombre LIKE ? AND contraseña LIKE ?");
-
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-
-                //int id = resultSet.getInt("id");
-                //String nombre = resultSet.getString("nombre");
-                //String contrasenya = resultSet.getString("contraseña");
-                //return new User(id, nombre, contrasenya);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new UserNotExistException();
-
-         */
     }
 
     @Override
