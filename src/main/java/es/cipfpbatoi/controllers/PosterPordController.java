@@ -36,7 +36,6 @@ public class PosterPordController extends ListCell<Produccion> {
     private Initializable controllerAnterior;
     private GeneroRepository generoRepository;
     private String vista;
-    private VisualizarRepository visualizarRepository;
     private User user;
 
     public PosterPordController(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user, VisualizarRepository visualizarRepository) {
