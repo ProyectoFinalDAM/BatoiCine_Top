@@ -234,7 +234,7 @@ public class SearchController implements Initializable {
         nextPageButton.setDisable(currentPageIndex >= totalPageCount - 1);
     }
     private FadeTransition createFadeTransition(double fromValue, double toValue) {
-        FadeTransition fadeTransition = new FadeTransition(new Duration(1000), portadaListView);
+        FadeTransition fadeTransition = new FadeTransition(new Duration(500), portadaListView);
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);
         return fadeTransition;
@@ -255,13 +255,30 @@ public class SearchController implements Initializable {
 
     @FXML
     private void showFilms(MouseEvent event){
-        this.portadaListView.setItems( getAllFilms() );
-        this.produccions.addAll( getAllFilms() );
+        try {
+            this.produccions.clear();
+            this.portadaListView.setItems( getAllFilms() );
+            this.produccions.addAll( getAllFilms() );
+            this.totalDataToShow= this.produccions.size();
+            this.currentPageIndex=0;
+            showPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @FXML
     private void showShows(MouseEvent event){
-        this.portadaListView.setItems( getAllSeries() );
-        this.produccions.addAll( getAllSeries() );
+        try {
+            this.produccions.clear();
+            this.portadaListView.setItems( getAllSeries() );
+            this.produccions.addAll( getAllSeries() );
+            this.totalDataToShow= this.produccions.size();
+            this.currentPageIndex=0;
+            showPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
