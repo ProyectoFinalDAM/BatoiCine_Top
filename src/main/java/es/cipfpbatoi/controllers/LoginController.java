@@ -1,5 +1,6 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
@@ -125,7 +126,6 @@ public class LoginController implements Initializable {
         }
         return String.valueOf(error);
     }
-
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
