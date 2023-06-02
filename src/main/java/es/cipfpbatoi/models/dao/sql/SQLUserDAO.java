@@ -1,6 +1,7 @@
 package es.cipfpbatoi.models.dao.sql;
 
 import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
@@ -100,22 +101,34 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public User getUser(String name, String password) throws UserNotExistException {
-
-        try (Statement statement = connection.createStatement()) {
-            String sql="SELECT * FROM Usuario";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ResultSet rs = statement.executeQuery(sql);
-            while (rs.next()) {
-                int idUser = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                String contraseña = rs.getString("contraseña");
-                return new User(idUser, nombre, contraseña);
+        for (User user: findAll()) {
+            if (user.getNombre().equals(name)){
+                if (BCrypt.checkpw(password, user.getContrasenya())) {
+                    return user;
+                }
             }
+        }
+        throw new UserNotExistException();
+
+
+        /*String sql = String.format("SELECT * FROM Usuario WHERE nombre LIKE ? AND contraseña LIKE ?");
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+
+                //int id = resultSet.getInt("id");
+                //String nombre = resultSet.getString("nombre");
+                //String contrasenya = resultSet.getString("contraseña");
+                //return new User(id, nombre, contrasenya);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         throw new UserNotExistException();
 
+         */
     }
 
     @Override
