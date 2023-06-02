@@ -125,9 +125,9 @@ public class ControllerDetalles implements Initializable {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
                 portada.setImage(new Image(produccion.getPoster()));
-                actualizarEsFavorita(esFavorita());
+                //actualizarEsFavorita(esFavorita());
 
-            } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
+            } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
 

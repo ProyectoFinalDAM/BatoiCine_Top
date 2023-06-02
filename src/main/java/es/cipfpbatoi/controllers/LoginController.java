@@ -1,5 +1,6 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginController implements Initializable {
+    private static final String PASSWORD_REGEXP = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,20}$";
     @FXML
     private ImageView logoImageView;
     @FXML
@@ -38,18 +40,21 @@ public class LoginController implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
+    private VisualizarRepository visualizarRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
+        this.visualizarRepository= visualizarRepository;
     }
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, VisualizarRepository visualizarRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.generoRepository= generoRepository;
+        this.visualizarRepository= visualizarRepository;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class LoginController implements Initializable {
             userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, userRepository.getUser(nameTextField.getText(), passwordTextField.getText()));
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
                 ChangeScene.change(stage, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
@@ -87,12 +92,19 @@ public class LoginController implements Initializable {
                 throw new UserAlreadyExistsException();
             } else {
                 if (!nameTextField.getText().equals("") && !passwordTextField.getText().equals("")){
-                    String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
+                    if (passwordTextField.getText().matches(PASSWORD_REGEXP)){
+                        String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
+                        userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
+                        AlertCreator.infoAlert("Registrado correctamente.");
+                        this.passwordTextField.clear();
+                        this.nameTextField.clear();
+                    } else {
+                        AlertCreator.errorAlert("Contraseña debe contener:\n" +
+                                "- Carácter especial\n" +
+                                "- Mayúsculas y minúsculas\n" +
+                                "- De 5 a 20 carácteres");
+                    }
 
-                    userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
-                    AlertCreator.infoAlert("Registrado correctamente.");
-                    this.passwordTextField.clear();
-                    this.nameTextField.clear();
                 } else {
                     AlertCreator.errorAlert(errorTextFields());
                 }
@@ -115,7 +127,6 @@ public class LoginController implements Initializable {
         }
         return String.valueOf(error);
     }
-
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
