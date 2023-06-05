@@ -14,10 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -48,6 +45,7 @@ public class MainController implements Initializable {
     private ListView<Produccion> seriesListView;
     @FXML
     private ComboBox<Genero> generoComboBox;
+    @FXML private Label userName;
     private GeneroRepository generoRepository;
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
@@ -88,6 +86,7 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
         this.generoComboBox.setItems(getGeneros());
+        this.userName.setText( user.getNombre() + "!" );
     }
     private ObservableList<Genero> getGeneros(){
         return FXCollections.observableArrayList(generoRepository.findAll());
