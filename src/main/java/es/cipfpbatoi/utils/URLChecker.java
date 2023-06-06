@@ -5,7 +5,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class URLChecker {
+
+
+    /**
+     * Comprueba que el url pasado hace conexión con internet.
+     * @author Martin Peidro
+     * @param urlProporcionada es un string que recibe un la url para ser comporbada
+     * @return retorna un booleano indicando si la url es valida o invalida
+     */
+
     public static boolean checkURL(String urlProporcionada) {
+
         try {
             URL url = new URL(urlProporcionada); // URL de la imagen
 

@@ -6,6 +6,7 @@ import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
+import es.cipfpbatoi.utils.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +24,6 @@ import java.util.ResourceBundle;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginController implements Initializable {
-    private static final String PASSWORD_REGEXP = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,20}$";
     @FXML
     private ImageView logoImageView;
     @FXML
@@ -92,7 +92,7 @@ public class LoginController implements Initializable {
                 throw new UserAlreadyExistsException();
             } else {
                 if (!nameTextField.getText().equals("") && !passwordTextField.getText().equals("")){
-                    if (passwordTextField.getText().matches(PASSWORD_REGEXP)){
+                    if (passwordTextField.getText().matches( Validator.PASSWORD_REGEXP )){
                         String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
                         userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");

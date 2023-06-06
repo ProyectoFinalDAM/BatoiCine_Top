@@ -103,7 +103,7 @@ public class SQLUserDAO implements UserDAO {
     public User getUser(String name, String password) throws UserNotExistException {
         for (User user: findAll()) {
             if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
+                if (password.equals(user.getContrasenya())) {
                     return user;
                 }
 
@@ -116,7 +116,7 @@ public class SQLUserDAO implements UserDAO {
     public boolean validUser(String name, String password) {
         for (User user: findAll()) {
             if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
+                if (password.equals(user.getContrasenya())) {
                     return true;
                 }
 
