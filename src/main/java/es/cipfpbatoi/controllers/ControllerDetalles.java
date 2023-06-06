@@ -52,11 +52,19 @@ public class ControllerDetalles implements Initializable {
     private ImageView logoImageView;
     @FXML
     private ImageView flecha;
-
     @FXML
     private ImageView corazon;
     @FXML
-    private HBox container;
+    private ImageView estrella1;
+    @FXML
+    private ImageView estrella2;
+    @FXML
+    private ImageView estrella3;
+    @FXML
+    private ImageView estrella4;
+    @FXML
+    private ImageView estrella5;
+
 
     private static final int NUM_ESTRELLAS = 5;
     private static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
@@ -68,11 +76,6 @@ public class ControllerDetalles implements Initializable {
     private Produccion produccion;
     private EsFavoritaRepository esFavoritaRepository;
     private User user;
-    private Estrella estrella1;
-    private Estrella estrella2;
-    private Estrella estrella3;
-    private Estrella estrella4;
-    private Estrella estrella5;
     private Initializable controllerAnterior;
 
     private String vista;
@@ -84,15 +87,50 @@ public class ControllerDetalles implements Initializable {
         this.produccionRepository = produccionRepository;
         this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
         this.user = user;
-        this.estrella1 = new Estrella(0);
-        this.estrella2 = new Estrella(1);
-        this.estrella3 = new Estrella(2);
-        this.estrella4 = new Estrella(3);
-        this.estrella5 = new Estrella(4);
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
     }
 
+    @FXML
+    private void encender1(MouseEvent event) throws URISyntaxException {
+        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+    }
+    @FXML
+    private void encender2(MouseEvent event) throws URISyntaxException {
+        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+    }
+    @FXML
+    private void encender3(MouseEvent event) throws URISyntaxException {
+        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+    }
+    @FXML
+    private void encender4(MouseEvent event) throws URISyntaxException {
+        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+    }
+    @FXML
+    private void encender5(MouseEvent event) throws URISyntaxException {
+        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        estrella5.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+    }
 
 
 
@@ -133,43 +171,25 @@ public class ControllerDetalles implements Initializable {
                 corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
             }
         }
-        @FXML
-        private void encender(MouseEvent event){
-            if (estrella5.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-                estrella4.encenderEstrellas();
-                estrella5.encenderEstrellas();
-            }else if (estrella4.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-                estrella4.encenderEstrellas();
-            }else if (estrella3.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-            }else if (estrella2.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-            }else if (estrella1.esEncendida()){
-                estrella1.encenderEstrellas();
-            }
-        }
+
 
         @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
             try {
                 logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
                 flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+
                 if ( URLChecker.checkURL( produccion.getPoster() ) ) {
                     portada.setImage(new Image(produccion.getPoster()));
                 } else {
                     portada.setImage( new Image( getPathImage( "/images/default.png" ) ) );
                 }
-                //actualizarEsFavorita(esFavorita());
                 actualizarEsFavorita(esFavorita());
+                estrella1.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+                estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+                estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+                estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+                estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
             } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -179,11 +199,8 @@ public class ControllerDetalles implements Initializable {
             descripcion.setWrapText(true);
             descripcion.setPrefWidth(370);
 
-            container.getChildren().add(estrella1);
-            container.getChildren().add(estrella2);
-            container.getChildren().add(estrella3);
-            container.getChildren().add(estrella4);
-            container.getChildren().add(estrella5);
+
+
         }
 
         private String getPathImage (String fileName) throws URISyntaxException {
