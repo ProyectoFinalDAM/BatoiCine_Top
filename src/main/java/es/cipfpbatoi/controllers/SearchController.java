@@ -55,10 +55,11 @@ public class SearchController implements Initializable {
     @FXML private Label     productionType;
     @FXML private       Hyperlink hlAtras;
     @FXML private Hyperlink hlSiguiente;
+    private EsFavoritaRepository esFavoritaRepository;
 
     private ArrayList<Produccion> produccions;
 
-    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user) {
+    public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user, EsFavoritaRepository esFavoritaRepository) {
         this.produccionRepository = produccionRepository;
         this.generoRepository= generoRepository;
         this.titulo = titulo;
@@ -68,9 +69,10 @@ public class SearchController implements Initializable {
         this.visualizarRepository= visualizarRepository;
         this.produccions= new ArrayList<>();
         this.user= user;
+        this.esFavoritaRepository=esFavoritaRepository;
     }
 
-    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository, VisualizarRepository visualizarRepository, User user) {
+    public SearchController(ProduccionRepository produccionRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, Tipo tipo, GeneroRepository generoRepository, VisualizarRepository visualizarRepository, User user, EsFavoritaRepository esFavoritaRepository) {
         this.generoRepository= generoRepository;
         this.produccionRepository = produccionRepository;
         this.rankingRepository    = rankingRepository;
@@ -79,6 +81,7 @@ public class SearchController implements Initializable {
         this.visualizarRepository= visualizarRepository;
         this.produccions= new ArrayList<>();
         this.user= user;
+        this.esFavoritaRepository=esFavoritaRepository;
     }
 
     @Override
@@ -152,7 +155,7 @@ public class SearchController implements Initializable {
     @FXML
     private void goBack(MouseEvent event){
         try {
-            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, visualizarRepository);
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,user, visualizarRepository, esFavoritaRepository);
             ChangeScene.change(event, mainController, "/views/main.fxml");
         } catch (IOException e) {
             e.printStackTrace();

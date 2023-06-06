@@ -1,12 +1,12 @@
 package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.*;
-import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class FavoritasController implements Initializable {
 
     @FXML
     private ImageView logoImageView;
@@ -45,7 +45,8 @@ public class MainController implements Initializable {
     private ListView<Produccion> seriesListView;
     @FXML
     private ComboBox<Genero> generoComboBox;
-    @FXML private Label userName;
+    @FXML
+    private ImageView back;
     private GeneroRepository generoRepository;
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
@@ -53,10 +54,8 @@ public class MainController implements Initializable {
     private VisualizarRepository visualizarRepository;
     private EsFavoritaRepository esFavoritaRepository;
     private User user;
-    @FXML
-    private Button buttonBuscar;
 
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository, EsFavoritaRepository esFavoritaRepository) {
+    public FavoritasController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository, EsFavoritaRepository esFavoritaRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
@@ -81,32 +80,39 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
         this.generoComboBox.setItems(getGeneros());
-        this.userName.setText( user.getNombre() + "!" );
     }
     private ObservableList<Genero> getGeneros(){
         return FXCollections.observableArrayList(generoRepository.findAll());
     }
     private ObservableList<Produccion> getPeliculas(){
         try {
-            return FXCollections.observableArrayList(produccionRepository.getRecommendedFilms());
+            ArrayList<Produccion> peliculasFav= new ArrayList<>();
+            for (Produccion prod: esFavoritaRepository.getUserFavs(user)) {
+                if (prod.getTipo().equals(Tipo.MOVIE)){
+                    peliculasFav.add(prod);
+                }
+            }
+
+            return FXCollections.observableArrayList(peliculasFav);
         } catch (DatabaseErrorException e) {
+            throw new RuntimeException(e);
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
     private ObservableList<Produccion> getSeries(){
         try {
-            return FXCollections.observableArrayList(produccionRepository.getRecommendedSeries());
+            ArrayList<Produccion> peliculasFav= new ArrayList<>();
+            for (Produccion prod: esFavoritaRepository.getUserFavs(user)) {
+                if (prod.getTipo().equals(Tipo.TVSHOW)){
+                    peliculasFav.add(prod);
+                }
+            }
+
+            return FXCollections.observableArrayList(peliculasFav);
         } catch (DatabaseErrorException e) {
             throw new RuntimeException(e);
-        }
-    }
-    @FXML
-    private void buscarProduccion(ActionEvent event){
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository, visualizarRepository, user, esFavoritaRepository);
-            ChangeScene.change(stage, searchController, "/views/search.fxml");
-        } catch (IOException e) {
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -124,19 +130,20 @@ public class MainController implements Initializable {
     @FXML
     private void changeToSeries(MouseEvent event){
         try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository, visualizarRepository, user, esFavoritaRepository);
-            ChangeScene.change(event, searchController, "/views/search.fxml");
+            ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     @FXML
-    private void changeToFavoritas(ActionEvent event){
+    private void goBack(MouseEvent event){
         try {
-            FavoritasController favoritasController = new FavoritasController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, user, visualizarRepository, esFavoritaRepository);
-            ChangeScene.change(event, favoritasController, "/views/favoritas.fxml");
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,user, visualizarRepository, esFavoritaRepository);
+            ChangeScene.change(event, mainController, "/views/main.fxml");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
