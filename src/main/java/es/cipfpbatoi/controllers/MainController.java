@@ -55,6 +55,9 @@ public class MainController implements Initializable {
     private User user;
     @FXML
     private Button buttonBuscar;
+    @FXML
+    private Button buttonHistorial;
+
 
     public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository, EsFavoritaRepository esFavoritaRepository) {
         this.produccionRepository = produccionRepository;
@@ -135,6 +138,15 @@ public class MainController implements Initializable {
         try {
             FavoritasController favoritasController = new FavoritasController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, user, visualizarRepository, esFavoritaRepository);
             ChangeScene.change(event, favoritasController, "/views/favoritas.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    private void changeToHistorial(ActionEvent event){
+        try {
+            HistorialController historialController= new HistorialController(produccionRepository, rankingRepository, valoracionRepository, generoRepository, visualizarRepository, user, esFavoritaRepository);
+            ChangeScene.change(event, historialController, "/views/historial.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

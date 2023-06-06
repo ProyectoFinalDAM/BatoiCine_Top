@@ -1,6 +1,8 @@
 package es.cipfpbatoi.models.respositories;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.VisualizarDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -14,9 +16,13 @@ import java.util.ArrayList;
 
 public class VisualizarRepository {
     private VisualizarDAO visualizarDAO;
+    private ProduccionRepository produccionRepository;
+        private UserRepository userRepository;
 
-    public VisualizarRepository(VisualizarDAO visualizarDAO) {
+    public VisualizarRepository(VisualizarDAO visualizarDAO, ProduccionRepository produccionRepository, UserRepository userRepository) {
         this.visualizarDAO = visualizarDAO;
+        this.produccionRepository = produccionRepository;
+        this.userRepository = userRepository;
     }
 
         /**
@@ -28,7 +34,19 @@ public class VisualizarRepository {
          */
 
     public ArrayList<User> getProdUsers(String id_produccion) throws DatabaseErrorException{
-        return visualizarDAO.getProdUsers(id_produccion);
+        ArrayList<User> usuariosActualizados= visualizarDAO.getProdUsers(id_produccion);
+
+        for (User usuaro: usuariosActualizados) {
+            try {
+                User userOriginal = userRepository.getById(usuaro.getId());
+                usuaro.setNombre(userOriginal.getNombre());
+                usuaro.setContrasenya(usuaro.getContrasenya());
+            } catch (UserNotExistException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return usuariosActualizados;
     }
 
         /**
@@ -38,8 +56,32 @@ public class VisualizarRepository {
          * @throws DatabaseErrorException
          */
 
-    ArrayList<Produccion> getUserProducciones(int id_user) throws DatabaseErrorException{
-        return visualizarDAO.getUserProducciones(id_user);
+    public ArrayList<Produccion> getUserProducciones(int id_user) throws DatabaseErrorException{
+        ArrayList<Produccion> produccionesActualizadas= visualizarDAO.getUserProducciones(id_user);
+
+        for (Produccion prod: produccionesActualizadas) {
+            try {
+                Produccion produccionOrig = produccionRepository.getById(prod.getId());
+                prod.setTitulo(produccionOrig.getTitulo());
+                prod.setCalificacion(produccionOrig.getCalificacion());
+                prod.setFecha_lanzamiento(produccionOrig.getFecha_lanzamiento());
+                prod.setDuracion(produccionOrig.getDuracion());
+                prod.setGenero(produccionOrig.getGenero());
+                prod.setDirector(produccionOrig.getDirector());
+                prod.setGuion(produccionOrig.getGuion());
+                prod.setProductora(produccionOrig.getProductora());
+                prod.setPoster(produccionOrig.getPoster());
+                prod.setPlataforma(produccionOrig.getPlataforma());
+                prod.setVisualizaciones(produccionOrig.getVisualizaciones());
+                prod.setWeb(produccionOrig.getWeb());
+                prod.setTipo(produccionOrig.getTipo());
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        return produccionesActualizadas;
     }
 
         /**
