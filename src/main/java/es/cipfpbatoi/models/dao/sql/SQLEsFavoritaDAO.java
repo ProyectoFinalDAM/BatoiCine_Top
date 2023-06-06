@@ -1,6 +1,8 @@
 package es.cipfpbatoi.models.dao.sql;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.EsFavoritaDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -18,6 +20,16 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
     public SQLEsFavoritaDAO() {
         connection = new MySqlConnection().conectar();
     }
+
+
+    /**
+     * Recibe un usuario para recibir una lista de sus producciones favoritas
+     * @author Marcos Sanz
+     * @param user
+     * @return ArrayList de producciones
+     * @throws DatabaseErrorException
+     * @throws NotFoundException
+     */
 
     @Override
     public ArrayList<Produccion> getUserFavs(User user) throws DatabaseErrorException {
@@ -39,6 +51,16 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
         return producciones;
     }
 
+
+    /**
+     * Busca a través de la producción proporcionada los usuario que la tienen en favoritas o los actualiza
+     * @author Marcos Sanz
+     * @param produccion
+     * @return ArrayList de usuarios
+     * @throws DatabaseErrorException
+     * @throws UserNotExistException
+     */
+
     @Override
     public ArrayList<User> getProdUsers(Produccion produccion) throws DatabaseErrorException {
         ArrayList<User> usuarios = new ArrayList<>();
@@ -59,6 +81,14 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
         return usuarios;
     }
 
+    /**
+     * ELimina en la lista del usuario las producciones que ha seleccionado como favorita
+     * @author Andreu Francés
+     * @param user
+     * @param produccion
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public void eliminar(User user, Produccion produccion) throws DatabaseErrorException {
         String sql = String.format("DELETE FROM %s WHERE id_produccion = ? AND id_usuario = ?", "Es_Favorita");
@@ -75,6 +105,13 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
             throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (delete)");
         }
     }
+
+    /**
+     * Registra en la lista del usuario las producciones que ha seleccionado como favorita
+     * @author Marcos Sanz
+     * @param user
+     * @param produccion
+     */
 
     @Override
     public void save(User user, Produccion produccion) {

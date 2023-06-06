@@ -22,6 +22,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
         this.connection= new MySqlConnection().conectar();
     }
 
+    /**
+     * Busca todas las producciones de la base de datos
+     * @author Pablo Marin
+     * @return Una lista de todas las producciones
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Produccion> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM Produccion");
@@ -42,6 +49,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
         return produccions;
     }
+
+    /**
+     * Recoge las cinco películas mejor valoradas
+     * @author Marcos Sanz
+     * @return Una lista de las cinco películas mejor valoradas
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException {
@@ -64,6 +78,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return produccions;
     }
 
+    /**
+     * Recoge las cinco series mejor valoradas
+     * @author Marcos Sanz
+     * @return Una lista de las cinco series mejor valoradas
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='tv-show' ORDER BY puntos DESC LIMIT 5");
@@ -85,6 +106,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return produccions;
     }
 
+    /**
+     * Busca todas las producciones de la base de datos que coinciden con el tipo
+     * @author Marcos Sanz
+     * @param tipo
+     * @return Una lista de todas las producciones que coinciden con el tipo
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Produccion> findAll(String tipo) throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM Produccion WHERE tipo=?");
@@ -105,6 +134,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
         return produccions;
     }
+
+    /**
+     * A través de los campos string, convierte a producción
+     * @Marcos Sanz
+     * @param rs
+     * @return retorna una producción
+     * @throws SQLException
+     */
 
     private Produccion geProduccionFromResultset(ResultSet rs) throws SQLException {
         String id = rs.getString("id");
@@ -136,6 +173,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return new Produccion(id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo);
     }
 
+    /**
+     * Guarda en la base de datos la producción pasada como parametro
+     * @author Pablo Marin
+     * @param produccion
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public void save(Produccion produccion) throws DatabaseErrorException {
         String sql = String.format("INSERT INTO Produccion (id, titulo, calificacion, fecha_lanzamiento, duracion, genero, director, guion, productora, poster, plataforma, visualizaciones, web, tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -164,6 +208,15 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
     }
 
+    /**
+     * Recoge una producción que coincida con el id pasado como parametro
+     * @author Pablo Marin
+     * @param id
+     * @return Una producción
+     * @throws DatabaseErrorException
+     * @throws NotFoundException
+     */
+
     @Override
     public Produccion getById(String id) throws NotFoundException, DatabaseErrorException {
         String sql = String.format("SELECT * FROM Produccion WHERE id=?");
@@ -186,6 +239,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
     }
 
+    /**
+     * Coge el url de la producción y lo convierte a string
+     * @author Marcos Sanz
+     * @param produccion
+     * @return Un string del url de la portada de la producción
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public String getPortadaProduccion(Produccion produccion) throws DatabaseErrorException {
         String sql = String.format("SELECT poster FROM Produccion WHERE id=?");
@@ -204,6 +265,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
         return null;
     }
 
+    /**
+     * Busca la producción de la base de datos que coincide con el título
+     * @author Martín Peidro
+     * @param text
+     * @return Una producción que coincide con el título
+     */
+
     @Override
     public Produccion getCoincidenciaTitulo(String text) {
         String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ?");
@@ -219,6 +287,15 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
+    /**
+     * Busca todas las producciones de la base de datos que coinciden con el titulo y genero
+     * @author Martín Peidro
+     * @param genero
+     * @param titulo
+     * @return Una lista de todas las producciones que coinciden con el titulo y genero
+     */
+
     @Override
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -240,6 +317,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+
+    /**
+     * Busca todas las producciones de la base de datos que coinciden con el genero
+     * @author Martín Peidro
+     * @param genero
+     * @return Una lista de todas las producciones que coinciden con el genero
+     */
 
     @Override
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {

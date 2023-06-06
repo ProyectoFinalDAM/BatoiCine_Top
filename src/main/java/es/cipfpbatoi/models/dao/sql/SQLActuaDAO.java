@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.dao.sql;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dao.ActuaDAO;
 import es.cipfpbatoi.models.dto.prods.Actua;
 import es.cipfpbatoi.models.services.MySqlConnection;
@@ -11,6 +12,13 @@ public class SQLActuaDAO implements ActuaDAO {
 
     private static final String TABLE_NAME = "Actua";
     private Connection connection;
+
+    /**
+     * Busca todas las Actuaciones
+     * @author Pablo Marin
+     * @return Una lista de las actuaciones
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public ArrayList<Actua> findAll() {
@@ -36,12 +44,27 @@ public class SQLActuaDAO implements ActuaDAO {
         return actoresEnPeliculas;
     }
 
+    /**
+     * Convierte los campos string a un objeto Acuta
+     * @author Pablo Marin
+     * @param resultSet
+     * @return retorna una actuación
+     * @throws SQLException
+     */
+
     private Actua getGeneroFromRegister(ResultSet resultSet) throws SQLException {
         String id_actor = resultSet.getString("id_actor");
         String id_produccion = resultSet.getString("id_produccion");
 
         return new Actua(id_actor, id_produccion);
     }
+
+    /**
+     * Gurada una actuación
+     * @author Pablo Marin
+     * @param actua
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Actua actua) {

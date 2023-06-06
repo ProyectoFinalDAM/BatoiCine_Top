@@ -22,6 +22,7 @@ public interface VisualizarDAO {
 
     /**
      * Busca en la base de datos las coincidencias de producciones que ha visto cierto usuario
+     * @author Andreu Francés
      * @param id_user
      * @return Retorna una lista de las producciones que ha visualiado el usuario
      * @throws DatabaseErrorException
