@@ -47,7 +47,7 @@ public class UserRepository {
     }
 
     /**
-     * Valida al usuario que coincide con la contraseña que tiene
+     * Válida al usuario que coincide con la contraseña que tiene
      * @author Marcos Sanz
      * @param name
      * @param password

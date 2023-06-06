@@ -23,7 +23,7 @@ public class VisualizarRepository {
          * Busca en la base de datos las coincidencias de usuarios que han visto la pelicula pasada como parametro
          * @author Marcos Sanz
          * @param id_produccion
-         * @return Retorna una lista de la usuarios que han visualiado la producción
+         * @return Retorna una lista de los usuarios que han visualiado la producción
          * @throws DatabaseErrorException
          */
 
@@ -34,7 +34,7 @@ public class VisualizarRepository {
         /**
          * Busca en la base de datos las coincidencias de producciones que ha visto cierto usuario
          * @param id_user
-         * @return Retorna una lista de la producciones que ha visualiado el usuario
+         * @return Retorna una lista de las producciones que ha visualiado el usuario
          * @throws DatabaseErrorException
          */
 
