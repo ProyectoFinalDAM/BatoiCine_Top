@@ -43,7 +43,7 @@
          </font>
       </Label>
       <TextField fx:id="opinionComentario" layoutX="610.0" layoutY="559.0" prefHeight="73.0" prefWidth="284.0" />
-      <Button layoutX="717.0" layoutY="648.0" mnemonicParsing="false" text="Confirmar" />
+      <Button layoutX="717.0" layoutY="648.0" mnemonicParsing="false" onAction="#recogerComentario" text="Confirmar" />
 
    </children>
 </AnchorPane>
