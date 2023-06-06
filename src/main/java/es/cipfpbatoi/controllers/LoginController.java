@@ -41,21 +41,18 @@ public class LoginController implements Initializable {
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
     private VisualizarRepository visualizarRepository;
+    private EsFavoritaRepository esFavoritaRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository,  EsFavoritaRepository esFavoritaRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
         this.visualizarRepository= visualizarRepository;
+        this.esFavoritaRepository=esFavoritaRepository;
     }
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, VisualizarRepository visualizarRepository) {
-        this.userRepository = userRepository;
-        this.produccionRepository= produccionRepository;
-        this.generoRepository= generoRepository;
-        this.visualizarRepository= visualizarRepository;
-    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,9 +68,8 @@ public class LoginController implements Initializable {
         try {
             userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
-                ChangeScene.change(stage, mainController, "/views/main.fxml");
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
+                ChangeScene.change(event, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
                     AlertCreator.errorAlert(String.valueOf(errorTextFields()));
@@ -86,7 +82,7 @@ public class LoginController implements Initializable {
         }
     }
     @FXML
-    private void signUpUser(){
+    private void signUpUser(ActionEvent event){
         try {
             if (validUser()){
                 throw new UserAlreadyExistsException();
@@ -96,8 +92,8 @@ public class LoginController implements Initializable {
                         String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
                         userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");
-                        this.passwordTextField.clear();
-                        this.nameTextField.clear();
+                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
+                        ChangeScene.change(event, mainController, "/views/main.fxml");
                     } else {
                         AlertCreator.errorAlert("Contraseña debe contener:\n" +
                                 "- Carácter especial\n" +
@@ -111,6 +107,10 @@ public class LoginController implements Initializable {
             }
         } catch (UserAlreadyExistsException e) {
             AlertCreator.errorAlert(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (UserNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
     private boolean validUser() {

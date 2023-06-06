@@ -45,7 +45,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException {
-        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='movie' ORDER BY puntos DESC");
+        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='movie' ORDER BY puntos DESC LIMIT 5");
         ArrayList<Produccion> produccions = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
@@ -66,7 +66,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException {
-        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='tv-show' ORDER BY puntos DESC");
+        String sql = String.format("SELECT * FROM Ranking INNER JOIN Produccion ON id_produccion=Produccion.id WHERE tipo='tv-show' ORDER BY puntos DESC LIMIT 5");
         ArrayList<Produccion> produccions = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();

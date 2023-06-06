@@ -2,12 +2,17 @@ package es.cipfpbatoi.models.respositories;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import java.util.ArrayList;
 import java.util.PrimitiveIterator;
+
+    /**
+     * Utiliza los métodos dao de para completar las clases necesarias para implementarlas mas tardes en los controller
+     */
 
 public class ProduccionRepository {
     private ProduccionDAO produccionDAO;
@@ -16,34 +21,105 @@ public class ProduccionRepository {
         this.produccionDAO = produccionDAO;
     }
 
+        /**
+         * Busca todos las producciones de la base de datos
+         * @author Marcos Sanz
+         * @return Una lista de todas las producciones
+         * @throws DatabaseErrorException
+         */
+
     public ArrayList<Produccion> findAll() throws DatabaseErrorException{
         return this.produccionDAO.findAll();
     }
+
+        /**
+         * Busca todos las producciones de la base de datos que coinciden con el tipo
+         * @author Marcos Sanz
+         * @param tipo
+         * @return Una lista de todas las producciones que coinciden con el tipo
+         * @throws DatabaseErrorException
+         */
 
     public ArrayList<Produccion> findAll(String tipo) throws DatabaseErrorException{
         return this.produccionDAO.findAll(tipo);
     }
 
+        /**
+         * Guarda en la base de datos la producción pasada como parametro
+         * @author Marcos Sanz
+         * @param produccion
+         * @throws DatabaseErrorException
+         */
+
     public void save(Produccion produccion) throws DatabaseErrorException{
         this.produccionDAO.save(produccion);
     }
+
+        /**
+         * Recoge una producción que coincida con el id pasado como parametro
+         * @author Marcos Sanz
+         * @param id
+         * @return Una producción
+         * @throws DatabaseErrorException
+         * @throws NotFoundException
+         */
+
     public Produccion getById (String id) throws NotFoundException, DatabaseErrorException{
         return this.produccionDAO.getById(id);
     }
+
+        /**
+         * Recoge las cinco películas mejor valoradas
+         * @author Marcos Sanz
+         * @return Una lista de las cinco películas mejor valoradas
+         * @throws DatabaseErrorException
+         */
+
     public ArrayList<Produccion> getRecommendedFilms() throws DatabaseErrorException{
         return this.produccionDAO.getRecommendedFilms();
     }
+
+        /**
+         * Recoge las cinco series mejor valoradas
+         * @author Marcos Sanz
+         * @return Una lista de las cinco series mejor valoradas
+         * @throws DatabaseErrorException
+         */
+
     public ArrayList<Produccion> getRecommendedSeries() throws DatabaseErrorException{
         return this.produccionDAO.getRecommendedSeries();
     }
 
-    public Produccion getCoincidenciaTitulo(String titulo){
+        /**
+         * Busca la producción de la base de datos que coincide con el titulo
+         * @author Martín Peidro
+         * @param titulo
+         * @return Una producción que coincide con el título
+         */
+
+        public Produccion getCoincidenciaTitulo(String titulo){
         return this.produccionDAO.getCoincidenciaTitulo( titulo );
     }
 
-    public ArrayList<Produccion> getCoincidenciaGenero(Genero genero){
+        /**
+         * Busca todos las producciones de la base de datos que coinciden con el genero
+         * @author Martín Peidro
+         * @param genero
+         * @return Una lista de todas las producciones que coinciden con el genero
+         */
+
+
+        public ArrayList<Produccion> getCoincidenciaGenero(Genero genero){
         return this.produccionDAO.getCoincidenciaGenero( genero );
     }
+
+        /**
+         * Busca todos las producciones de la base de datos que coinciden con el titulo y genero
+         * @author Martín Peidro
+         * @param genero
+         * @param titulo
+         * @return Una lista de todas las producciones que coinciden con el titulo y genero
+         */
 
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         return produccionDAO.getCoincidenciaGeneroTitulo(titulo, genero);
