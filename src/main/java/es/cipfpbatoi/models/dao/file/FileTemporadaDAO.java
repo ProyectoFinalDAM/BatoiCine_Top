@@ -32,6 +32,14 @@ public class FileTemporadaDAO implements TemporadaDAO {
         this.file = new File( FILE_DATABASE );
     }
 
+
+    /**
+     * Busca todos los elementos de las temporadas
+     * @author Martin Peidro
+     * @return Una lista de todos los episodios de la temporada
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Temporada> findAll() {
         ArrayList<Temporada> temporadas = new ArrayList<>();
@@ -57,6 +65,13 @@ public class FileTemporadaDAO implements TemporadaDAO {
 
     }
 
+    /**
+     * Convierte los campos String a un objeto Temporada
+     * @author Martin Peidro
+     * @param register
+     * @return retorna una temporada
+     */
+
     private Temporada getTemporadaFromRegister(String register) {
         String[] fields = register.split( Validator.REGEX_TEMPORADAS );
         int pelicula = Integer.parseInt(fields[PELICULA]);
@@ -66,6 +81,13 @@ public class FileTemporadaDAO implements TemporadaDAO {
         int capitulos = Integer.parseInt(fields[CAPITULOS]);
         return new Temporada( pelicula, temporada, anyo, guion, capitulos );
     }
+
+    /**
+     * Creas un buffered reader con el nombre del archivo dentro
+     * @author Martin Peidro
+     * @return BufferedReader
+     * @throws IOException
+     */
 
     private BufferedReader getReader() throws IOException {
         return new BufferedReader(new FileReader(file));

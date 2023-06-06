@@ -27,6 +27,12 @@ public class FileGeneroDAO implements GeneroDAO {
 
     }
 
+    /**
+     * Reune en una lista todos los géneros de la base de datos
+     * @author Martin Peidro
+     * @return ArrayList de género, devuelve todos los generos encontrados
+     */
+
     @Override
     public ArrayList<Genero> findAll(){
         ArrayList<Genero> generos = new ArrayList<>();
@@ -47,6 +53,13 @@ public class FileGeneroDAO implements GeneroDAO {
         return generos;
     }
 
+    /**
+     * Convierte los campos String a un objeto género
+     * @author Martin Peidro
+     * @param register
+     * @return retorna una temporada
+     */
+
     private Genero getGeneroFromRegister(String register) {
         String[] fields = register.split(FIELD_SEPARATOR);
         int id = Integer.parseInt(fields[ID]);
@@ -54,6 +67,13 @@ public class FileGeneroDAO implements GeneroDAO {
         String descripcion = fields[DESCRIPCION];
         return new Genero( id, cod, descripcion );
     }
+
+    /**
+     * Creas un buffered reader con el nombre del archivo dentro
+     * @author Martín Peidro
+     * @return BufferedReader
+     * @throws IOException
+     */
 
     private BufferedReader getReader() throws IOException {
         return new BufferedReader(new FileReader(file));

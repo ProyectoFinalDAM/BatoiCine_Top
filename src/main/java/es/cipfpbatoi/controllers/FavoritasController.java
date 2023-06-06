@@ -80,6 +80,8 @@ public class FavoritasController implements Initializable {
             throw new RuntimeException(e);
         }
         this.generoComboBox.setItems(getGeneros());
+        this.generoComboBox.setDisable(true);
+        this.searchTextField.setEditable(false);
     }
     private ObservableList<Genero> getGeneros(){
         return FXCollections.observableArrayList(generoRepository.findAll());
