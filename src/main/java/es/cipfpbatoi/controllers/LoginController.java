@@ -6,6 +6,7 @@ import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.AlertCreator;
+import es.cipfpbatoi.utils.PasswordEncryptor;
 import es.cipfpbatoi.utils.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,11 +90,9 @@ public class LoginController implements Initializable {
             } else {
                 if (!nameTextField.getText().equals("") && !passwordTextField.getText().equals("")){
                     if (passwordTextField.getText().matches( Validator.PASSWORD_REGEXP )){
-                        String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
-                        userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
+                        String encryptedPassword = PasswordEncryptor.encryptPassword(passwordTextField.getText());
+                        userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(), encryptedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");
-                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
-                        ChangeScene.change(event, mainController, "/views/main.fxml");
                     } else {
                         AlertCreator.errorAlert("Contraseña debe contener:\n" +
                                 "- Carácter especial\n" +
@@ -107,10 +106,6 @@ public class LoginController implements Initializable {
             }
         } catch (UserAlreadyExistsException e) {
             AlertCreator.errorAlert(e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (UserNotExistException e) {
-            throw new RuntimeException(e);
         }
     }
     private boolean validUser() {
