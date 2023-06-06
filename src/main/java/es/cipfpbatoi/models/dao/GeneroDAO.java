@@ -8,7 +8,7 @@ public interface GeneroDAO {
 
     /**
      * Reune en una lista todos los géneros de la base de datos
-     * @author Marcos Sanz
+     * @author Martin Peidro
      * @return ArrayList de género, devuelve todos los generos encontrados
      */
 
@@ -16,7 +16,7 @@ public interface GeneroDAO {
 
     /**
      * Guarda en la base de datos nuevos generos pasados como parametros
-     * @author Marcos Sanz
+     * @author Martin Peidro
      * @param genero
      */
 
