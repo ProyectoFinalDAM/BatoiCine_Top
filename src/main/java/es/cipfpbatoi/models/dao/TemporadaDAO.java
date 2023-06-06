@@ -7,6 +7,22 @@ import es.cipfpbatoi.models.dto.prods.Temporada;
 import java.util.ArrayList;
 
 public interface TemporadaDAO {
+
+    /**
+     * Busca todos los elementos de las temporadas
+     * @author Andreu Francés
+     * @return Una lista de todos los episodios de la temporada
+     * @throws DatabaseErrorException
+     */
+
     ArrayList<Temporada> findAll() throws DatabaseErrorException;
+
+    /**
+     * Gurada en la base de datos todos los datos sobre las temporadas
+     * @author Andreu Francés
+     * @param temporada
+     * @throws DatabaseErrorException
+     */
+
     void save(Temporada temporada) throws DatabaseErrorException;
 }

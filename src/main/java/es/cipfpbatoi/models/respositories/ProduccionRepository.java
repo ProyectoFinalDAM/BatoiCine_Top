@@ -33,8 +33,8 @@ public class ProduccionRepository {
     }
 
         /**
-         * Busca todos las producciones de la base de datos que coinciden con el tipo
-         * @author Marcos Sanz
+         * Busca todas las producciones de la base de datos que coinciden con el tipo
+         * @author Martin Peidro
          * @param tipo
          * @return Una lista de todas las producciones que coinciden con el tipo
          * @throws DatabaseErrorException
@@ -102,7 +102,7 @@ public class ProduccionRepository {
     }
 
         /**
-         * Busca todos las producciones de la base de datos que coinciden con el genero
+         * Busca tados las producciones de la base de datos que coinciden con el genero
          * @author Martín Peidro
          * @param genero
          * @return Una lista de todas las producciones que coinciden con el genero
@@ -114,7 +114,7 @@ public class ProduccionRepository {
     }
 
         /**
-         * Busca todos las producciones de la base de datos que coinciden con el titulo y genero
+         * Busca todas las producciones de la base de datos que coinciden con el titulo y genero
          * @author Martín Peidro
          * @param genero
          * @param titulo
