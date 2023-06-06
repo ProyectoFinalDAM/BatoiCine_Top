@@ -22,6 +22,13 @@ public class SQLTemporadaDAO implements TemporadaDAO {
         this.connection= new MySqlConnection().conectar();
     }
 
+    /**
+     * Busca todos los elementos de las temporadas
+     * @author Andreu Francés
+     * @return Una lista de todos los episodios de la temporada
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Temporada> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
@@ -43,6 +50,14 @@ public class SQLTemporadaDAO implements TemporadaDAO {
         return temporadas;
     }
 
+    /**
+     * A través de los campos string los convierte en un objeto temporada
+     * @author Andreu Francés
+     * @param rs
+     * @return retorna una temporada
+     * @throws SQLException
+     */
+
     private Temporada geTemporadaFromResultset(ResultSet rs) throws SQLException {
         int pelicula = rs.getInt("id_produccion");
         int temporada = rs.getInt("temporada");
@@ -52,6 +67,13 @@ public class SQLTemporadaDAO implements TemporadaDAO {
 
         return new Temporada(pelicula, temporada, anyoLanzamiento,guion,capitulos);
     }
+
+    /**
+     * Gurada en la base de datos todos los datos sobre las temporadas
+     * @author Andreu Francés
+     * @param temporada
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Temporada temporada) throws DatabaseErrorException {

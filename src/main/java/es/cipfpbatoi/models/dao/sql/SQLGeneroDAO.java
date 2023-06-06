@@ -18,6 +18,13 @@ public class SQLGeneroDAO implements GeneroDAO {
         this.connection= new MySqlConnection().conectar();
     }
 
+    /**
+     * Reune en una lista todos los géneros de la base de datos
+     * @author Marcos Sanz
+     * @author Andreu Francés
+     * @return ArrayList de género, devuelve todos los generos encontrados
+     */
+
     @Override
     public ArrayList<Genero> findAll() {
         String sql = String.format("SELECT * FROM %s", TABLE_NAME);
@@ -39,12 +46,27 @@ public class SQLGeneroDAO implements GeneroDAO {
         return generos;
     }
 
+    /**
+     * A través del parametro convierte los strings en un objeto género
+     * @author Andreu Francés
+     * @param resultSet
+     * @return Un género
+     * @throws SQLException
+     */
+
     private Genero getGeneroFromRegister(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String cod = resultSet.getString("cod");
         String descripcion = resultSet.getString("descripcion");
         return new Genero(id, cod, descripcion);
     }
+
+    /**
+     * Guarda en la base de datos nuevos generos pasados como parametros
+     * @author Marcos Sanz
+     * @author Andreu Francés
+     * @param genero
+     */
 
     @Override
     public void save(Genero genero) {
