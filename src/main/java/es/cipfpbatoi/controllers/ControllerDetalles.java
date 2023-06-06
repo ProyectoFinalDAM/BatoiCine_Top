@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -179,12 +180,40 @@ public class ControllerDetalles implements Initializable {
 
     @FXML
     private String recogerComentario(ActionEvent event) {
+        
         String comentarioProduccion = null;
 
-        if (opinionComentario != null) {
-            comentarioProduccion = opinionComentario.getText();
+            if (isValoracionValida()) {
+                comentarioProduccion = opinionComentario.getText();
         }
-        return comentarioProduccion;
+            return comentarioProduccion;
+    }
+
+    private boolean isValoracionValida() {
+        if (estrellasVacias() && !opinionComentario.getText().isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle( "Debes introducir una valoracion para poder añadir un comentario" );
+            alert.setHeaderText( "" );
+            alert.setContentText( "Atención, para poder añadir un comentario, debes previamente de haber valorado la producción " );
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean estrellasVacias() {
+        String rutaImagenEspecifica = "/images/EstrellaBlanca.png";
+
+        if (estrella1.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella2.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella3.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella4.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella5.getImage().getUrl().equals(rutaImagenEspecifica)) {
+
+            return true;
+        }
+
+        return false;
     }
 
 
