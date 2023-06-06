@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
@@ -35,6 +37,13 @@
       <ImageView fx:id="estrella3" fitHeight="25.0" fitWidth="28.0" layoutX="191.0" layoutY="604.0" onMouseClicked="#encender3" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="estrella4" fitHeight="25.0" fitWidth="28.0" layoutX="226.0" layoutY="604.0" onMouseClicked="#encender4" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="estrella5" fitHeight="25.0" fitWidth="28.0" layoutX="262.0" layoutY="604.0" onMouseClicked="#encender5" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="705.0" layoutY="518.0" text="Comentario ">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="opinionComentario" layoutX="610.0" layoutY="559.0" prefHeight="73.0" prefWidth="284.0" />
+      <Button layoutX="717.0" layoutY="648.0" mnemonicParsing="false" text="Confirmar" />
 
    </children>
 </AnchorPane>
