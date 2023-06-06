@@ -1,4 +1,4 @@
-package es.cipfpbatoi.models.dto;
+package es.cipfpbatoi.models.dto.prods;
 
 public class Valoracion {
 

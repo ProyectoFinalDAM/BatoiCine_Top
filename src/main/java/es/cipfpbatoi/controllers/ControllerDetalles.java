@@ -2,38 +2,21 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
-import es.cipfpbatoi.models.dao.RankingDAO;
-import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
-import es.cipfpbatoi.models.dto.Valoracion;
-import es.cipfpbatoi.models.dto.prods.Estrella;
-import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.URLChecker;
-import javafx.beans.binding.Bindings;
-
-import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 
 import java.io.IOException;
@@ -98,6 +81,7 @@ public class ControllerDetalles implements Initializable {
         estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+
     }
     @FXML
     private void encender2(MouseEvent event) throws URISyntaxException {
