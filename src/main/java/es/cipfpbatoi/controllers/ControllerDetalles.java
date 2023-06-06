@@ -68,7 +68,11 @@ public class ControllerDetalles implements Initializable {
     private Produccion produccion;
     private EsFavoritaRepository esFavoritaRepository;
     private User user;
-
+    private Estrella estrella1;
+    private Estrella estrella2;
+    private Estrella estrella3;
+    private Estrella estrella4;
+    private Estrella estrella5;
     private Initializable controllerAnterior;
 
     private String vista;
@@ -80,19 +84,17 @@ public class ControllerDetalles implements Initializable {
         this.produccionRepository = produccionRepository;
         this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
         this.user = user;
-    }
-
-
-    public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista) {
-        this.valoracionRepository = valoracionRepository;
-        this.rankingRepository = rankingRepository;
-        this.produccion = produccion;
-        this.produccionRepository = produccionRepository;
+        this.estrella1 = new Estrella(0);
+        this.estrella2 = new Estrella(1);
+        this.estrella3 = new Estrella(2);
+        this.estrella4 = new Estrella(3);
+        this.estrella5 = new Estrella(4);
         this.controllerAnterior= controllerAnterior;
         this.vista= vista;
-        this.user = user;
-        this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
     }
+
+
+
 
         //Método para salir de la vista de detalles y volver a la principal
         @FXML
@@ -131,6 +133,30 @@ public class ControllerDetalles implements Initializable {
                 corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
             }
         }
+        @FXML
+        private void encender(MouseEvent event){
+            if (estrella5.esEncendida()){
+                estrella1.encenderEstrellas();
+                estrella2.encenderEstrellas();
+                estrella3.encenderEstrellas();
+                estrella4.encenderEstrellas();
+                estrella5.encenderEstrellas();
+            }else if (estrella4.esEncendida()){
+                estrella1.encenderEstrellas();
+                estrella2.encenderEstrellas();
+                estrella3.encenderEstrellas();
+                estrella4.encenderEstrellas();
+            }else if (estrella3.esEncendida()){
+                estrella1.encenderEstrellas();
+                estrella2.encenderEstrellas();
+                estrella3.encenderEstrellas();
+            }else if (estrella2.esEncendida()){
+                estrella1.encenderEstrellas();
+                estrella2.encenderEstrellas();
+            }else if (estrella1.esEncendida()){
+                estrella1.encenderEstrellas();
+            }
+        }
 
         @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
@@ -144,7 +170,6 @@ public class ControllerDetalles implements Initializable {
                 }
                 //actualizarEsFavorita(esFavorita());
                 actualizarEsFavorita(esFavorita());
-
             } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -154,11 +179,11 @@ public class ControllerDetalles implements Initializable {
             descripcion.setWrapText(true);
             descripcion.setPrefWidth(370);
 
-            for (int i = 0; i < NUM_ESTRELLAS; i++) {
-                Estrella estrella = new Estrella(i);
-                container.getChildren().add(estrella);
-            }
-
+            container.getChildren().add(estrella1);
+            container.getChildren().add(estrella2);
+            container.getChildren().add(estrella3);
+            container.getChildren().add(estrella4);
+            container.getChildren().add(estrella5);
         }
 
         private String getPathImage (String fileName) throws URISyntaxException {

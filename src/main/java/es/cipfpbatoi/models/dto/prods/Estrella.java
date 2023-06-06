@@ -14,11 +14,12 @@ import static es.cipfpbatoi.App.ESTRELLA_ENCENDIDA_COLOR;
 public class Estrella extends HBox {
 
     private int valor;
+    private Polygon estrella;
 
     public Estrella(int valor) {
         this.valor = valor;
 
-        Polygon estrella = new Polygon(
+        estrella = new Polygon(
                 10, 0,
                 15, 7,
                 23, 8,
@@ -31,7 +32,6 @@ public class Estrella extends HBox {
                 5, 7
         );
         estrella.setFill(ESTRELLA_APAGADA_COLOR);
-
         Label label = new Label(String.valueOf(valor + 1));
         label.setPadding(new Insets(0, 0, 0, 5));
 
@@ -45,6 +45,18 @@ public class Estrella extends HBox {
         for (int i = 0; i <= valor; i++) {
             ((Polygon) this.getChildren().get(0)).setFill(ESTRELLA_ENCENDIDA_COLOR);
         }
+    }
+    public void encenderEstrellas() {
+        for (int i = 0; i <= valor; i++) {
+            ((Polygon) this.getChildren().get(0)).setFill(ESTRELLA_ENCENDIDA_COLOR);
+        }
+    }
+
+    public boolean esEncendida(){
+        if (this.estrella.getFill().equals(ESTRELLA_ENCENDIDA_COLOR)){
+            return true;
+        }
+        return false;
     }
 
     private void apagarEstrellas(MouseEvent event) {

@@ -30,7 +30,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <HBox fx:id="container" layoutX="82.0" layoutY="607.0" prefHeight="62.0" prefWidth="292.0" spacing="10.0" />
+      <HBox fx:id="container" layoutX="82.0" layoutY="607.0" onMouseClicked="#encender" prefHeight="25.0" prefWidth="292.0" spacing="10.0" />
       <ImageView fx:id="corazon" fitHeight="40.0" fitWidth="51.0" layoutX="376.0" layoutY="596.0" onMouseClicked="#verMasTarde" pickOnBounds="true" preserveRatio="true" />
 
    </children>
