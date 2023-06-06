@@ -106,6 +106,7 @@ public class SQLUserDAO implements UserDAO {
                 if (BCrypt.checkpw(password, user.getContrasenya())) {
                     return user;
                 }
+
             }
         }
         throw new UserNotExistException();
@@ -118,6 +119,7 @@ public class SQLUserDAO implements UserDAO {
                 if (BCrypt.checkpw(password, user.getContrasenya())) {
                     return true;
                 }
+
             }
         }
         return false;
