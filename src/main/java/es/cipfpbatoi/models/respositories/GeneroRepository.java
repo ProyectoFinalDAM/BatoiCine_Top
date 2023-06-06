@@ -5,9 +5,9 @@ import es.cipfpbatoi.models.dto.prods.Genero;
 
 import java.util.ArrayList;
 
-/**
- * Utiliza los métodos dao de para completar las clases necesarias para implementarlas mas tardes en los controller
- */
+     /**
+     * Utiliza los métodos dao de para completar las clases necesarias para implementarlas mas tardes en los controller
+     */
 
 public class GeneroRepository {
     private GeneroDAO generoDAO;
