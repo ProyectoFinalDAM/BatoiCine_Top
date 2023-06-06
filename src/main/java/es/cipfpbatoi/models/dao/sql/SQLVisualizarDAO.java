@@ -7,10 +7,9 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Visualizar;
 import es.cipfpbatoi.models.services.MySqlConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class SQLVisualizarDAO implements VisualizarDAO {
@@ -31,7 +30,7 @@ public class SQLVisualizarDAO implements VisualizarDAO {
     @Override
     public ArrayList<User> getProdUsers(String id_produccion) throws DatabaseErrorException {
         ArrayList<User> usuarios = new ArrayList<>();
-        String sql = String.format("SELECT * FROM Visualizar WHERE id_produccion=?");
+        String sql = String.format("SELECT * FROM Visualizar WHERE id_produccion=? ORDER BY fecha DESC");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString(1, id_produccion);
@@ -59,7 +58,7 @@ public class SQLVisualizarDAO implements VisualizarDAO {
     @Override
     public ArrayList<Produccion> getUserProducciones(int id_user) throws DatabaseErrorException {
         ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql = String.format("SELECT * FROM Visualizar WHERE id_usuario=?");
+        String sql = String.format("SELECT * FROM Visualizar WHERE id_usuario=? ORDER BY fecha DESC");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setInt(1, id_user);
@@ -85,7 +84,7 @@ public class SQLVisualizarDAO implements VisualizarDAO {
 
     @Override
     public void save(Visualizar visualizar) throws DatabaseErrorException {
-        String sql = String.format( "INSERT INTO Visualizar (id_produccion, id_usuario) VALUES (?,?)");
+        String sql = String.format( "INSERT INTO Visualizar (id_produccion, id_usuario, fecha) VALUES (?,?,?)");
 
         for (Produccion prod: getUserProducciones(visualizar.getId_usuario())) {
             if (prod.getId().equals(visualizar.getId_produccion())){
@@ -96,6 +95,7 @@ public class SQLVisualizarDAO implements VisualizarDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
             preparedStatement.setString( 1, visualizar.getId_produccion());
             preparedStatement.setInt( 2, visualizar.getId_usuario());
+            preparedStatement.setTimestamp( 3, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.executeUpdate();
 
         } catch ( SQLException e ) {
