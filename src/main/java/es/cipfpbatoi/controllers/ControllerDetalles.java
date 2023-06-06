@@ -96,97 +96,97 @@ public class ControllerDetalles implements Initializable {
 
 
 
-        //Método para salir de la vista de detalles y volver a la principal
-        @FXML
-        private void haciaAtras (MouseEvent event){
-            try {
-                ChangeScene.change(event, controllerAnterior, vista);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    //Método para salir de la vista de detalles y volver a la principal
+    @FXML
+    private void haciaAtras (MouseEvent event){
+        try {
+            ChangeScene.change(event, controllerAnterior, vista);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+    }
 
-        @FXML
-        private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
-            if (esFavorita()){
-                esFavoritaRepository.eliminar(user, produccion);
-                actualizarEsFavorita(false);
-            }else {
+    @FXML
+    private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
+        if (esFavorita()){
+            esFavoritaRepository.eliminar(user, produccion);
+            actualizarEsFavorita(false);
+        }else {
             esFavoritaRepository.save(user, produccion);
             actualizarEsFavorita(true);
+        }
+    }
+
+    private boolean esFavorita()throws DatabaseErrorException, NotFoundException{
+        for (Produccion produccion1:esFavoritaRepository.getUserFavs(this.user)) {
+            if (produccion1.getId().equals(this.produccion.getId())){
+                return true;
             }
         }
+        return false;
+    }
 
-        private boolean esFavorita()throws DatabaseErrorException, NotFoundException{
-            for (Produccion produccion1:esFavoritaRepository.getUserFavs(this.user)) {
-                if (produccion1.getId().equals(this.produccion.getId())){
-                    return true;
-                }
+    private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
+        if (favorita){
+            corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
+        }else {
+            corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+        }
+    }
+    @FXML
+    private void encender(MouseEvent event){
+        if (estrella5.esEncendida()){
+            estrella1.encenderEstrellas();
+            estrella2.encenderEstrellas();
+            estrella3.encenderEstrellas();
+            estrella4.encenderEstrellas();
+            estrella5.encenderEstrellas();
+        }else if (estrella4.esEncendida()){
+            estrella1.encenderEstrellas();
+            estrella2.encenderEstrellas();
+            estrella3.encenderEstrellas();
+            estrella4.encenderEstrellas();
+        }else if (estrella3.esEncendida()){
+            estrella1.encenderEstrellas();
+            estrella2.encenderEstrellas();
+            estrella3.encenderEstrellas();
+        }else if (estrella2.esEncendida()){
+            estrella1.encenderEstrellas();
+            estrella2.encenderEstrellas();
+        }else if (estrella1.esEncendida()){
+            estrella1.encenderEstrellas();
+        }
+    }
+
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle){
+        try {
+            logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
+            flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+            if ( URLChecker.checkURL( produccion.getPoster() ) ) {
+                portada.setImage(new Image(produccion.getPoster()));
+            } else {
+                portada.setImage( new Image( getPathImage( "/images/default.png" ) ) );
             }
-            return false;
+            //actualizarEsFavorita(esFavorita());
+            actualizarEsFavorita(esFavorita());
+        } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
+            throw new RuntimeException(e);
         }
 
-        private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
-            if (favorita){
-                corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
-            }else {
-                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
-            }
-        }
-        @FXML
-        private void encender(MouseEvent event){
-            if (estrella5.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-                estrella4.encenderEstrellas();
-                estrella5.encenderEstrellas();
-            }else if (estrella4.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-                estrella4.encenderEstrellas();
-            }else if (estrella3.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-                estrella3.encenderEstrellas();
-            }else if (estrella2.esEncendida()){
-                estrella1.encenderEstrellas();
-                estrella2.encenderEstrellas();
-            }else if (estrella1.esEncendida()){
-                estrella1.encenderEstrellas();
-            }
-        }
 
-        @Override
-        public void initialize (URL url, ResourceBundle resourceBundle){
-            try {
-                logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
-                flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
-                if ( URLChecker.checkURL( produccion.getPoster() ) ) {
-                    portada.setImage(new Image(produccion.getPoster()));
-                } else {
-                    portada.setImage( new Image( getPathImage( "/images/default.png" ) ) );
-                }
-                //actualizarEsFavorita(esFavorita());
-                actualizarEsFavorita(esFavorita());
-            } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        descripcion.setText(produccion.getGuion());
+        descripcion.setWrapText(true);
+        descripcion.setPrefWidth(370);
 
+        container.getChildren().add(estrella1);
+        container.getChildren().add(estrella2);
+        container.getChildren().add(estrella3);
+        container.getChildren().add(estrella4);
+        container.getChildren().add(estrella5);
+    }
 
-            descripcion.setText(produccion.getGuion());
-            descripcion.setWrapText(true);
-            descripcion.setPrefWidth(370);
-
-            container.getChildren().add(estrella1);
-            container.getChildren().add(estrella2);
-            container.getChildren().add(estrella3);
-            container.getChildren().add(estrella4);
-            container.getChildren().add(estrella5);
-        }
-
-        private String getPathImage (String fileName) throws URISyntaxException {
-            return getClass().getResource(fileName).toURI().toString();
-        }
+    private String getPathImage (String fileName) throws URISyntaxException {
+        return getClass().getResource(fileName).toURI().toString();
+    }
 }
