@@ -152,7 +152,7 @@ public class SearchController implements Initializable {
     @FXML
     private void goBack(MouseEvent event){
         try {
-            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, visualizarRepository);
+            MainController mainController = new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,user, visualizarRepository);
             ChangeScene.change(event, mainController, "/views/main.fxml");
         } catch (IOException e) {
             e.printStackTrace();

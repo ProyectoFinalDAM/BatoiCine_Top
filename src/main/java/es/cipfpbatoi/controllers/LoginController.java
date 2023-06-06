@@ -71,9 +71,8 @@ public class LoginController implements Initializable {
         try {
             userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
-                ChangeScene.change(stage, mainController, "/views/main.fxml");
+                ChangeScene.change(event, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
                     AlertCreator.errorAlert(String.valueOf(errorTextFields()));
@@ -86,7 +85,7 @@ public class LoginController implements Initializable {
         }
     }
     @FXML
-    private void signUpUser(){
+    private void signUpUser(ActionEvent event){
         try {
             if (validUser()){
                 throw new UserAlreadyExistsException();
@@ -96,8 +95,8 @@ public class LoginController implements Initializable {
                         String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
                         userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");
-                        this.passwordTextField.clear();
-                        this.nameTextField.clear();
+                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
+                        ChangeScene.change(event, mainController, "/views/main.fxml");
                     } else {
                         AlertCreator.errorAlert("Contraseña debe contener:\n" +
                                 "- Carácter especial\n" +
@@ -111,6 +110,10 @@ public class LoginController implements Initializable {
             }
         } catch (UserAlreadyExistsException e) {
             AlertCreator.errorAlert(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (UserNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
     private boolean validUser() {

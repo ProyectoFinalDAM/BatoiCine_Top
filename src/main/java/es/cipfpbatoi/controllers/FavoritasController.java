@@ -1,12 +1,12 @@
 package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Tipo;
 import es.cipfpbatoi.models.respositories.*;
-import es.cipfpbatoi.utils.AlertCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class FavoritasController implements Initializable {
 
     @FXML
     private ImageView logoImageView;
@@ -51,17 +51,19 @@ public class MainController implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private VisualizarRepository visualizarRepository;
+    private EsFavoritaRepository esFavoritaRepository;
     private User user;
     @FXML
     private Button buttonBuscar;
 
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository) {
+    public FavoritasController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository, EsFavoritaRepository esFavoritaRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
         this.user = user;
         this.visualizarRepository= visualizarRepository;
+        this.esFavoritaRepository= esFavoritaRepository;
     }
 
     @Override
@@ -86,15 +88,33 @@ public class MainController implements Initializable {
     }
     private ObservableList<Produccion> getPeliculas(){
         try {
-            return FXCollections.observableArrayList(produccionRepository.getRecommendedFilms());
+            ArrayList<Produccion> peliculasFav= new ArrayList<>();
+            for (Produccion prod: esFavoritaRepository.getUserFavs(user)) {
+                if (prod.getTipo().equals(Tipo.MOVIE)){
+                    peliculasFav.add(prod);
+                }
+            }
+
+            return FXCollections.observableArrayList(peliculasFav);
         } catch (DatabaseErrorException e) {
+            throw new RuntimeException(e);
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
     private ObservableList<Produccion> getSeries(){
         try {
-            return FXCollections.observableArrayList(produccionRepository.getRecommendedSeries());
+            ArrayList<Produccion> peliculasFav= new ArrayList<>();
+            for (Produccion prod: esFavoritaRepository.getUserFavs(user)) {
+                if (prod.getTipo().equals(Tipo.TVSHOW)){
+                    peliculasFav.add(prod);
+                }
+            }
+
+            return FXCollections.observableArrayList(peliculasFav);
         } catch (DatabaseErrorException e) {
+            throw new RuntimeException(e);
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -128,10 +148,6 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-    @FXML
-    private void changeToFavoritas(){
-
     }
 
 

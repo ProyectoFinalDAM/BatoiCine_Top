@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
@@ -27,7 +26,7 @@
       <TextField fx:id="searchTextField" layoutX="480.0" layoutY="29.0" prefHeight="31.0" prefWidth="208.0" promptText="Producción" style="-fx-border-radius: 50px;" />
       <ComboBox fx:id="generoComboBox" layoutX="702.0" layoutY="28.0" prefHeight="31.0" prefWidth="154.0" promptText="Género" />
       <ImageView fx:id="lupaImageView" fitHeight="31.0" fitWidth="31.0" layoutX="444.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-      <Text layoutX="46.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Más recomendadas">
+      <Text layoutX="46.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favoritos">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
@@ -46,16 +45,5 @@
       <ListView fx:id="peliculasListView" layoutX="53.0" layoutY="157.0" prefHeight="246.0" prefWidth="874.0" />
       <ListView fx:id="seriesListView" layoutX="53.0" layoutY="437.0" prefHeight="246.0" prefWidth="874.0" />
       <Button fx:id="buttonBuscar" layoutX="873.0" layoutY="28.0" mnemonicParsing="false" onAction="#buscarProduccion" prefHeight="31.0" prefWidth="62.0" text="Buscar" />
-      <Label layoutX="705.0" layoutY="99.0" text="Bienvenido">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="userName" layoutX="823.0" layoutY="99.0">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Button fx:id="buttonFavoritas" layoutX="270.0" layoutY="93.0" mnemonicParsing="false" onAction="#changeToFavoritas" prefHeight="31.0" prefWidth="142.0" text="Producciones favoritas" />
    </children>
 </AnchorPane>
