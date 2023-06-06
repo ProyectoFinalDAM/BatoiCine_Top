@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -30,8 +29,12 @@
             </Label>
          </children>
       </AnchorPane>
-      <HBox fx:id="container" layoutX="82.0" layoutY="607.0" onMouseClicked="#encender" prefHeight="25.0" prefWidth="292.0" spacing="10.0" />
       <ImageView fx:id="corazon" fitHeight="40.0" fitWidth="51.0" layoutX="376.0" layoutY="596.0" onMouseClicked="#verMasTarde" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="estrella1" fitHeight="25.0" fitWidth="28.0" layoutX="119.0" layoutY="604.0" onMouseClicked="#encender1" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="estrella2" fitHeight="25.0" fitWidth="28.0" layoutX="154.0" layoutY="604.0" onMouseClicked="#encender2" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="estrella3" fitHeight="25.0" fitWidth="28.0" layoutX="191.0" layoutY="604.0" onMouseClicked="#encender3" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="estrella4" fitHeight="25.0" fitWidth="28.0" layoutX="226.0" layoutY="604.0" onMouseClicked="#encender4" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="estrella5" fitHeight="25.0" fitWidth="28.0" layoutX="262.0" layoutY="604.0" onMouseClicked="#encender5" pickOnBounds="true" preserveRatio="true" />
 
    </children>
 </AnchorPane>
