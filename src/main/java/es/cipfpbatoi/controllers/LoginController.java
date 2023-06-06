@@ -41,21 +41,18 @@ public class LoginController implements Initializable {
     private ValoracionRepository valoracionRepository;
     private GeneroRepository generoRepository;
     private VisualizarRepository visualizarRepository;
+    private EsFavoritaRepository esFavoritaRepository;
 
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository) {
+    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, ValoracionRepository valoracionRepository,RankingRepository rankingRepository, VisualizarRepository visualizarRepository,  EsFavoritaRepository esFavoritaRepository) {
         this.userRepository = userRepository;
         this.produccionRepository= produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
         this.visualizarRepository= visualizarRepository;
+        this.esFavoritaRepository=esFavoritaRepository;
     }
-    public LoginController(UserRepository userRepository, ProduccionRepository produccionRepository, GeneroRepository generoRepository, VisualizarRepository visualizarRepository) {
-        this.userRepository = userRepository;
-        this.produccionRepository= produccionRepository;
-        this.generoRepository= generoRepository;
-        this.visualizarRepository= visualizarRepository;
-    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,7 +68,7 @@ public class LoginController implements Initializable {
         try {
             userRepository.getUser(nameTextField.getText(), passwordTextField.getText());
             if (validUser()){
-                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
+                MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
                 ChangeScene.change(event, mainController, "/views/main.fxml");
             } else {
                 if (errorTextFields().length()>0){
@@ -95,7 +92,7 @@ public class LoginController implements Initializable {
                         String hashedPassword = BCrypt.hashpw(passwordTextField.getText(), BCrypt.gensalt());
                         userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(),hashedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");
-                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository);
+                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
                         ChangeScene.change(event, mainController, "/views/main.fxml");
                     } else {
                         AlertCreator.errorAlert("Contraseña debe contener:\n" +

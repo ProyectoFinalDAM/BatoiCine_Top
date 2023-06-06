@@ -51,17 +51,19 @@ public class MainController implements Initializable {
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
     private VisualizarRepository visualizarRepository;
+    private EsFavoritaRepository esFavoritaRepository;
     private User user;
     @FXML
     private Button buttonBuscar;
 
-    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository) {
+    public MainController(ProduccionRepository produccionRepository, ValoracionRepository valoracionRepository, RankingRepository rankingRepository, GeneroRepository generoRepository, User user, VisualizarRepository visualizarRepository, EsFavoritaRepository esFavoritaRepository) {
         this.produccionRepository = produccionRepository;
         this.valoracionRepository = valoracionRepository;
         this.rankingRepository = rankingRepository;
         this.generoRepository= generoRepository;
         this.user = user;
         this.visualizarRepository= visualizarRepository;
+        this.esFavoritaRepository= esFavoritaRepository;
     }
 
     @Override
@@ -102,7 +104,7 @@ public class MainController implements Initializable {
     private void buscarProduccion(ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository, visualizarRepository, user);
+            SearchController searchController= new SearchController(produccionRepository, this.searchTextField.getText(), this.generoComboBox.getValue(), generoRepository, rankingRepository, valoracionRepository, visualizarRepository, user, esFavoritaRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -113,7 +115,7 @@ public class MainController implements Initializable {
     private void changeToPeliculas(MouseEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE, generoRepository, visualizarRepository, user);
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.MOVIE, generoRepository, visualizarRepository, user, esFavoritaRepository);
             ChangeScene.change(stage, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -122,16 +124,20 @@ public class MainController implements Initializable {
     @FXML
     private void changeToSeries(MouseEvent event){
         try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository, visualizarRepository, user);
-            ChangeScene.change(stage, searchController, "/views/search.fxml");
+            SearchController searchController= new SearchController(produccionRepository, rankingRepository,valoracionRepository,Tipo.TVSHOW, generoRepository, visualizarRepository, user, esFavoritaRepository);
+            ChangeScene.change(event, searchController, "/views/search.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     @FXML
-    private void changeToFavoritas(){
-
+    private void changeToFavoritas(ActionEvent event){
+        try {
+            FavoritasController favoritasController = new FavoritasController(produccionRepository, valoracionRepository, rankingRepository, generoRepository, user, visualizarRepository, esFavoritaRepository);
+            ChangeScene.change(event, favoritasController, "/views/favoritas.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

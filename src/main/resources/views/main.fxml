@@ -56,6 +56,6 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Button fx:id="buttonFavoritas" layoutX="270.0" layoutY="93.0" mnemonicParsing="false" onAction="#changeToFavoritas" prefHeight="31.0" prefWidth="142.0" text="Producciones favoritas" />
+      <Button fx:id="buttonFavoritas" layoutX="270.0" layoutY="93.0" mnemonicParsing="false" onAction="#changeToFavoritas" prefHeight="31.0" prefWidth="94.0" text="Lista favoritas" />
    </children>
 </AnchorPane>
