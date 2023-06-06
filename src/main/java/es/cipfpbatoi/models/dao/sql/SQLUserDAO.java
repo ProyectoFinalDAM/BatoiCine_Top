@@ -6,6 +6,7 @@ import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.services.MySqlConnection;
+import es.cipfpbatoi.utils.PasswordEncryptor;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -85,7 +86,6 @@ public class SQLUserDAO implements UserDAO {
 
         try (Statement statement = connection.createStatement()) {
             String sql="SELECT * FROM Usuario WHERE id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 int idUser = rs.getInt("id");
@@ -103,7 +103,7 @@ public class SQLUserDAO implements UserDAO {
     public User getUser(String name, String password) throws UserNotExistException {
         for (User user: findAll()) {
             if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
+                if (validUser(name,password)) {
                     return user;
                 }
 
@@ -114,14 +114,23 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean validUser(String name, String password) {
-        for (User user: findAll()) {
-            if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
-                    return true;
-                }
 
+        String sql = "SELECT verificar_usuario(?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int result = resultSet.getInt(1);
+                    return result == 1;
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 }
