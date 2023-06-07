@@ -17,17 +17,37 @@ public class Valoracion {
         this.comentario = comentario;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return devuelve el id de la producción
+     */
+
     public String getId_produccion() {
         return id_produccion;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return devuelve el id del usuario
+     */
 
     public String getId_usuario() {
         return id_usuario;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return devuelve la nota de la producción
+     */
+
     public int getNota() {
         return nota;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return devuelve el comentario de la producción
+     */
 
     public String getComentario() {
         return comentario;

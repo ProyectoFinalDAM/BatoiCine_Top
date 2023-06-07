@@ -9,9 +9,19 @@ public class Visualizar {
         this.id_usuario = id_usuario;
     }
 
+    /**
+     * @author Andreu Francés
+     * @return Devuelve el id de la producción
+     */
+
     public String getId_produccion() {
         return id_produccion;
     }
+
+    /**
+     * @author Andreu Francés
+     * @return Devuelve el id del usuario
+     */
 
     public int getId_usuario() {
         return id_usuario;
