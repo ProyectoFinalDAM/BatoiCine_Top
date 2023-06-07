@@ -41,16 +41,28 @@ public class Estrella extends HBox {
         this.setOnMouseExited(this::apagarEstrellas);
     }
 
+    /**
+     * Apaga la estrella de la valoración
+     * @author Pablo Marin
+     * @param event
+     */
+
     private void encenderEstrellas(MouseEvent event) {
         for (int i = 0; i <= valor; i++) {
             ((Polygon) this.getChildren().get(0)).setFill(ESTRELLA_ENCENDIDA_COLOR);
         }
     }
+
     public void encenderEstrellas() {
         for (int i = 0; i <= valor; i++) {
             ((Polygon) this.getChildren().get(0)).setFill(ESTRELLA_ENCENDIDA_COLOR);
         }
     }
+
+    /**
+     * @author Andreu Francés
+     * @return retorna si true si esta encendida, en caso contrario false
+     */
 
     public boolean esEncendida(){
         if (this.estrella.getFill().equals(ESTRELLA_ENCENDIDA_COLOR)){
@@ -58,6 +70,12 @@ public class Estrella extends HBox {
         }
         return false;
     }
+
+    /**
+     * Apaga la estrella de la valoración
+     * @author Pablo Marin
+     * @param event
+     */
 
     private void apagarEstrellas(MouseEvent event) {
         for (int i = 0; i <= valor; i++) {

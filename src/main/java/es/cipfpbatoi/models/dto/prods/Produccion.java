@@ -58,109 +58,258 @@ public class Produccion {
         this.tipo = tipo;
     }
 
+    /**
+     * Inserta las visualizaciones en una producción
+     * @author Marcos Sanz
+     * @param visualizaciones
+     */
+
     public void setVisualizaciones(int visualizaciones) {
         this.visualizaciones = visualizaciones;
     }
+
+    /**
+     * Inserta el título en una producción
+     * @author Marcos Sanz
+     * @param titulo
+     */
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
+    /**
+     * Inserta la calificación en una producción
+     * @author Marcos Sanz
+     * @param calificacion
+     */
+
     public void setCalificacion(Calificacion calificacion) {
         this.calificacion = calificacion;
     }
+
+    /**
+     * Inserta la fecha de lanzamiento en una producción
+     * @author Marcos Sanz
+     * @param fecha_lanzamiento
+     */
 
     public void setFecha_lanzamiento(LocalDate fecha_lanzamiento) {
         this.fecha_lanzamiento = fecha_lanzamiento;
     }
 
+    /**
+     * Inserta la duración en una producción
+     * @author Marcos Sanz
+     * @param duracion
+     */
+
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
+
+    /**
+     * Inserta una lista de los géneros que aparecen en una producción
+     * @author Marcos Sanz
+     * @param genero
+     */
 
     public void setGenero(Set<String> genero) {
         this.genero = genero;
     }
 
+    /**
+     * Inserta el director en una producción
+     * @author Marcos Sanz
+     * @param director
+     */
+
     public void setDirector(String director) {
         this.director = director;
     }
+
+    /**
+     * Inserta el guion en una producción
+     * @author Marcos Sanz
+     * @param guion
+     */
 
     public void setGuion(String guion) {
         this.guion = guion;
     }
 
+    /**
+     * Inserta la porductora en una producción
+     * @author Marcos Sanz
+     * @param productora
+     */
+
     public void setProductora(String productora) {
         this.productora = productora;
     }
+
+    /**
+     * Inserta el poster en una producción
+     * @author Marcos Sanz
+     * @param poster
+     */
 
     public void setPoster(String poster) {
         this.poster = poster;
     }
 
+    /**
+     * Inserta las plataformas en una producción
+     * @author Marcos Sanz
+     * @param plataforma
+     */
+
     public void setPlataforma(Set<String> plataforma) {
         this.plataforma = plataforma;
     }
+
+    /**
+     * Inserta la web en una producción
+     * @author Marcos Sanz
+     * @param web
+     */
 
     public void setWeb(String web) {
         this.web = web;
     }
 
+    /**
+     * Inserta el tipo en una producción
+     * @author Marcos Sanz
+     * @param tipo
+     */
+
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el id de la produccíon
+     */
 
     public String getId() {
         return id;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el título de la produccíon
+     */
+
     public String getTitulo() {
         return titulo;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve la calificación de la produccíon
+     */
 
     public Calificacion getCalificacion() {
         return calificacion;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve la fehca de lanzamineto de la produccíon
+     */
+
     public LocalDate getFecha_lanzamiento() {
         return fecha_lanzamiento;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve la duración de la produccíon
+     */
 
     public int getDuracion() {
         return duracion;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve los géneros de la produccíon
+     */
+
     public Set<String> getGenero() {
         return genero;
     }
+
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el guion de la produccíon
+     */
 
     public String getGuion() {
         return guion;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve la productora de la produccíon
+     */
+
     public String getProductora() {
         return productora;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el poster de la produccíon
+     */
 
     public String getPoster() {
         return poster;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve las produccion de la produccíon
+     */
+
     public Set<String> getPlataforma() {
         return plataforma;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve las visualizaciones de la produccíon
+     */
 
     public int getVisualizaciones() {
         return visualizaciones;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve la web de la produccíon
+     */
+
     public String getWeb() {
         return web;
     }
 
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el tipo de la produccíon
+     */
+
     public Tipo getTipo() {
         return tipo;
     }
+
+    /**
+     * @author Pablo Marin
+     * @return Devuelve el director de la produccíon
+     */
 
     public String getDirector() {
         return director;
