@@ -20,6 +20,8 @@ public interface VisualizarDAO {
 
     ArrayList<User> getProdUsers(String id_produccion) throws DatabaseErrorException;
 
+    void sumarVisualizacion(String id_produccion) throws DatabaseErrorException;
+
     /**
      * Busca en la base de datos las coincidencias de producciones que ha visto cierto usuario
      * @param id_user
