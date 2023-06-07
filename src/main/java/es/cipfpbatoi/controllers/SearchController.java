@@ -84,6 +84,12 @@ public class SearchController implements Initializable {
         this.esFavoritaRepository=esFavoritaRepository;
     }
 
+    /**
+     * Inicializa la vista y todas sus acciones
+     * @param url
+     * @param resourceBundle
+     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -123,6 +129,12 @@ public class SearchController implements Initializable {
         }
     }
 
+    /**
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @return Devuelve las coincidencias de la búsqueda
+     */
+
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
 
@@ -148,9 +160,20 @@ public class SearchController implements Initializable {
         return coincidencias;
     }
 
+    /**
+     * @author Martin Peidro
+     * @return Devueleve una lista de los datos de filtrado
+     */
+
     private ObservableList<Produccion> getData(){
         return FXCollections.observableArrayList(getCoincidencias());
     }
+
+    /**
+     * Hace la función de volver a la pantalla principal
+     * @author Martin Peidro
+     * @param event
+     */
 
     @FXML
     private void goBack(MouseEvent event){
@@ -162,6 +185,11 @@ public class SearchController implements Initializable {
         }
     }
 
+    /**
+     * @author Martin Peidro
+     * @return Devuelve una lista de todas las películas
+     */
+
     private ObservableList<Produccion> getAllFilms(){
         try {
             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
@@ -169,6 +197,11 @@ public class SearchController implements Initializable {
             throw new RuntimeException( e );
         }
     }
+
+    /**
+     * @author Martin Peidro
+     * @return Devuelve una lista de todas las series
+     */
 
     private ObservableList<Produccion> getAllSeries(){
         try {
