@@ -274,7 +274,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getCoincidenciaTitulo(String text) {
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ?");
+        String sql =  String.format( "CALL producciones_por_titulo(?)");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, "%" + text + "%");
@@ -328,10 +328,10 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql =  String.format( "SELECT * FROM Produccion WHERE genero LIKE ?");
+        String sql =  String.format( "CALL producciones_por_genero(?)");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
-            preparedStatement.setString(1, "%" + genero.getCod() + "%");
+            preparedStatement.setString(1, genero.getCod());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 produccions.add( geProduccionFromResultset( resultSet ) );

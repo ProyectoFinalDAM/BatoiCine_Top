@@ -73,6 +73,7 @@ public class PosterPordController extends ListCell<Produccion> {
     private void changeToProduccion(MouseEvent event){
         try {
             this.visualizarRepository.save(new Visualizar(produccion.getId(), user.getId()));
+            this.visualizarRepository.sumarVisualizacion(produccion.getId());
             ControllerDetalles controllerDetalles= new ControllerDetalles(valoracionRepository, rankingRepository, produccion, produccionRepository, this.controllerAnterior, this.vista, user);
             ChangeScene.change(event, controllerDetalles, "/views/detail_production.fxml");
         } catch ( IOException ex) {
