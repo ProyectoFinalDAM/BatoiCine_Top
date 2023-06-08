@@ -107,4 +107,10 @@ public interface ProduccionDAO {
      */
 
     ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero);
+
+    ArrayList<String> getCalificaciones();
+
+    ArrayList<String> getPlataformas();
+
+    ArrayList<String> get10Direcotores();
 }

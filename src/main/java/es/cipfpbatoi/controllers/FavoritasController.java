@@ -96,9 +96,7 @@ public class FavoritasController implements Initializable {
             }
 
             return FXCollections.observableArrayList(peliculasFav);
-        } catch (DatabaseErrorException e) {
-            throw new RuntimeException(e);
-        } catch (NotFoundException e) {
+        } catch (DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -112,9 +110,7 @@ public class FavoritasController implements Initializable {
             }
 
             return FXCollections.observableArrayList(peliculasFav);
-        } catch (DatabaseErrorException e) {
-            throw new RuntimeException(e);
-        } catch (NotFoundException e) {
+        } catch (DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
     }

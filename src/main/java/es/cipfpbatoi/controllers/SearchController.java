@@ -55,8 +55,14 @@ public class SearchController implements Initializable {
     @FXML private Label     productionType;
     @FXML private       Hyperlink hlAtras;
     @FXML private Hyperlink hlSiguiente;
+    @FXML private Button actualizarButton;
+    @FXML private ComboBox<String> ordenarComboBox;
+    @FXML private ComboBox<String> filtadoComboBox;
+    @FXML private ComboBox<String>  calificacionComboBox;
+    @FXML private ComboBox<String>  directorComboBox;
+    @FXML private ComboBox<String> plataformaComboBox;
+    @FXML private CheckBox filtarCheckBox;
     private EsFavoritaRepository esFavoritaRepository;
-
     private ArrayList<Produccion> produccions;
 
     public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user, EsFavoritaRepository esFavoritaRepository) {
@@ -121,7 +127,17 @@ public class SearchController implements Initializable {
         } catch (WrongParameterException e) {
             throw new RuntimeException(e);
         }
+
+        plataformaComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        plataformaComboBox.setItems(FXCollections.observableList(produccionRepository.getPlataformas()));
+        directorComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        directorComboBox.setItems(FXCollections.observableList(produccionRepository.get10Direcotores()));
+        calificacionComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        calificacionComboBox.setItems(FXCollections.observableList(produccionRepository.getCalificaciones()));
+        String[] ordenes= new String[]{"calificacion","director","plataforma"};
+        ordenarComboBox.setItems(FXCollections.observableList(new ArrayList<>(List.of(ordenes))));
     }
+
 
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
@@ -283,5 +299,9 @@ public class SearchController implements Initializable {
         } catch (WrongParameterException e) {
             throw new RuntimeException(e);
         }
+    }
+    @FXML
+    private void actualizar(){
+        //if (!filtarCheckBox.isSelected() && ordenarComboBox!)
     }
 }

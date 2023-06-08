@@ -12,6 +12,7 @@ import es.cipfpbatoi.models.services.MySqlConnection;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 
@@ -258,6 +259,66 @@ public class SQLProduccionDAO implements ProduccionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+    @Override
+    public ArrayList<String> getCalificaciones() {
+        ArrayList<String> calificaciones = new ArrayList<>();
+        String sql =  String.format( "SELECT DISTINCT calificacion FROM Produccion");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                calificaciones.add( resultSet.getString(1));
+            }
+            return calificaciones;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    @Override
+    public ArrayList<String> getPlataformas() {
+        ArrayList<String> plataformas = new ArrayList<>();
+        String sql =  String.format( "SELECT GROUP_CONCAT(DISTINCT plataforma SEPARATOR ',') FROM Produccion");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+
+            while (resultSet.next()) {
+                String[] plats= resultSet.getString(1).split(",");
+                for (String plataforma: plats) {
+                    if (!plataformas.contains(plataforma)){
+                        plataformas.add(plataforma);
+                    }
+                }
+            }
+            return plataformas;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    @Override
+    public ArrayList<String> get10Direcotores() {
+        ArrayList<String> directores = new ArrayList<>();
+        String sql =  String.format( "SELECT DISTINCT director FROM Produccion ORDER BY director DESC LIMIT 10\n");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                directores.add( resultSet.getString(1));
+            }
+            return directores;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

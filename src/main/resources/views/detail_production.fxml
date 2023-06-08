@@ -18,7 +18,7 @@
       <Line endX="898.3333129882812" endY="-7.62939453125E-6" layoutX="104.0" layoutY="86.0" startX="-104.0" startY="-7.62939453125E-6" />
 
       <AnchorPane layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0" />
-      <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="934.0" layoutY="30.0" onMouseClicked="#haciaAtras" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="934.0" layoutY="30.0" onMouseClicked="#haciaAtras" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" />
 
       <AnchorPane fx:id="contendor" layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">
          <children>
