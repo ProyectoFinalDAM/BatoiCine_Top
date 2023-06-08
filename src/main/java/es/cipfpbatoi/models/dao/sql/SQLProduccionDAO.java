@@ -38,7 +38,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
                 ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                Produccion produccion = geProduccionFromResultset(resultSet);
+                Produccion produccion = getProduccionFromResultset(resultSet);
                 produccions.add(produccion);
             }
 
@@ -66,7 +66,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                Produccion produccion = geProduccionFromResultset(resultSet);
+                Produccion produccion = getProduccionFromResultset(resultSet);
                 produccions.add(produccion);
             }
 
@@ -94,7 +94,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                Produccion produccion = geProduccionFromResultset(resultSet);
+                Produccion produccion = getProduccionFromResultset(resultSet);
                 produccions.add(produccion);
             }
 
@@ -123,7 +123,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
             preparedStatement.setString(1, tipo);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Produccion produccion = geProduccionFromResultset(resultSet);
+                Produccion produccion = getProduccionFromResultset(resultSet);
                 produccions.add(produccion);
             }
 
@@ -142,8 +142,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
      * @return retorna una producción
      * @throws SQLException
      */
-
-    private Produccion geProduccionFromResultset(ResultSet rs) throws SQLException {
+    private Produccion getProduccionFromResultset(ResultSet rs) throws SQLException {
         String id = rs.getString("id");
         String titulo = rs.getString("titulo");
         Calificacion calificacion;
@@ -226,7 +225,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Produccion produccion = geProduccionFromResultset(resultSet);
+                Produccion produccion = getProduccionFromResultset(resultSet);
                 if (produccion.getId().equals(id)) {
                     return produccion;
                 }
@@ -274,13 +273,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
     @Override
     public Produccion getCoincidenciaTitulo(String text) {
-        String sql =  String.format( "SELECT * FROM Produccion WHERE titulo LIKE ?");
+        String sql =  String.format( "CALL producciones_por_titulo(?)");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
             preparedStatement.setString(1, "%" + text + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                return geProduccionFromResultset( resultSet );
+                return getProduccionFromResultset( resultSet );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -307,7 +306,7 @@ public class SQLProduccionDAO implements ProduccionDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                produccions.add( geProduccionFromResultset( resultSet ) );
+                produccions.add( getProduccionFromResultset( resultSet ) );
             }
 
             return produccions;
@@ -328,13 +327,13 @@ public class SQLProduccionDAO implements ProduccionDAO {
     @Override
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         ArrayList<Produccion> produccions = new ArrayList<>();
-        String sql =  String.format( "SELECT * FROM Produccion WHERE genero LIKE ?");
+        String sql =  String.format( "CALL producciones_por_genero(?)");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )){
-            preparedStatement.setString(1, "%" + genero.getCod() + "%");
+            preparedStatement.setString(1, genero.getCod());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                produccions.add( geProduccionFromResultset( resultSet ) );
+                produccions.add( getProduccionFromResultset( resultSet ) );
             }
 
             return produccions;
@@ -344,6 +343,219 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+    @Override
+    public ArrayList<String> getCalificaciones() {
+        ArrayList<String> calificaciones = new ArrayList<>();
+        String sql =  String.format( "SELECT DISTINCT calificacion FROM Produccion");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                calificaciones.add( resultSet.getString(1));
+            }
+            return calificaciones;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    @Override
+    public ArrayList<String> getPlataformas() {
+        ArrayList<String> plataformas = new ArrayList<>();
+        String sql =  String.format( "SELECT GROUP_CONCAT(DISTINCT plataforma SEPARATOR ',') FROM Produccion");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+
+            while (resultSet.next()) {
+                String[] plats= resultSet.getString(1).split(",");
+                for (String plataforma: plats) {
+                    if (!plataformas.contains(plataforma)){
+                        plataformas.add(plataforma);
+                    }
+                }
+            }
+            return plataformas;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    @Override
+    public ArrayList<String> get10Direcotores() {
+        ArrayList<String> directores = new ArrayList<>();
+        String sql =  String.format( "SELECT DISTINCT director FROM Produccion ORDER BY director DESC LIMIT 10\n");
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                directores.add( resultSet.getString(1));
+            }
+            return directores;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    @Override
+    public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql;
+
+        if (columnaOrdenamiento.isEmpty()) {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND director LIKE ? AND plataforma LIKE ?";
+        } else {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND director LIKE ? AND plataforma LIKE ? ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + seleccion1 + "%");
+            preparedStatement.setString(2, "%" + seleccion2 + "%");
+            preparedStatement.setString(3, "%" + seleccion3 + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql;
+
+        if (columnaOrdenamiento.isEmpty()) {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND director LIKE ?";
+        } else {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND director LIKE ? ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + seleccion1 + "%");
+            preparedStatement.setString(2, "%" + seleccion2 + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql;
+
+        if (columnaOrdenamiento.isEmpty()) {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND plataforma LIKE ?";
+        } else {
+            sql = "SELECT * FROM Produccion WHERE calificacion LIKE ? AND plataforma LIKE ? ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + seleccion1 + "%");
+            preparedStatement.setString(2, "%" + seleccion2 + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql;
+
+        if (columnaOrdenamiento.isEmpty()) {
+            sql = "SELECT * FROM Produccion WHERE director LIKE ? AND plataforma LIKE ?";
+        } else {
+            sql = "SELECT * FROM Produccion WHERE director LIKE ? AND plataforma LIKE ? ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + seleccion1 + "%");
+            preparedStatement.setString(2, "%" + seleccion2 + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql;
+
+        if (columnaOrdenamiento.isEmpty()) {
+            sql = "SELECT * FROM Produccion WHERE " + columnaFiltro + " LIKE ?";
+        } else {
+            sql = "SELECT * FROM Produccion WHERE " + columnaFiltro + " LIKE ? ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + patron + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento) {
+        ArrayList<Produccion> produccions = new ArrayList<>();
+        String sql = "SELECT * FROM Produccion";
+
+        if (!columnaOrdenamiento.isEmpty()) {
+            sql += " ORDER BY " + columnaOrdenamiento;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                produccions.add(getProduccionFromResultset(resultSet));
+            }
+            return produccions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 
 
 

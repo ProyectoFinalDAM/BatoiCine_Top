@@ -93,4 +93,13 @@ public class VisualizarRepository {
     public void save(Visualizar visualizar) throws DatabaseErrorException{
         visualizarDAO.save(visualizar);
     }
+        /**
+         * Sumar una visualización a la producción
+         * @author Marcos Sanz
+         * @param id_produccion
+         * @throws DatabaseErrorException
+         */
+    public void sumarVisualizacion(String id_produccion) throws DatabaseErrorException{
+        visualizarDAO.sumarVisualizacion(id_produccion);
+    }
 }

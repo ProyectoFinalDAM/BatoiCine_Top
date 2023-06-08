@@ -107,4 +107,22 @@ public interface ProduccionDAO {
      */
 
     ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero);
+
+    ArrayList<String> getCalificaciones();
+
+    ArrayList<String> getPlataformas();
+
+    ArrayList<String> get10Direcotores();
+
+    ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento);
+
+    ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento);
+
+    ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento);
+
+    ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento);
+
+    ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento);
+
+    ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento);
 }

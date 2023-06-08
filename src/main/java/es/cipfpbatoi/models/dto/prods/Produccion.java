@@ -314,4 +314,17 @@ public class Produccion {
     public String getDirector() {
         return director;
     }
+
+    /**
+     * @author Martín Peidro
+     * @return Devuelve las plataformas de manera fomrateada
+     */
+
+    public String getPlataformasFormat(){
+        String plataformas = getPlataforma().toString();
+        plataformas = plataformas.replaceAll( "\\[", " " );
+        plataformas = plataformas.replaceAll( "]", "" );
+        return plataformas;
+    }
+
 }

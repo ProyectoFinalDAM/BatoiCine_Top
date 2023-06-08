@@ -55,8 +55,14 @@ public class SearchController implements Initializable {
     @FXML private Label     productionType;
     @FXML private       Hyperlink hlAtras;
     @FXML private Hyperlink hlSiguiente;
+    @FXML private Button actualizarButton;
+    @FXML private ComboBox<String> ordenarComboBox;
+    @FXML private ComboBox<String> filtadoComboBox;
+    @FXML private ComboBox<String>  calificacionComboBox;
+    @FXML private ComboBox<String>  directorComboBox;
+    @FXML private ComboBox<String> plataformaComboBox;
+    @FXML private CheckBox filtarCheckBox;
     private EsFavoritaRepository esFavoritaRepository;
-
     private ArrayList<Produccion> produccions;
 
     public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user, EsFavoritaRepository esFavoritaRepository) {
@@ -127,6 +133,15 @@ public class SearchController implements Initializable {
         } catch (WrongParameterException e) {
             throw new RuntimeException(e);
         }
+
+        plataformaComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        plataformaComboBox.setItems(FXCollections.observableList(produccionRepository.getPlataformas()));
+        directorComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        directorComboBox.setItems(FXCollections.observableList(produccionRepository.get10Direcotores()));
+        calificacionComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        calificacionComboBox.setItems(FXCollections.observableList(produccionRepository.getCalificaciones()));
+        String[] ordenes= new String[]{"calificacion","director","plataforma"};
+        ordenarComboBox.setItems(FXCollections.observableList(new ArrayList<>(List.of(ordenes))));
     }
 
     /**
@@ -358,10 +373,13 @@ public class SearchController implements Initializable {
      */
 
     private List<Produccion> findAll(int fromIndex, int toIndex) throws WrongParameterException {
-        if (fromIndex < 0 || fromIndex > this.produccions.size()-1)
-            throw new WrongParameterException("El índice del primer elemento a mostrar es incorrecto: " + fromIndex);
-        if (toIndex < fromIndex)
+        if (fromIndex < 0 || fromIndex > this.produccions.size()-1){
+            AlertCreator.errorAlert("No existe ninguna coincidencia");
+        }
+
+        if (toIndex < fromIndex){
             throw new WrongParameterException("El índice del último elemento a mostrar es superior al primero: " + toIndex);
+        }
 
         if (toIndex > this.produccions.size()-1) {
             toIndex = this.produccions.size();
@@ -412,4 +430,70 @@ public class SearchController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    private void actualizar(){
+        String seleccionCalificacion = calificacionComboBox.getSelectionModel().getSelectedItem();
+        String seleccionDirector = directorComboBox.getSelectionModel().getSelectedItem();
+        String seleccionPlataforma = plataformaComboBox.getSelectionModel().getSelectedItem();
+        String seleccionOrdenar = ordenarComboBox.getSelectionModel().getSelectedItem();
+
+        if (seleccionOrdenar == null) {
+            seleccionOrdenar= "";
+        }
+
+        if (!filtarCheckBox.isSelected()) {
+            // Si el CheckBox de filtrar no está seleccionado, realizar una consulta sin filtros
+            if (seleccionOrdenar.equals("")){
+                AlertCreator.infoAlert("Ningun filtrado o ordenación seleccionada.");
+            } else {
+                mostrarDatos(produccionRepository.getOrdenacion(seleccionOrdenar));
+            }
+        } else if (seleccionCalificacion != null && seleccionDirector != null && seleccionPlataforma != null) {
+            // Si se seleccionó una calificación, un director y una plataforma
+            mostrarDatos(produccionRepository.getClasDirPlat(seleccionCalificacion, seleccionDirector, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionCalificacion != null && seleccionDirector != null) {
+            // Si se seleccionó una calificación y un director
+            mostrarDatos(produccionRepository.getClasDir(seleccionCalificacion, seleccionDirector, seleccionOrdenar));
+        } else if (seleccionCalificacion != null && seleccionPlataforma != null) {
+            // Si se seleccionó una calificación y una plataforma
+            mostrarDatos(produccionRepository.getClasPlat(seleccionCalificacion, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionDirector != null && seleccionPlataforma != null) {
+            // Si se seleccionó un director y una plataforma
+            mostrarDatos(produccionRepository.getDirPlat(seleccionDirector, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionCalificacion != null) {
+            // Si se seleccionó solo una calificación
+            mostrarDatos(produccionRepository.getUnFiltrado("calificacion", seleccionCalificacion, seleccionOrdenar));
+        } else if (seleccionDirector != null) {
+            // Si se seleccionó solo un director
+            mostrarDatos(produccionRepository.getUnFiltrado("director", seleccionDirector, seleccionOrdenar));
+        } else if (seleccionPlataforma != null) {
+            // Si se seleccionó solo una plataforma
+            mostrarDatos(produccionRepository.getUnFiltrado("plataforma", seleccionPlataforma, seleccionOrdenar));
+        } else {
+            // Si no se seleccionó ninguna opción de filtrado
+            if (seleccionOrdenar.equals("")){
+                AlertCreator.infoAlert("Ningun filtrado o ordenación seleccionada.");
+            } else {
+                mostrarDatos(produccionRepository.getOrdenacion(seleccionOrdenar));
+            }
+        }
+
+
+    }
+    private void mostrarDatos(ArrayList<Produccion> prods){
+        try {
+            this.produccions.clear();
+            this.portadaListView.setItems( FXCollections.observableList(prods) );
+            this.produccions.addAll( prods);
+            this.totalDataToShow= this.produccions.size();
+            this.currentPageIndex=0;
+            showPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 }

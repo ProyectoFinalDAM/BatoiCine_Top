@@ -8,7 +8,6 @@ import es.cipfpbatoi.models.dto.prods.Visualizar;
 import es.cipfpbatoi.models.services.MySqlConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -45,6 +44,20 @@ public class SQLVisualizarDAO implements VisualizarDAO {
             throw new DatabaseErrorException( "Ha ocurrido un error en el acceso o conexión a la base de datos" );
         }
         return usuarios;
+    }
+    @Override
+    public void sumarVisualizacion(String id_produccion) throws DatabaseErrorException {
+        String sql = String.format("UPDATE Produccion SET visualizaciones=visualizaciones+1 WHERE id=?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )) {
+            preparedStatement.setString(1, id_produccion);
+            preparedStatement.executeUpdate();
+
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            throw new DatabaseErrorException( "Ha ocurrido un error en el acceso o conexión a la base de datos" );
+        }
+
     }
 
     /**
