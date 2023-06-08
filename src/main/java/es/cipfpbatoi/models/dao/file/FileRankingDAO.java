@@ -18,6 +18,13 @@ public class FileRankingDAO implements RankingDAO {
 
     private static final String FILE_DATABASE = "resources/database/ranking.txt";
 
+    /**
+     * Busca todos los elementos del ranking
+     * @author Andreu Francés
+     * @return Una lista del resultado del ranking
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Ranking> findAll() throws DatabaseErrorException {
         ArrayList<Ranking> rankings = new ArrayList<>();
@@ -37,12 +44,27 @@ public class FileRankingDAO implements RankingDAO {
         }
         return rankings;
     }
+
+    /**
+     * Convierte los campos String a un objeto Ranking
+     * @author Andreu Francés
+     * @param register
+     * @return retorna una temporada
+     */
+
     private Ranking getRankingFromRegister(String register) {
         String[] fields = register.split( Validator.REGEX_TEMPORADAS );
         String id_produccion = fields[ID_PRODUCCION];
         int puntos = Integer.parseInt(fields[PUNTOS]);
         return new Ranking( id_produccion, puntos);
     }
+
+    /**
+     * Guarda en la base de datos todos los datos sobre el ranking
+     * @author Andreu Francés
+     * @param ranking
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Ranking ranking) throws DatabaseErrorException {

@@ -2,12 +2,15 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.models.dao.ActorDAO;
+import es.cipfpbatoi.models.dao.ActuaDAO;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.prods.Actor;
 import es.cipfpbatoi.models.dto.prods.Estrella;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -22,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,12 +44,17 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
 
     @FXML
     private Label descripcion;
+    @FXML
+    private Label directores;
+    @FXML
+    private Label plataformas;
     @FXML
     private ImageView portada;
     @FXML
@@ -64,6 +73,8 @@ public class ControllerDetalles implements Initializable {
     private ImageView estrella4;
     @FXML
     private ImageView estrella5;
+    @FXML
+    private TextField opinionComentario;
 
 
     private static final int NUM_ESTRELLAS = 5;
@@ -87,8 +98,8 @@ public class ControllerDetalles implements Initializable {
         this.produccionRepository = produccionRepository;
         this.esFavoritaRepository = new EsFavoritaRepository(new SQLEsFavoritaDAO(), produccionRepository, new UserRepository(new SQLUserDAO()));
         this.user = user;
-        this.controllerAnterior= controllerAnterior;
-        this.vista= vista;
+        this.controllerAnterior = controllerAnterior;
+        this.vista = vista;
     }
 
     @FXML
@@ -99,6 +110,7 @@ public class ControllerDetalles implements Initializable {
         estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
     }
+
     @FXML
     private void encender2(MouseEvent event) throws URISyntaxException {
         estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
@@ -107,6 +119,7 @@ public class ControllerDetalles implements Initializable {
         estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
     }
+
     @FXML
     private void encender3(MouseEvent event) throws URISyntaxException {
         estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
@@ -115,6 +128,7 @@ public class ControllerDetalles implements Initializable {
         estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
     }
+
     @FXML
     private void encender4(MouseEvent event) throws URISyntaxException {
         estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
@@ -123,6 +137,7 @@ public class ControllerDetalles implements Initializable {
         estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
     }
+
     @FXML
     private void encender5(MouseEvent event) throws URISyntaxException {
         estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
@@ -133,77 +148,114 @@ public class ControllerDetalles implements Initializable {
     }
 
 
-
-        //Método para salir de la vista de detalles y volver a la principal
-        @FXML
-        private void haciaAtras (MouseEvent event){
-            try {
-                ChangeScene.change(event, controllerAnterior, vista);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    //Método para salir de la vista de detalles y volver a la principal
+    @FXML
+    private void haciaAtras(MouseEvent event) {
+        try {
+            ChangeScene.change(event, controllerAnterior, vista);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+    }
 
-        @FXML
-        private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
-            if (esFavorita()){
-                esFavoritaRepository.eliminar(user, produccion);
-                actualizarEsFavorita(false);
-            }else {
+    @FXML
+    private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
+        if (esFavorita()) {
+            esFavoritaRepository.eliminar(user, produccion);
+            actualizarEsFavorita(false);
+        } else {
             esFavoritaRepository.save(user, produccion);
             actualizarEsFavorita(true);
+        }
+    }
+
+    private boolean esFavorita() throws DatabaseErrorException, NotFoundException {
+        for (Produccion produccion1 : esFavoritaRepository.getUserFavs(this.user)) {
+            if (produccion1.getId().equals(this.produccion.getId())) {
+                return true;
             }
         }
+        return false;
+    }
 
-        private boolean esFavorita()throws DatabaseErrorException, NotFoundException{
-            for (Produccion produccion1:esFavoritaRepository.getUserFavs(this.user)) {
-                if (produccion1.getId().equals(this.produccion.getId())){
-                    return true;
-                }
-            }
+    private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
+        if (favorita) {
+            corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
+        } else {
+            corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+        }
+    }
+
+    @FXML
+    private String recogerComentario(ActionEvent event) {
+        
+        String comentarioProduccion = null;
+
+            if (isValoracionValida()) {
+                comentarioProduccion = opinionComentario.getText();
+        }
+            return comentarioProduccion;
+    }
+
+    private boolean isValoracionValida() {
+        if (estrellasVacias() && !opinionComentario.getText().isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle( "Debes introducir una valoracion para poder añadir un comentario" );
+            alert.setHeaderText( "" );
+            alert.setContentText( "Atención, para poder añadir un comentario, debes previamente de haber valorado la producción " );
+            alert.showAndWait();
             return false;
         }
+        return true;
+    }
 
-        private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
-            if (favorita){
-                corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
-            }else {
-                corazon.setImage(new Image(getPathImage("/images/corazonBlancoyNegro.png")));
+    private boolean estrellasVacias() {
+        String rutaImagenEspecifica = "/images/EstrellaBlanca.png";
+
+        if (estrella1.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella2.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella3.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella4.getImage().getUrl().equals(rutaImagenEspecifica)
+                && estrella5.getImage().getUrl().equals(rutaImagenEspecifica)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
+            flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+
+            if (URLChecker.checkURL(produccion.getPoster())) {
+                portada.setImage(new Image(produccion.getPoster()));
+            } else {
+                portada.setImage(new Image(getPathImage("/images/default.png")));
             }
+            actualizarEsFavorita(esFavorita());
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
+            throw new RuntimeException(e);
         }
 
 
-        @Override
-        public void initialize (URL url, ResourceBundle resourceBundle){
-            try {
-                logoImageView.setImage(new Image(getPathImage("/images/LogoBatoiCineTop.png")));
-                flecha.setImage(new Image(getPathImage("/images/Flecha_goBack.png")));
+        descripcion.setText(produccion.getGuion());
+        descripcion.setWrapText(true);
+        descripcion.setPrefWidth(370);
+        directores.setText( produccion.getDirector() );
+        plataformas.setText( produccion.getPlataformasFormat() );
 
-                if ( URLChecker.checkURL( produccion.getPoster() ) ) {
-                    portada.setImage(new Image(produccion.getPoster()));
-                } else {
-                    portada.setImage( new Image( getPathImage( "/images/default.png" ) ) );
-                }
-                actualizarEsFavorita(esFavorita());
-                estrella1.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-                estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-                estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-                estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-                estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-            } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
-                throw new RuntimeException(e);
-            }
+    }
 
-
-            descripcion.setText(produccion.getGuion());
-            descripcion.setWrapText(true);
-            descripcion.setPrefWidth(370);
-
-
-
-        }
-
-        private String getPathImage (String fileName) throws URISyntaxException {
-            return getClass().getResource(fileName).toURI().toString();
-        }
+    private String getPathImage(String fileName) throws URISyntaxException {
+        return getClass().getResource(fileName).toURI().toString();
+    }
 }

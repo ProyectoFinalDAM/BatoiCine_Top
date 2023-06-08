@@ -11,9 +11,19 @@ public class Actua {
         this.idProduccion = idProduccion;
     }
 
+    /**
+     * @uthor Pablo Marin
+     * @return Devuelve el id del actor
+     */
+
     public String getIdActor() {
         return idActor;
     }
+
+    /**
+     * @uthor Pablo Marin
+     * @return Devuelve el id de la producción
+     */
 
     public String getIdProduccion() {
         return idProduccion;
