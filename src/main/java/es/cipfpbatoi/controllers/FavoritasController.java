@@ -65,6 +65,12 @@ public class FavoritasController implements Initializable {
         this.esFavoritaRepository= esFavoritaRepository;
     }
 
+    /**
+     * Inicializamos todas las producciones que son favoritas por el usuario, cargando su portada y dividiendolas en peliculas y series
+     * insertar la descripción de la producción junto a las plataformas en las que está disponible y sus actores.
+     * @author Marcos Sanz
+     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         seriesListView.setOrientation(Orientation.HORIZONTAL);
@@ -83,10 +89,24 @@ public class FavoritasController implements Initializable {
         this.generoComboBox.setDisable(true);
         this.searchTextField.setEditable(false);
     }
-    private ObservableList<Genero> getGeneros(){
+
+    /**
+     * Recogemos todos los géneros
+     * @author Marcos Sanz
+     * @return ObservableList con todos los géneros
+     */
+
+    private ObservableList<Genero> getGeneros() {
         return FXCollections.observableArrayList(generoRepository.findAll());
     }
-    private ObservableList<Produccion> getPeliculas(){
+
+    /**
+     * Recogemos todas las películas que ya han sido marcadas como favoritas por el usuario.
+     * @author Marcos Sanz
+     * @return ObservableList con todos las peliculas favoritas.
+     */
+
+    private ObservableList<Produccion> getPeliculas() {
         try {
             ArrayList<Produccion> peliculasFav= new ArrayList<>();
             for (Produccion prod: esFavoritaRepository.getUserFavs(user)) {
@@ -100,6 +120,13 @@ public class FavoritasController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Recogemos todas las series que ya han sido marcadas como favoritas por el usuario.
+     * @author Marcos Sanz
+     * @return ObservableList con todos las series favoritas.
+     */
+
     private ObservableList<Produccion> getSeries(){
         try {
             ArrayList<Produccion> peliculasFav= new ArrayList<>();
@@ -115,6 +142,11 @@ public class FavoritasController implements Initializable {
         }
     }
 
+    /**
+     * En este método nos encargamos de que cuando cliquemos en el título de "películas" nos lleve al catálogo de todas las peliculas disponibles.
+     * @author Marcos Sanz
+     */
+
     @FXML
     private void changeToPeliculas(MouseEvent event){
         try {
@@ -125,6 +157,12 @@ public class FavoritasController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * En este método nos encargamos de que cuando cliquemos en el título de "series" nos carge el catálogo de todas las series disponibles
+     * @author Marcos Sanz
+     */
+
     @FXML
     private void changeToSeries(MouseEvent event){
         try {
@@ -135,6 +173,12 @@ public class FavoritasController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Volvemos atrás a la vista main del programa
+     * @author Marcos Sanz
+     */
+
     @FXML
     private void goBack(MouseEvent event){
         try {
@@ -145,6 +189,11 @@ public class FavoritasController implements Initializable {
         }
     }
 
+    /**
+     * Para poder cargar las imagenes locales mediante su url
+     * @author Pablo Marin
+     * @return String , la ruta de dicha imagen.
+     */
 
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
