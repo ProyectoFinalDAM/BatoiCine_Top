@@ -1,7 +1,14 @@
 package es.cipfpbatoi;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.models.dao.sql.SQLGeneroDAO;
+import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
+import es.cipfpbatoi.models.dto.prods.Genero;
+import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.utils.Validator;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -45,5 +52,29 @@ public class BatoiCIneTopPrueba {
 
         boolean result4 = Validator.PASSWORD_REGEXP.matches("12@m");
         assertFalse(result4);
+    }
+
+    @Test
+    void consultaGenero(){
+        SQLGeneroDAO validator = new SQLGeneroDAO();
+
+        boolean result1 = false;
+
+        for ( Genero genero: validator.findAll()) {
+            if ( genero.equals( new Genero( 20, "Action", "Acción" ) ) ){
+                result1 = true;
+            }
+        }
+        assertTrue( result1 );
+
+        boolean result2 = true;
+
+        for ( Genero genero: validator.findAll()) {
+            if ( genero.equals( new Genero( 38, "X", "XXX" ) ) ){
+                result2 = false;
+            }
+        }
+        assertFalse( result2 );
+
     }
 }
