@@ -203,6 +203,21 @@ public class FileProduccionDAO implements ProduccionDAO {
     }
 
     @Override
+    public ArrayList<String> getCalificaciones() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPlataformas() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> get10Direcotores() {
+        return null;
+    }
+
+    @Override
     public ArrayList<Produccion> getCoincidenciaGenero(Genero genero) {
         return null;
     }

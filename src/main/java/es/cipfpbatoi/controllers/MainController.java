@@ -148,7 +148,7 @@ public class MainController implements Initializable {
             HistorialController historialController= new HistorialController(produccionRepository, rankingRepository, valoracionRepository, generoRepository, visualizarRepository, user, esFavoritaRepository);
             ChangeScene.change(event, historialController, "/views/historial.fxml");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            AlertCreator.errorAlert("No has visualizado ninguna producción aún.");
         }
     }
 

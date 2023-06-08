@@ -124,5 +124,13 @@ public class ProduccionRepository {
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         return produccionDAO.getCoincidenciaGeneroTitulo(titulo, genero);
     }
-
+    public ArrayList<String> get10Direcotores(){
+        return produccionDAO.get10Direcotores();
+    }
+    public ArrayList<String> getPlataformas(){
+        return produccionDAO.getPlataformas();
+    }
+    public ArrayList<String> getCalificaciones(){
+        return produccionDAO.getCalificaciones();
+    }
 }
