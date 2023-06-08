@@ -430,6 +430,10 @@ public class SearchController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Muestra todas las producciones filtradas y ordenadas por los datos obtenidos de los comboBox
+     * @author Marcos Sanz
+     */
     @FXML
     private void actualizar(){
         String seleccionCalificacion = calificacionComboBox.getSelectionModel().getSelectedItem();
@@ -480,6 +484,10 @@ public class SearchController implements Initializable {
 
 
     }
+    /**
+     * Muestra todas las producciones pasadas como parámetro en las paginación
+     * @author Marcos Sanz
+     */
     private void mostrarDatos(ArrayList<Produccion> prods){
         try {
             this.produccions.clear();

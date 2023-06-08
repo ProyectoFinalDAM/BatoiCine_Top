@@ -191,7 +191,7 @@ public class FavoritasController implements Initializable {
 
     /**
      * Para poder cargar las imagenes locales mediante su url
-     * @author Pablo Marin
+     * @author Marcos Sanz
      * @return String , la ruta de dicha imagen.
      */
 

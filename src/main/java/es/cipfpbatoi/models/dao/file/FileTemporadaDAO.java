@@ -1,6 +1,7 @@
 package es.cipfpbatoi.models.dao.file;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.TemporadaDAO;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Temporada;
@@ -65,6 +66,11 @@ public class FileTemporadaDAO implements TemporadaDAO {
 
     }
 
+    @Override
+    public Temporada getByIdProdTemporada(String id_produccion, int temporada) throws DatabaseErrorException, NotFoundException {
+        return null;
+    }
+
     /**
      * Convierte los campos String a un objeto Temporada
      * @author Martin Peidro
@@ -74,7 +80,7 @@ public class FileTemporadaDAO implements TemporadaDAO {
 
     private Temporada getTemporadaFromRegister(String register) {
         String[] fields = register.split( Validator.REGEX_TEMPORADAS );
-        int pelicula = Integer.parseInt(fields[PELICULA]);
+        String pelicula = fields[PELICULA];
         int temporada = Integer.parseInt(fields[TEMPORADA]);
         int anyo =  Integer.parseInt(fields[ANYO_LANZAMIENTO]);
         String guion = fields[GUION];
