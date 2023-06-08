@@ -54,6 +54,8 @@ public class ControllerDetalles implements Initializable {
     @FXML
     private Label directores;
     @FXML
+    private Label titulo;
+    @FXML
     private Label plataformas;
     @FXML
     private ImageView portada;
@@ -252,6 +254,7 @@ public class ControllerDetalles implements Initializable {
         descripcion.setPrefWidth(370);
         directores.setText( produccion.getDirector() );
         plataformas.setText( produccion.getPlataformasFormat() );
+        titulo.setText( produccion.getTitulo() );
 
     }
 
