@@ -23,6 +23,13 @@ public class SQLValoracionDAO implements ValoracionDAO {
         this.connection= new MySqlConnection().conectar();
     }
 
+    /**
+     * Busca todas las valoraciones junto a sus respectivas notas
+     * @author Pablo Marin
+     * @return Una lista de las producciones con su nota
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Valoracion> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
@@ -103,6 +110,14 @@ public class SQLValoracionDAO implements ValoracionDAO {
         }
     }
 
+    /**
+     * Convierte los campos string a Valoración
+     * @author Pablo Marín
+     * @param rs
+     * @return retorna una valoración
+     * @throws SQLException
+     */
+
     private Valoracion geValoracionFromResultset(ResultSet rs) throws SQLException {
         String id_produccion = rs.getString("id_produccion");
         int id_usuario = rs.getInt("id_usuario");
@@ -111,6 +126,13 @@ public class SQLValoracionDAO implements ValoracionDAO {
 
         return new Valoracion(id_produccion, id_usuario, nota, comentario);
     }
+
+    /**
+     * Gurada una valoración
+     * @author Pablo Marin
+     * @param valoracion
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
@@ -128,10 +150,10 @@ public class SQLValoracionDAO implements ValoracionDAO {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
         ) {
-            preparedStatement.setString( 1, valoracion.getId_produccion());
-            preparedStatement.setInt( 2, valoracion.getId_usuario());
-            preparedStatement.setInt( 3, valoracion.getNota());
-            preparedStatement.setString( 4, valoracion.getComentario());
+            preparedStatement.setString( 1, valoracion.getId_produccion() );
+            preparedStatement.setString( 2, valoracion.getId_usuario() );
+            preparedStatement.setInt( 3, valoracion.getNota() );
+            preparedStatement.setString( 4, valoracion.getComentario() );
             preparedStatement.executeUpdate();
 
         } catch ( SQLException e ) {

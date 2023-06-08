@@ -55,8 +55,14 @@ public class SearchController implements Initializable {
     @FXML private Label     productionType;
     @FXML private       Hyperlink hlAtras;
     @FXML private Hyperlink hlSiguiente;
+    @FXML private Button actualizarButton;
+    @FXML private ComboBox<String> ordenarComboBox;
+    @FXML private ComboBox<String> filtadoComboBox;
+    @FXML private ComboBox<String>  calificacionComboBox;
+    @FXML private ComboBox<String>  directorComboBox;
+    @FXML private ComboBox<String> plataformaComboBox;
+    @FXML private CheckBox filtarCheckBox;
     private EsFavoritaRepository esFavoritaRepository;
-
     private ArrayList<Produccion> produccions;
 
     public SearchController(ProduccionRepository produccionRepository, String titulo, Genero genero, GeneroRepository generoRepository, RankingRepository rankingRepository, ValoracionRepository valoracionRepository, VisualizarRepository visualizarRepository, User user, EsFavoritaRepository esFavoritaRepository) {
@@ -83,6 +89,12 @@ public class SearchController implements Initializable {
         this.user= user;
         this.esFavoritaRepository=esFavoritaRepository;
     }
+
+    /**
+     * Inicializa la vista y todas sus acciones
+     * @param url
+     * @param resourceBundle
+     */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -121,7 +133,22 @@ public class SearchController implements Initializable {
         } catch (WrongParameterException e) {
             throw new RuntimeException(e);
         }
+
+        plataformaComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        plataformaComboBox.setItems(FXCollections.observableList(produccionRepository.getPlataformas()));
+        directorComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        directorComboBox.setItems(FXCollections.observableList(produccionRepository.get10Direcotores()));
+        calificacionComboBox.disableProperty().bind(filtarCheckBox.selectedProperty().not());
+        calificacionComboBox.setItems(FXCollections.observableList(produccionRepository.getCalificaciones()));
+        String[] ordenes= new String[]{"calificacion","director","plataforma"};
+        ordenarComboBox.setItems(FXCollections.observableList(new ArrayList<>(List.of(ordenes))));
     }
+
+    /**
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @return Devuelve las coincidencias de la búsqueda
+     */
 
     private ArrayList<Produccion> getCoincidencias(){
         ArrayList<Produccion> coincidencias = new ArrayList<>();
@@ -148,9 +175,20 @@ public class SearchController implements Initializable {
         return coincidencias;
     }
 
+    /**
+     * @author Martin Peidro
+     * @return Devueleve una lista de los datos de filtrado
+     */
+
     private ObservableList<Produccion> getData(){
         return FXCollections.observableArrayList(getCoincidencias());
     }
+
+    /**
+     * Hace la función de volver a la pantalla principal
+     * @author Martin Peidro
+     * @param event
+     */
 
     @FXML
     private void goBack(MouseEvent event){
@@ -162,6 +200,11 @@ public class SearchController implements Initializable {
         }
     }
 
+    /**
+     * @author Martin Peidro
+     * @return Devuelve una lista de todas las películas
+     */
+
     private ObservableList<Produccion> getAllFilms(){
         try {
             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
@@ -169,6 +212,11 @@ public class SearchController implements Initializable {
             throw new RuntimeException( e );
         }
     }
+
+    /**
+     * @author Martin Peidro
+     * @return Devuelve una lista de todas las series
+     */
 
     private ObservableList<Produccion> getAllSeries(){
         try {
@@ -178,6 +226,10 @@ public class SearchController implements Initializable {
         }
     }
 
+    /**
+     * Es una acción de botón que viaja a la página siguiente de la paginación
+     * @author Martin Peidro
+     */
 
     @FXML
     private void handleLinkSiguiente() {
@@ -188,10 +240,27 @@ public class SearchController implements Initializable {
         }
     }
 
+    /**
+     * Va a la página siguiente
+     * @author Martin Peidro
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
+
     private void nextPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException{
         currentPageIndex++;
         showPageWithTransition(listView, atras, siguiente);
     }
+
+    /**
+     * Muestra la paginación con transición
+     * @author Martin Peidro
+     * @param listView
+     * @param atras
+     * @param siguiente
+     */
 
     private void showPageWithTransition(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) {
         FadeTransition fadeOut = createFadeTransition(1.0, 0.0);
@@ -206,12 +275,28 @@ public class SearchController implements Initializable {
         });
         fadeOut.play();
     }
+
+    /**
+     * Vuelve a la página previa
+     * @author Martin Peidro
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
+
     private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         if (currentPageIndex > 0) {
             currentPageIndex--;
             showPageWithTransition(listView, atras, siguiente);
         }
     }
+
+    /**
+     * Es una acción de botón que vuleve a la página anterior de la paginación
+     * @author Martin Peidro
+     */
+
     @FXML
     private void handleLinkAtras() {
         try {
@@ -220,22 +305,57 @@ public class SearchController implements Initializable {
             AlertCreator.infoAlert(ex.getMessage());
         }
     }
+
+    /**
+     * Muestra la paginación
+     * @author Martin Peidro
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
+
     private void showPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         listView.getItems().clear();
         List<Produccion> pageData = fetchDataForPage();
         listView.getItems().addAll(pageData);
         updateLinksState(atras, siguiente);
     }
+
+    /**
+     * Recoge las producciones que se va a mostrar según su posición
+     * @author Martin Peidro
+     * @return una lista con las producciones a mostrar
+     * @throws WrongParameterException
+     */
+
     private List<Produccion> fetchDataForPage() throws WrongParameterException {
         int startIndex = currentPageIndex * FILAS_POR_PAGINA;
         int endIndex = Math.min(startIndex + FILAS_POR_PAGINA, totalDataToShow);
         return findAll(startIndex, endIndex);
     }
+
+    /**
+     * Actualiza la página de la paginación
+     * @author Martin Peidro
+     * @param previousPageButton
+     * @param nextPageButton
+     */
+
     private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
         previousPageButton.setDisable(currentPageIndex <= 0);
         int totalPageCount = (int) Math.ceil((double) totalDataToShow / FILAS_POR_PAGINA);
         nextPageButton.setDisable(currentPageIndex >= totalPageCount - 1);
     }
+
+    /**
+     * Crea una transición
+     * @author Martin Peidro
+     * @param fromValue
+     * @param toValue
+     * @return devuleve una transición
+     */
+
     private FadeTransition createFadeTransition(double fromValue, double toValue) {
         FadeTransition fadeTransition = new FadeTransition(new Duration(500), portadaListView);
         fadeTransition.setFromValue(fromValue);
@@ -243,11 +363,23 @@ public class SearchController implements Initializable {
         return fadeTransition;
     }
 
+    /**
+     * Recoge los elementos que van a ser mostrados en la página
+     * @@author Martin Peidro
+     * @param fromIndex
+     * @param toIndex
+     * @return una lista de los productos encontrados
+     * @throws WrongParameterException
+     */
+
     private List<Produccion> findAll(int fromIndex, int toIndex) throws WrongParameterException {
-        if (fromIndex < 0 || fromIndex > this.produccions.size()-1)
-            throw new WrongParameterException("El índice del primer elemento a mostrar es incorrecto: " + fromIndex);
-        if (toIndex < fromIndex)
+        if (fromIndex < 0 || fromIndex > this.produccions.size()-1){
+            AlertCreator.errorAlert("No existe ninguna coincidencia");
+        }
+
+        if (toIndex < fromIndex){
             throw new WrongParameterException("El índice del último elemento a mostrar es superior al primero: " + toIndex);
+        }
 
         if (toIndex > this.produccions.size()-1) {
             toIndex = this.produccions.size();
@@ -255,6 +387,13 @@ public class SearchController implements Initializable {
 
         return this.produccions.subList(fromIndex, toIndex);
     }
+
+    /**
+     * Muestra todas las peliculas con paginación
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @param event
+     */
 
     @FXML
     private void showFilms(MouseEvent event){
@@ -271,6 +410,13 @@ public class SearchController implements Initializable {
 
     }
 
+    /**
+     * Muestra todas las series con paginación
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @param event
+     */
+
     @FXML
     private void showShows(MouseEvent event){
         try {
@@ -284,4 +430,70 @@ public class SearchController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    private void actualizar(){
+        String seleccionCalificacion = calificacionComboBox.getSelectionModel().getSelectedItem();
+        String seleccionDirector = directorComboBox.getSelectionModel().getSelectedItem();
+        String seleccionPlataforma = plataformaComboBox.getSelectionModel().getSelectedItem();
+        String seleccionOrdenar = ordenarComboBox.getSelectionModel().getSelectedItem();
+
+        if (seleccionOrdenar == null) {
+            seleccionOrdenar= "";
+        }
+
+        if (!filtarCheckBox.isSelected()) {
+            // Si el CheckBox de filtrar no está seleccionado, realizar una consulta sin filtros
+            if (seleccionOrdenar.equals("")){
+                AlertCreator.infoAlert("Ningun filtrado o ordenación seleccionada.");
+            } else {
+                mostrarDatos(produccionRepository.getOrdenacion(seleccionOrdenar));
+            }
+        } else if (seleccionCalificacion != null && seleccionDirector != null && seleccionPlataforma != null) {
+            // Si se seleccionó una calificación, un director y una plataforma
+            mostrarDatos(produccionRepository.getClasDirPlat(seleccionCalificacion, seleccionDirector, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionCalificacion != null && seleccionDirector != null) {
+            // Si se seleccionó una calificación y un director
+            mostrarDatos(produccionRepository.getClasDir(seleccionCalificacion, seleccionDirector, seleccionOrdenar));
+        } else if (seleccionCalificacion != null && seleccionPlataforma != null) {
+            // Si se seleccionó una calificación y una plataforma
+            mostrarDatos(produccionRepository.getClasPlat(seleccionCalificacion, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionDirector != null && seleccionPlataforma != null) {
+            // Si se seleccionó un director y una plataforma
+            mostrarDatos(produccionRepository.getDirPlat(seleccionDirector, seleccionPlataforma, seleccionOrdenar));
+        } else if (seleccionCalificacion != null) {
+            // Si se seleccionó solo una calificación
+            mostrarDatos(produccionRepository.getUnFiltrado("calificacion", seleccionCalificacion, seleccionOrdenar));
+        } else if (seleccionDirector != null) {
+            // Si se seleccionó solo un director
+            mostrarDatos(produccionRepository.getUnFiltrado("director", seleccionDirector, seleccionOrdenar));
+        } else if (seleccionPlataforma != null) {
+            // Si se seleccionó solo una plataforma
+            mostrarDatos(produccionRepository.getUnFiltrado("plataforma", seleccionPlataforma, seleccionOrdenar));
+        } else {
+            // Si no se seleccionó ninguna opción de filtrado
+            if (seleccionOrdenar.equals("")){
+                AlertCreator.infoAlert("Ningun filtrado o ordenación seleccionada.");
+            } else {
+                mostrarDatos(produccionRepository.getOrdenacion(seleccionOrdenar));
+            }
+        }
+
+
+    }
+    private void mostrarDatos(ArrayList<Produccion> prods){
+        try {
+            this.produccions.clear();
+            this.portadaListView.setItems( FXCollections.observableList(prods) );
+            this.produccions.addAll( prods);
+            this.totalDataToShow= this.produccions.size();
+            this.currentPageIndex=0;
+            showPage(portadaListView, hlAtras, hlSiguiente);
+        } catch (WrongParameterException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 }

@@ -27,10 +27,24 @@ public class FileActorDAO implements ActorDAO {
         this.file = new File( FILE_DATABASE );
     }
 
+    /**
+     * Gurada un actor
+     * @author Pablo Marin
+     * @param actor
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public void save(Actor actor) throws DatabaseErrorException {
         //No se usa el save.
     }
+
+    /**
+     * Busca todos los actores
+     * @author Pablo Marin
+     * @return Una lista de los actores
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public ArrayList<Actor> findAll(){
@@ -52,6 +66,13 @@ public class FileActorDAO implements ActorDAO {
         return autores;
     }
 
+    /**
+     * Convierte los campos String a un objeto Actor
+     * author Pablo Marin
+     * @param register
+     * @return retorna una temporada
+     */
+
     private Actor getActorFromRegister(String register) {
         String[] fields = register.split(FIELD_SEPARATOR);
 
@@ -60,6 +81,13 @@ public class FileActorDAO implements ActorDAO {
 
         return new Actor( id, nombre );
     }
+
+    /**
+     * Creas un buffered reader con el nombre del archivo dentro
+     * @author Pablo Marin
+     * @return BufferedReader
+     * @throws IOException
+     */
 
     private BufferedReader getReader() throws IOException {
         return new BufferedReader(new FileReader(file));

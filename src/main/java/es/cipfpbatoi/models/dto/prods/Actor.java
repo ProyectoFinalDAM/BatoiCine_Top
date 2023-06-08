@@ -9,9 +9,19 @@ public class Actor {
         this.nombre = nombre;
     }
 
+    /**
+     * @uthor Pablo Marin
+     * @return Devuelve el id del actor
+     */
+
     public String getId() {
         return id;
     }
+
+    /**
+     * @uthor Pablo Marin
+     * @return Devuelve el nombre del actor
+     */
 
     public String getNombre() {
         return nombre;

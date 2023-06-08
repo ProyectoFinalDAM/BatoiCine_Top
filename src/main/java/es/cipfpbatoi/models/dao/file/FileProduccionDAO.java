@@ -23,6 +23,14 @@ public class FileProduccionDAO implements ProduccionDAO {
     public FileProduccionDAO() {
         this.file = new File(DATABASE_FILE);
     }
+
+    /**
+     * Busca todas las producciones de la base de datos
+     * @author Marcos Sanz
+     * @return Una lista de todas las producciones
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Produccion> findAll() {
         ArrayList<Produccion> producciones = new ArrayList<>();
@@ -114,6 +122,13 @@ public class FileProduccionDAO implements ProduccionDAO {
         // No se usa en el File
     }
 
+    /**
+     * Recoge el campo fecho dependiendo del formto que tenga
+     * @author Marcos Sanz
+     * @param fecha
+     * @return Un LocalDate
+     */
+
     private LocalDate getAnyoFormateado(String fecha){
 
         DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
@@ -151,6 +166,14 @@ public class FileProduccionDAO implements ProduccionDAO {
         return null;
 
     }
+
+    /**
+     * Cambia el mes del septiembre para que sea válido en el formater
+     * @author Marcos Sanz
+     * @param dateString
+     * @return Un String con la fecha correcta
+     */
+
     private static String septiembreValido(String dateString) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
         LocalDate date = LocalDate.parse(dateString, inputFormatter);
@@ -174,8 +197,54 @@ public class FileProduccionDAO implements ProduccionDAO {
         return null;
     }
 
+
     @Override
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getCalificaciones() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPlataformas() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> get10Direcotores() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento) {
         return null;
     }
 

@@ -1,5 +1,6 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.respositories.*;
@@ -71,11 +72,14 @@ public class PosterPordController extends ListCell<Produccion> {
     @FXML
     private void changeToProduccion(MouseEvent event){
         try {
-
+            this.visualizarRepository.save(new Visualizar(produccion.getId(), user.getId()));
+            this.visualizarRepository.sumarVisualizacion(produccion.getId());
             ControllerDetalles controllerDetalles= new ControllerDetalles(valoracionRepository, rankingRepository, produccion, produccionRepository, this.controllerAnterior, this.vista, user);
             ChangeScene.change(event, controllerDetalles, "/views/detail_production.fxml");
         } catch ( IOException ex) {
             ex.printStackTrace();
+        } catch (DatabaseErrorException e) {
+            throw new RuntimeException(e);
         }
 
     }

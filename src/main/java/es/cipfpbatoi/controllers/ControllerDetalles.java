@@ -2,16 +2,22 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.models.dao.RankingDAO;
+import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
+import es.cipfpbatoi.models.dto.prods.Estrella;
+import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import es.cipfpbatoi.models.dto.prods.Valoracion;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.URLChecker;
+import javafx.beans.binding.Bindings;
 
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -20,20 +26,31 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import java.net.URL;
-import java.util.Objects;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
 
     @FXML
     private Label descripcion;
+    @FXML
+    private Label directores;
+    @FXML
+    private Label titulo;
+    @FXML
+    private Label plataformas;
     @FXML
     private ImageView portada;
     @FXML
@@ -99,7 +116,7 @@ public class ControllerDetalles implements Initializable {
         estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
         valorar(new Valoracion(produccion.getId(),user.getId(),2," "));
-        
+
     }
 
     @FXML

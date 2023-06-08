@@ -1,11 +1,13 @@
 package es.cipfpbatoi.models.dao.sql;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.exception.UserAlreadyExistsException;
 import es.cipfpbatoi.exception.UserNotExistException;
 import es.cipfpbatoi.models.dao.UserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.services.MySqlConnection;
+import es.cipfpbatoi.utils.PasswordEncryptor;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -19,6 +21,14 @@ public class SQLUserDAO implements UserDAO {
     }
 
     private static final String TABLE_NAME = "Usuario";
+
+    /**
+     * Busca todos los usuarios del programa
+     * @author Marcos Sanz
+     * @return Una lista de todos los usuarios
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<User> findAll() {
         String sql = String.format("SELECT * FROM %s", TABLE_NAME);
@@ -41,6 +51,15 @@ public class SQLUserDAO implements UserDAO {
 
         return users;
     }
+
+    /**
+     * Crea un usuario a través de los campos string recibidos como parametro
+     * @author Andreu Francés
+     * @param resultSet
+     * @return retorna un objeto usuario
+     * @throws SQLException
+     */
+
     private User getUserFromRegister(ResultSet resultSet) throws SQLException {
 
         int id = resultSet.getInt("id");
@@ -49,6 +68,12 @@ public class SQLUserDAO implements UserDAO {
 
         return new User(id, nombre, contrasenya);
     }
+
+    /**
+     * Guarda el usuario en la base de datos
+     * @author Andreu Francés
+     * @param user
+     */
 
     @Override
     public void save(User user) {
@@ -63,6 +88,13 @@ public class SQLUserDAO implements UserDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Recoge el ultimo código del usuario.
+     * @author Marcos Sanz
+     * @return el ultimo código del usuario
+     */
+
     @Override
     public int getLastCod(){
         int lastId = 0;
@@ -80,12 +112,19 @@ public class SQLUserDAO implements UserDAO {
 
     }
 
+    /**
+     * Recoge un usuario que coincide con el id pasado como parametro
+     * @author Marcos Sanz
+     * @param id
+     * @return Un usuario
+     * @throws UserNotExistException
+     */
+
     @Override
     public User getById(int id) throws UserNotExistException {
 
         try (Statement statement = connection.createStatement()) {
             String sql="SELECT * FROM Usuario WHERE id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 int idUser = rs.getInt("id");
@@ -99,11 +138,20 @@ public class SQLUserDAO implements UserDAO {
         throw new UserNotExistException();
     }
 
+    /**
+     * Recoge el usuario que coincide con el nombre y la contraseña
+     * @author Pablo Marin
+     * @param name
+     * @param password
+     * @return Devuleve el usuario que coincide con el nombre y la contraseña
+     * @throws UserNotExistException
+     */
+
     @Override
     public User getUser(String name, String password) throws UserNotExistException {
         for (User user: findAll()) {
             if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
+                if (validUser(name,password)) {
                     return user;
                 }
 
@@ -112,16 +160,33 @@ public class SQLUserDAO implements UserDAO {
         throw new UserNotExistException();
     }
 
+    /**
+     * Válida al usuario que coincide con la contraseña que tiene
+     * @author Marcos Sanz
+     * @param name
+     * @param password
+     * @return Un boolenano para saber si es correcto o no
+     */
+
     @Override
     public boolean validUser(String name, String password) {
-        for (User user: findAll()) {
-            if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
-                    return true;
-                }
 
+        String sql = "SELECT verificar_usuario(?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int result = resultSet.getInt(1);
+                    return result == 1;
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 }

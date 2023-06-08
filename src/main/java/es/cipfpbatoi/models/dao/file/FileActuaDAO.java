@@ -1,5 +1,6 @@
 package es.cipfpbatoi.models.dao.file;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.models.dao.ActuaDAO;
 import es.cipfpbatoi.models.dto.prods.Actua;
 
@@ -30,6 +31,13 @@ public class FileActuaDAO implements ActuaDAO {
         //No se usa el save.
     }
 
+    /**
+     * Busca todas las Actuaciones
+     * @author Pablo Marin
+     * @return Una lista de las actuaciones
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Actua> findAll(){
         ArrayList<Actua> actua = new ArrayList<>();
@@ -50,6 +58,14 @@ public class FileActuaDAO implements ActuaDAO {
         return actua;
     }
 
+
+    /**
+     * Convierte los campos String a un objeto Actua
+     * @author Pablo Marin
+     * @param register
+     * @return retorna una temporada
+     */
+
     private Actua getActuaFromRegister(String register) {
         String[] fields = register.split(FIELD_SEPARATOR);
 
@@ -58,6 +74,13 @@ public class FileActuaDAO implements ActuaDAO {
 
         return new Actua( id_actor, id_produccion );
     }
+
+    /**
+     * Creas un buffered reader con el nombre del archivo dentro
+     * @author Pablo Marin
+     * @return BufferedReader
+     * @throws IOException
+     */
 
     private BufferedReader getReader() throws IOException {
         return new BufferedReader(new FileReader(file));

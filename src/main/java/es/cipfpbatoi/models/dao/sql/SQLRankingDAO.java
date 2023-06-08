@@ -14,6 +14,13 @@ public class SQLRankingDAO implements RankingDAO {
 
     private Connection connection;
 
+    /**
+     * Busca todos los elementos del ranking
+     * @author Andreu Francés
+     * @return Una lista del resultado del ranking
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Ranking> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
@@ -37,6 +44,13 @@ public class SQLRankingDAO implements RankingDAO {
 
         return rankings;
     }
+
+    /**
+     * Guarda en la base de datos todos los datos sobre el ranking
+     * @author Andreu Francés
+     * @param ranking
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Ranking ranking) throws DatabaseErrorException {
