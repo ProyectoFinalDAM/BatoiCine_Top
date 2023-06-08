@@ -22,6 +22,7 @@ public class MySqlConnection {
         if (connection == null){
             try {
                 String dbURL = "jdbc:mysql://192.168.1.139/batoiCine_top";
+
                 Connection connection = DriverManager.getConnection(dbURL,"batoi","1234");
                 this.connection = connection;
                 System.out.println("Conexión valida: " + connection.isValid(20));

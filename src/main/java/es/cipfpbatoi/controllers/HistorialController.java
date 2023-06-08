@@ -83,7 +83,11 @@ public class HistorialController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Obtiene las producciones que el usuario ya ha visualizado
+     * @author Marcos Sanz
+     * @return Devuelve el historial de producciones visualizadas por el usuario
+     */
     private ArrayList<Produccion> getHistorial(){
         try {
             return visualizarRepository.getUserProducciones(user.getId());
@@ -91,11 +95,18 @@ public class HistorialController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Obtiene las producciones en una ObservableList
+     * @author Marcos Sanz
+     * @return Devuelve el historial de producciones en ObservableList
+     */
     private ObservableList<Produccion> getData(){
         return FXCollections.observableArrayList(getHistorial());
     }
-
+    /**
+     * Returna a la vista anterior MainController al darle al botón de volver atrás
+     * @author Marcos Sanz
+     */
     @FXML
     private void goBack(MouseEvent event){
         try {
@@ -105,7 +116,11 @@ public class HistorialController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Obtiene las producciones que sean pelílulas en una ObservableList
+     * @author Marcos Sanz
+     * @return Devuelve todas las producciones que sean películas
+     */
     private ObservableList<Produccion> getAllFilms(){
         try {
             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.MOVIE.toString() ));
@@ -113,7 +128,11 @@ public class HistorialController implements Initializable {
             throw new RuntimeException( e );
         }
     }
-
+    /**
+     * Obtiene las producciones que sean series en una ObservableList
+     * @author Marcos Sanz
+     * @return Devuelve todas las producciones que sean series
+     */
     private ObservableList<Produccion> getAllSeries(){
         try {
             return FXCollections.observableArrayList(this.produccionRepository.findAll( Tipo.TVSHOW.toString() ));
@@ -122,7 +141,10 @@ public class HistorialController implements Initializable {
         }
     }
 
-
+    /**
+     * Es una acción de botón que viaja a la página siguiente de la paginación
+     * @author Marcos Sanz
+     */
     @FXML
     private void handleLinkSiguiente() {
         try {
@@ -131,12 +153,25 @@ public class HistorialController implements Initializable {
             AlertCreator.infoAlert(ex.getMessage());
         }
     }
-
+    /**
+     * Va a la página siguiente
+     * @author Marcos Sanz
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
     private void nextPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException{
         currentPageIndex++;
         showPageWithTransition(listView, atras, siguiente);
     }
-
+    /**
+     * Muestra la paginación con transición
+     * @author Marcos Sanz
+     * @param listView
+     * @param atras
+     * @param siguiente
+     */
     private void showPageWithTransition(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) {
         FadeTransition fadeOut = createFadeTransition(1.0, 0.0);
         fadeOut.setOnFinished(event -> {
@@ -150,12 +185,24 @@ public class HistorialController implements Initializable {
         });
         fadeOut.play();
     }
+    /**
+     * Vuelve a la página previa
+     * @author Marcos Sanz
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
     private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         if (currentPageIndex > 0) {
             currentPageIndex--;
             showPageWithTransition(listView, atras, siguiente);
         }
     }
+    /**
+     * Es una acción de botón que vuleve a la página anterior de la paginación
+     * @author Marcos Sanz
+     */
     @FXML
     private void handleLinkAtras() {
         try {
@@ -164,29 +211,63 @@ public class HistorialController implements Initializable {
             AlertCreator.infoAlert(ex.getMessage());
         }
     }
+    /**
+     * Muestra la paginación
+     * @author Marcos Sanz
+     * @param listView
+     * @param atras
+     * @param siguiente
+     * @throws WrongParameterException
+     */
     private void showPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         listView.getItems().clear();
         List<Produccion> pageData = fetchDataForPage();
         listView.getItems().addAll(pageData);
         updateLinksState(atras, siguiente);
     }
+    /**
+     * Recoge las producciones que se va a mostrar según su posición
+     * @author Marcos Sanz
+     * @return una lista con las producciones a mostrar
+     * @throws WrongParameterException
+     */
     private List<Produccion> fetchDataForPage() throws WrongParameterException {
         int startIndex = currentPageIndex * FILAS_POR_PAGINA;
         int endIndex = Math.min(startIndex + FILAS_POR_PAGINA, totalDataToShow);
         return findAll(startIndex, endIndex);
     }
+    /**
+     * Actualiza la página de la paginación
+     * @author Marcos Sanz
+     * @param previousPageButton
+     * @param nextPageButton
+     */
     private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
         previousPageButton.setDisable(currentPageIndex <= 0);
         int totalPageCount = (int) Math.ceil((double) totalDataToShow / FILAS_POR_PAGINA);
         nextPageButton.setDisable(currentPageIndex >= totalPageCount - 1);
     }
+    /**
+     * Crea una transición
+     * @author Marcos Sanz
+     * @param fromValue
+     * @param toValue
+     * @return devuleve una transición
+     */
     private FadeTransition createFadeTransition(double fromValue, double toValue) {
         FadeTransition fadeTransition = new FadeTransition(new Duration(500), portadaListView);
         fadeTransition.setFromValue(fromValue);
         fadeTransition.setToValue(toValue);
         return fadeTransition;
     }
-
+    /**
+     * Recoge los elementos que van a ser mostrados en la página
+     * @@author Marcos Sanz
+     * @param fromIndex
+     * @param toIndex
+     * @return una lista de los productos encontrados
+     * @throws WrongParameterException
+     */
     private List<Produccion> findAll(int fromIndex, int toIndex) throws WrongParameterException {
         if (fromIndex < 0 || fromIndex > this.produccions.size()-1)
             throw new WrongParameterException("El índice del primer elemento a mostrar es incorrecto: " + fromIndex);
@@ -199,7 +280,12 @@ public class HistorialController implements Initializable {
 
         return this.produccions.subList(fromIndex, toIndex);
     }
-
+    /**
+     * Muestra todas las peliculas con paginación
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @param event
+     */
     @FXML
     private void showFilms(MouseEvent event){
         try {
@@ -214,7 +300,12 @@ public class HistorialController implements Initializable {
         }
 
     }
-
+    /**
+     * Muestra todas las series con paginación
+     * @author Martin Peidro
+     * @author Marcos Sanz
+     * @param event
+     */
     @FXML
     private void showShows(MouseEvent event){
         try {

@@ -10,6 +10,17 @@ import es.cipfpbatoi.utils.Validator;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import es.cipfpbatoi.models.dao.sql.SQLGeneroDAO;
+import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
+import es.cipfpbatoi.models.dto.prods.Genero;
+import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.utils.Validator;
+import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BatoiCIneTopPrueba {
 
@@ -51,6 +62,7 @@ public class BatoiCIneTopPrueba {
         boolean result4 = Validator.PASSWORD_REGEXP.matches("12@m");
         assertFalse(result4);
     }
+
     @Test
     void obtenerProduccionCorrecto(){
         SQLProduccionDAO sqlProduccionDAO= new SQLProduccionDAO();
@@ -64,23 +76,45 @@ public class BatoiCIneTopPrueba {
 
     }
     @Test
-    void obtenerTemporadaCorrecta(){
-        SQLTemporadaDAO sqlTemporadaDAO= new SQLTemporadaDAO();
+    void obtenerTemporadaCorrecta() {
+        SQLTemporadaDAO sqlTemporadaDAO = new SQLTemporadaDAO();
         try {
-            Temporada temporada= sqlTemporadaDAO.getByIdProdTemporada("145",1);
+            Temporada temporada = sqlTemporadaDAO.getByIdProdTemporada("145", 1);
             int result1 = temporada.getAnyoLanzamiento();
-            assertTrue(result1==2017);
+            assertTrue(result1 == 2017);
         } catch (DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            Temporada temporada= sqlTemporadaDAO.getByIdProdTemporada("146",2);
+            Temporada temporada = sqlTemporadaDAO.getByIdProdTemporada("146", 2);
             String result1 = temporada.getGuion();
             assertFalse(result1.equals("Ejemplo"));
         } catch (DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Test
+    void consultaGenero(){
+        SQLGeneroDAO validator = new SQLGeneroDAO();
+
+        boolean result1 = false;
+
+        for ( Genero genero: validator.findAll()) {
+            if ( genero.equals( new Genero( 20, "Action", "Acción" ) ) ){
+                result1 = true;
+            }
+        }
+        assertTrue( result1 );
+
+        boolean result2 = true;
+
+        for ( Genero genero: validator.findAll()) {
+            if ( genero.equals( new Genero( 38, "X", "XXX" ) ) ){
+                result2 = false;
+            }
+        }
+        assertFalse( result2 );
 
     }
 }
