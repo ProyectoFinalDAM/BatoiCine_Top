@@ -1,10 +1,15 @@
 package es.cipfpbatoi;
 
+import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
+import es.cipfpbatoi.models.dao.sql.SQLTemporadaDAO;
+import es.cipfpbatoi.models.dto.prods.Produccion;
+import es.cipfpbatoi.models.dto.prods.Temporada;
 import es.cipfpbatoi.utils.Validator;
 import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BatoiCIneTopPrueba {
 
@@ -45,5 +50,37 @@ public class BatoiCIneTopPrueba {
 
         boolean result4 = Validator.PASSWORD_REGEXP.matches("12@m");
         assertFalse(result4);
+    }
+    @Test
+    void obtenerProduccionCorrecto(){
+        SQLProduccionDAO sqlProduccionDAO= new SQLProduccionDAO();
+        Produccion prod= sqlProduccionDAO.getCoincidenciaTitulo("Argo");
+
+        String result1 = prod.getDirector();
+        assertEquals("Ben Affleck", result1);
+
+        String result2 = prod.getDirector();
+        assertNotEquals("Marcos Sanz", result2);
+
+    }
+    @Test
+    void obtenerTemporadaCorrecta(){
+        SQLTemporadaDAO sqlTemporadaDAO= new SQLTemporadaDAO();
+        try {
+            Temporada temporada= sqlTemporadaDAO.getByIdProdTemporada("145",1);
+            int result1 = temporada.getAnyoLanzamiento();
+            assertTrue(result1==2017);
+        } catch (DatabaseErrorException | NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Temporada temporada= sqlTemporadaDAO.getByIdProdTemporada("146",2);
+            String result1 = temporada.getGuion();
+            assertFalse(result1.equals("Ejemplo"));
+        } catch (DatabaseErrorException | NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

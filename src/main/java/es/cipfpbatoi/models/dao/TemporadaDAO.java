@@ -1,6 +1,7 @@
 package es.cipfpbatoi.models.dao;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Temporada;
 
@@ -25,4 +26,6 @@ public interface TemporadaDAO {
      */
 
     void save(Temporada temporada) throws DatabaseErrorException;
+
+    Temporada getByIdProdTemporada(String id_produccion, int temporada) throws DatabaseErrorException, NotFoundException;
 }
