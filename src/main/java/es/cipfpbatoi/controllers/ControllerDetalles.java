@@ -2,12 +2,15 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
+import es.cipfpbatoi.models.dao.ActorDAO;
+import es.cipfpbatoi.models.dao.ActuaDAO;
 import es.cipfpbatoi.models.dao.RankingDAO;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.prods.Actor;
 import es.cipfpbatoi.models.dto.prods.Estrella;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -41,12 +44,17 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerDetalles implements Initializable {
 
     @FXML
     private Label descripcion;
+    @FXML
+    private Label directores;
+    @FXML
+    private Label plataformas;
     @FXML
     private ImageView portada;
     @FXML
@@ -242,7 +250,8 @@ public class ControllerDetalles implements Initializable {
         descripcion.setText(produccion.getGuion());
         descripcion.setWrapText(true);
         descripcion.setPrefWidth(370);
-
+        directores.setText( produccion.getDirector() );
+        plataformas.setText( produccion.getPlataformasFormat() );
 
     }
 

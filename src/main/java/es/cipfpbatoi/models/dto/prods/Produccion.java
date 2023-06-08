@@ -314,4 +314,12 @@ public class Produccion {
     public String getDirector() {
         return director;
     }
+
+    public String getPlataformasFormat(){
+        String plataformas = getPlataforma().toString();
+        plataformas = plataformas.replaceAll( "\\[", " " );
+        plataformas = plataformas.replaceAll( "]", "" );
+        return plataformas;
+    }
+
 }

@@ -33,7 +33,7 @@ public class SQLActuaDAO implements ActuaDAO {
         ) {
 
             while (resultSet.next()) {
-                Actua actua = getGeneroFromRegister(resultSet);
+                Actua actua = getActuaFromRegister( resultSet);
                 actoresEnPeliculas.add(actua);
             }
 
@@ -52,7 +52,7 @@ public class SQLActuaDAO implements ActuaDAO {
      * @throws SQLException
      */
 
-    private Actua getGeneroFromRegister(ResultSet resultSet) throws SQLException {
+    private Actua getActuaFromRegister(ResultSet resultSet) throws SQLException {
         String id_actor = resultSet.getString("id_actor");
         String id_produccion = resultSet.getString("id_produccion");
 
@@ -82,4 +82,6 @@ public class SQLActuaDAO implements ActuaDAO {
             e.printStackTrace();
         }
     }
+
+
 }
