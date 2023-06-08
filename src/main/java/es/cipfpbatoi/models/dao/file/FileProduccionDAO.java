@@ -174,6 +174,7 @@ public class FileProduccionDAO implements ProduccionDAO {
         return null;
     }
 
+
     @Override
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         return null;
@@ -191,6 +192,36 @@ public class FileProduccionDAO implements ProduccionDAO {
 
     @Override
     public ArrayList<String> get10Direcotores() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento) {
         return null;
     }
 

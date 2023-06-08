@@ -7,6 +7,7 @@ import es.cipfpbatoi.models.dao.ProduccionDAO;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
+import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.PrimitiveIterator;
 
@@ -132,5 +133,27 @@ public class ProduccionRepository {
     }
     public ArrayList<String> getCalificaciones(){
         return produccionDAO.getCalificaciones();
+    }
+    public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento){
+        return produccionDAO.getClasDirPlat(seleccion1, seleccion2, seleccion3, columnaOrdenamiento);
+    }
+
+    public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento){
+        return produccionDAO.getClasDir(seleccion1, seleccion2, columnaOrdenamiento);
+    }
+
+    public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento){
+        return produccionDAO.getClasPlat(seleccion1, seleccion2, columnaOrdenamiento);
+    }
+
+    public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento){
+        return produccionDAO.getDirPlat(seleccion1, seleccion2, columnaOrdenamiento);
+    }
+
+    public ArrayList<Produccion> getUnFiltrado(String seleccion1, String seleccion2, String columnaOrdenamiento){
+        return produccionDAO.getUnFiltrado(seleccion1, seleccion2, columnaOrdenamiento);
+    }
+    public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento){
+        return produccionDAO.getOrdenacion(columnaOrdenamiento);
     }
 }
