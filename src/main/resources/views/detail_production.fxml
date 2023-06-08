@@ -18,11 +18,9 @@
          </font>
       </Label>
       <Line endX="898.3333129882812" endY="-7.62939453125E-6" layoutX="104.0" layoutY="86.0" startX="-104.0" startY="-7.62939453125E-6" />
-
-      <AnchorPane layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0" />
       <ImageView fx:id="flecha" fitHeight="30.0" fitWidth="28.0" layoutX="934.0" layoutY="30.0" onMouseClicked="#haciaAtras" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" />
 
-      <AnchorPane fx:id="contendor" layoutX="578.0" layoutY="213.0" prefHeight="295.0" prefWidth="370.0">
+      <AnchorPane fx:id="contendor" layoutX="578.0" layoutY="213.0" prefHeight="96.0" prefWidth="370.0">
          <children>
             <Label fx:id="descripcion" text="Label">
                <font>
@@ -44,6 +42,34 @@
       </Label>
       <TextField fx:id="opinionComentario" layoutX="610.0" layoutY="559.0" prefHeight="73.0" prefWidth="284.0" />
       <Button layoutX="717.0" layoutY="648.0" mnemonicParsing="false" onAction="#recogerComentario" text="Confirmar" />
+      <Label layoutX="697.0" layoutY="310.0" text="Director/es">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="contendor1" layoutX="567.0" layoutY="350.0" prefHeight="62.0" prefWidth="370.0">
+         <children>
+            <Label fx:id="directores" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="697.0" layoutY="424.0" text="Plataformas">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="contendor11" layoutX="561.0" layoutY="450.0" prefHeight="62.0" prefWidth="370.0">
+         <children>
+            <Label fx:id="plataformas" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
 
    </children>
 </AnchorPane>
