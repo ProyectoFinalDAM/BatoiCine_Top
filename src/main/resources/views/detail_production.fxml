@@ -70,6 +70,11 @@
             </Label>
          </children>
       </AnchorPane>
+      <Label fx:id="titulo" layoutX="470.0" layoutY="96.0" prefHeight="17.0" prefWidth="284.0" text="Label" textAlignment="CENTER">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>
