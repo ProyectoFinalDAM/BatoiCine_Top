@@ -1,10 +1,13 @@
 package es.cipfpbatoi.models.respositories;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
+import es.cipfpbatoi.models.dao.sql.SQLValoracionDAO;
 import es.cipfpbatoi.models.dto.prods.Valoracion;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Utiliza los métodos dao de para completar las clases necesarias para implementarlas mas tardes en los controller
@@ -37,11 +40,10 @@ public class ValoracionRepository {
      * @author Andreu Francés
      */
 
-    public void save(Valoracion valoracion) throws DatabaseErrorException {
+    public void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
         valoracionDAO.save(valoracion);
     }
 
-    public void eliminar(Valoracion valoracion) throws DatabaseErrorException {
-        valoracionDAO.eliminar(valoracion);
-    }
+
+
 }

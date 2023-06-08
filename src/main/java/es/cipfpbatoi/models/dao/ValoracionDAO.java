@@ -1,6 +1,7 @@
 package es.cipfpbatoi.models.dao;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
@@ -11,6 +12,7 @@ public interface ValoracionDAO {
 
     ArrayList<Valoracion> findAll() throws DatabaseErrorException;
 
-    void save(Valoracion valoracion)throws DatabaseErrorException;
-    void eliminar(Valoracion valoracion) throws DatabaseErrorException;
+    void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException;
+
+    boolean getById(Valoracion valoracion) throws NotFoundException, DatabaseErrorException;
 }

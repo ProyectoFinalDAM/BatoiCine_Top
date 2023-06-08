@@ -4,13 +4,13 @@ public class Valoracion {
 
     private String id_produccion;
 
-    private String id_usuario;
+    private int id_usuario;
 
     private int nota;
 
     private String comentario;
 
-    public Valoracion(String id_produccion, String id_usuario, int nota, String comentario) {
+    public Valoracion(String id_produccion, int id_usuario, int nota, String comentario) {
         this.id_produccion = id_produccion;
         this.id_usuario = id_usuario;
         this.nota = nota;
@@ -21,7 +21,7 @@ public class Valoracion {
         return id_produccion;
     }
 
-    public String getId_usuario() {
+    public int getId_usuario() {
         return id_usuario;
     }
 

@@ -107,9 +107,7 @@ public class LoginController implements Initializable {
             }
         } catch (UserAlreadyExistsException e) {
             AlertCreator.errorAlert(e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (UserNotExistException e) {
+        } catch (IOException | UserNotExistException e) {
             throw new RuntimeException(e);
         }
     }
