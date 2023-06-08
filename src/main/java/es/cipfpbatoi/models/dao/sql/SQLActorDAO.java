@@ -16,6 +16,13 @@ public class SQLActorDAO implements ActorDAO {
         this.connection= new MySqlConnection().conectar();
     }
 
+    /**
+     * Busca todos los actores
+     * @author Pablo Marin
+     * @return Una lista de los actores
+     * @throws DatabaseErrorException
+     */
+
     @Override
     public ArrayList<Actor> findAll() throws DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s", NOMBRE_TABLA);
@@ -37,12 +44,27 @@ public class SQLActorDAO implements ActorDAO {
         return actores;
     }
 
+    /**
+     * Convierte los campos string a un objeto Actor
+     * @author Pablo Marin
+     * @param rs
+     * @return retorna un actor
+     * @throws SQLException
+     */
+
     private Actor getActorFromResultset(ResultSet rs) throws SQLException {
         String id = rs.getString("id_actor");
         String nombre = rs.getString("nombre");
 
         return new Actor(id, nombre);
     }
+
+    /**
+     * Gurada un actor
+     * @author Pablo Marin
+     * @param actor
+     * @throws DatabaseErrorException
+     */
 
     @Override
     public void save(Actor actor) throws DatabaseErrorException {
