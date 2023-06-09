@@ -10,8 +10,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BatoiCIneTopPrueba {
 
@@ -41,40 +40,26 @@ public class BatoiCIneTopPrueba {
 
     @Test
     void contrasenyaCorrecta(){
-        boolean result1 = Validator.PASSWORD_REGEXP.matches("MiContraseña@12");
+        boolean result1 = "@Abcd@123".matches(Validator.PASSWORD_REGEXP);
         assertTrue(result1);
 
-        boolean result2 = Validator.PASSWORD_REGEXP.matches("abc");
+        boolean result2 = "abc".matches(Validator.PASSWORD_REGEXP);
         assertFalse(result2);
 
-        boolean result3 = Validator.PASSWORD_REGEXP.matches("MiContraseña15");
+        boolean result3 = "MiContraseña15".matches(Validator.PASSWORD_REGEXP);
         assertFalse(result3);
 
-        boolean result4 = Validator.PASSWORD_REGEXP.matches("12@m");
+        boolean result4 = "12@".matches(Validator.PASSWORD_REGEXP);
         assertFalse(result4);
     }
 
     @Test
-    void consultaGenero(){
-        SQLGeneroDAO validator = new SQLGeneroDAO();
+    void consultaProductora(){
+        SQLProduccionDAO validator = new SQLProduccionDAO();
+        Produccion produccion = validator.getCoincidenciaTitulo( "Argo" );
+        String productora = "Warner Bros. Pictures";
+        assertEquals( produccion.getProductora(), productora );
 
-        boolean result1 = false;
-
-        for ( Genero genero: validator.findAll()) {
-            if ( genero.equals( new Genero( 20, "Action", "Acción" ) ) ){
-                result1 = true;
-            }
-        }
-        assertTrue( result1 );
-
-        boolean result2 = true;
-
-        for ( Genero genero: validator.findAll()) {
-            if ( genero.equals( new Genero( 38, "X", "XXX" ) ) ){
-                result2 = false;
-            }
-        }
-        assertFalse( result2 );
-
+        assertFalse( produccion.getProductora().equals( "MiCasa" ) );
     }
 }
