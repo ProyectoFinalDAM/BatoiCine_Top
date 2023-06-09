@@ -8,17 +8,6 @@ import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Temporada;
 import es.cipfpbatoi.utils.Validator;
 import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import es.cipfpbatoi.models.dao.sql.SQLGeneroDAO;
-import es.cipfpbatoi.models.dao.sql.SQLProduccionDAO;
-import es.cipfpbatoi.models.dto.prods.Genero;
-import es.cipfpbatoi.models.dto.prods.Produccion;
-import es.cipfpbatoi.utils.Validator;
-import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BatoiCIneTopPrueba {
