@@ -107,22 +107,75 @@ public interface ProduccionDAO {
      */
 
     ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero);
-
+    /**
+     * Obtener todas las calificaciones de las producciones
+     * @author Marcos Sanz
+     * @return Una lista de Strings de las calificaciones las producciones
+     */
     ArrayList<String> getCalificaciones();
-
+    /**
+     * Obtener todas las platadormas disponibles de las producciones
+     * @author Marcos Sanz
+     * @return Una lista de Strings de las platadormas donde se emiten las producciones
+     */
     ArrayList<String> getPlataformas();
-
+    /**
+     * Obtener los 10 ultimos directores de la BBDD
+     * @author Marcos Sanz
+     * @return Una lista de Strings de 10 directores
+     */
     ArrayList<String> get10Direcotores();
-
+    /**
+     * Obtener producciones filtradas por calificacion, director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param seleccion3
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento);
-
+    /**
+     * Obtener producciones filtradas por calificacion y director. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento);
-
+    /**
+     * Obtener producciones filtradas por calificacion y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento);
-
+    /**
+     * Obtener producciones filtradas por director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento);
-
+    /**
+     * Obtener producciones filtradas por un tipo de filtrado que se le pasa. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento);
-
+    /**
+     * Obtener producciones ordenado por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones ordenadas
+     */
     ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento);
 }
