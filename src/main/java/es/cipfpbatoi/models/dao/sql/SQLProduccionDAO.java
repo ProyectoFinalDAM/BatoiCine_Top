@@ -555,8 +555,8 @@ public class SQLProduccionDAO implements ProduccionDAO {
     /**
      * Obtener producciones filtradas por un tipo de filtrado que se le pasa. Tambien ordenarlo por el parámetro que se le pase.
      * @author Marcos Sanz
-     * @param seleccion1
-     * @param seleccion2
+     * @param columnaFiltro
+     * @param patron
      * @param columnaOrdenamiento
      * @return Una lista de Strings de las las producciones filtradas
      */
