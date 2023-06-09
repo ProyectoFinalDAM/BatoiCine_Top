@@ -87,6 +87,14 @@ public class SQLTemporadaDAO implements TemporadaDAO {
             throw new DatabaseErrorException( "Ha ocurrido un error en el acceso o conexión a la base de datos (insert)" );
         }
     }
+    /**
+     * Ontiene una temporada filtrada por su id_produccion y el numero de temporada
+     * @author Marcos Sanz
+     * @param id_produccion
+     * @param temporada
+     * @return retorna una temporada filtrada
+     * @throws SQLException
+     */
     @Override
     public Temporada getByIdProdTemporada(String id_produccion, int temporada) throws DatabaseErrorException, NotFoundException {
         String sql = String.format( "SELECT * FROM %s WHERE id_produccion=? AND temporada=?", NOMBRE_TABLA );
