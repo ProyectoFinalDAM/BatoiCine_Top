@@ -56,6 +56,10 @@ public class PosterPordController extends ListCell<Produccion> {
         this.visualizarRepository = visualizarRepository;
         this.user = user;
     }
+    /**
+     * Actualiza los datos de la producción y muestra la portada
+     * @author Marcos Sanz
+     */
     @Override
     protected void updateItem(Produccion produccion, boolean empty) {
 
@@ -69,6 +73,11 @@ public class PosterPordController extends ListCell<Produccion> {
             setGraphic(root);
         }
     }
+    /**
+     * Al hacer clic en la portada, se suma una visualizacion a la produccion y el usuario.
+     * Luego cambia a la vista ControllerDetalles con la produccion
+     * @author Marcos Sanz
+     */
     @FXML
     private void changeToProduccion(MouseEvent event){
         try {
@@ -83,6 +92,11 @@ public class PosterPordController extends ListCell<Produccion> {
         }
 
     }
+    /**
+     * Comprueba si el link a la portada es vaído, si es válido le inserta la imágen a la portada si no pone una imágen default
+     * @author Marcos Sanz
+     * @author Martin Peidro
+     */
     @FXML
     private void setPosterImage(Produccion produccion) {
         posterImageView.maxHeight(225);
@@ -97,7 +111,11 @@ public class PosterPordController extends ListCell<Produccion> {
                 throw new RuntimeException( e );
             }
     }
-
+    /**
+     * Obtiene el url de la imágen para poder mostrarla
+     * @author Marcos Sanz
+     * @return el fichero válido de la imágen
+     */
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
     }

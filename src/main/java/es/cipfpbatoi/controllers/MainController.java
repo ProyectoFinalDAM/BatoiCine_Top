@@ -187,7 +187,7 @@ public class MainController implements Initializable {
     /**
      * Obtiene el url de la imágen para poder mostrarla
      * @author Marcos Sanz
-     * @return el url válido de la imágen
+     * @return el fichero válido de la imágen
      */
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
