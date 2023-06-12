@@ -63,7 +63,10 @@ public class LoginController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Obtiene los datos de los textField y los valida para logear al usuario, este pasa a la vista MainController con el user logeado
+     * @author Marcos Sanz
+     */
     @FXML
     private void loginUser(ActionEvent event) throws IOException {
         try {
@@ -82,6 +85,10 @@ public class LoginController implements Initializable {
             AlertCreator.errorAlert(e.getMessage());
         }
     }
+    /**
+     * Obtiene los datos de los textField y los valida para logear al usuario, este registra el nuevo usuario si es válido, si no lanza una alerta
+     * @author Marcos Sanz
+     */
     @FXML
     private void signUpUser(ActionEvent event){
         try {
@@ -112,10 +119,18 @@ public class LoginController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Valida las credenciales insertadas por el usuario
+     * @return booleano si el usuario existe en la base de datos
+     * @author Marcos Sanz
+     */
     private boolean validUser() {
         return userRepository.validUser(nameTextField.getText(), passwordTextField.getText());
     }
-
+    /**
+     * Genera una alerta con los erres al logearse. Este puede ser por no introducir el nombre o la contraseña.
+     * @author Marcos Sanz
+     */
     private String errorTextFields(){
         StringBuilder error= new StringBuilder();
         if (nameTextField.getText().equals("")){

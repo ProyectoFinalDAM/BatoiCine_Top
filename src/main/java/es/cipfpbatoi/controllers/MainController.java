@@ -86,9 +86,18 @@ public class MainController implements Initializable {
         this.generoComboBox.setItems(getGeneros());
         this.userName.setText( user.getNombre() + "!" );
     }
+
+    /**
+     * @author Marcos Sanz
+     * @return Devuelve los generos del repositorio
+     */
     private ObservableList<Genero> getGeneros(){
         return FXCollections.observableArrayList(generoRepository.findAll());
     }
+    /**
+     * @author Marcos Sanz
+     * @return Devuelve las peliculas del repositorio
+     */
     private ObservableList<Produccion> getPeliculas(){
         try {
             return FXCollections.observableArrayList(produccionRepository.getRecommendedFilms());
@@ -96,6 +105,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * @author Marcos Sanz
+     * @return Devuelve las series del repositorio
+     */
     private ObservableList<Produccion> getSeries(){
         try {
             return FXCollections.observableArrayList(produccionRepository.getRecommendedSeries());
@@ -103,6 +116,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Cambia a la vista de SearchController pasandole como parámetros el nombre de la película y su género.
+     * @author Marcos Sanz
+     */
     @FXML
     private void buscarProduccion(ActionEvent event){
         try {
@@ -113,7 +130,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Cambia a la vista de SearchController pasandole como parámetro filtrar por películas
+     * @author Marcos Sanz
+     */
     @FXML
     private void changeToPeliculas(MouseEvent event){
         try {
@@ -124,6 +144,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Cambia a la vista de SearchController pasandole como parámetro filtrar por series
+     * @author Marcos Sanz
+     */
     @FXML
     private void changeToSeries(MouseEvent event){
         try {
@@ -133,6 +157,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Cambia a la vista de FavoritasController para ver las producciones favoritas del usuario
+     * @author Marcos Sanz
+     */
     @FXML
     private void changeToFavoritas(ActionEvent event){
         try {
@@ -142,6 +170,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Cambia a la vista de HistorialController para ver las producciones vistas por el usuario
+     * @author Marcos Sanz
+     */
     @FXML
     private void changeToHistorial(ActionEvent event){
         try {
@@ -152,7 +184,11 @@ public class MainController implements Initializable {
         }
     }
 
-
+    /**
+     * Obtiene el url de la imágen para poder mostrarla
+     * @author Marcos Sanz
+     * @return el fichero válido de la imágen
+     */
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
     }

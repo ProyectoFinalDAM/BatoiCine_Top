@@ -343,6 +343,11 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+    /**
+     * Obtener todas las calificaciones de las producciones
+     * @author Marcos Sanz
+     * @return Una lista de Strings de las calificaciones las producciones
+     */
     @Override
     public ArrayList<String> getCalificaciones() {
         ArrayList<String> calificaciones = new ArrayList<>();
@@ -361,6 +366,11 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
         return null;
     }
+    /**
+     * Obtener todas las platadormas disponibles de las producciones
+     * @author Marcos Sanz
+     * @return Una lista de Strings de las platadormas donde se emiten las producciones
+     */
     @Override
     public ArrayList<String> getPlataformas() {
         ArrayList<String> plataformas = new ArrayList<>();
@@ -385,6 +395,11 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
         return null;
     }
+    /**
+     * Obtener los 10 ultimos directores de la BBDD
+     * @author Marcos Sanz
+     * @return Una lista de Strings de 10 directores
+     */
     @Override
     public ArrayList<String> get10Direcotores() {
         ArrayList<String> directores = new ArrayList<>();
@@ -403,6 +418,15 @@ public class SQLProduccionDAO implements ProduccionDAO {
 
         return null;
     }
+    /**
+     * Obtener producciones filtradas por calificacion, director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param seleccion3
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     @Override
     public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -429,7 +453,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
-
+    /**
+     * Obtener producciones filtradas por calificacion y director. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     @Override
     public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -455,7 +486,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
-
+    /**
+     * Obtener producciones filtradas por calificacion y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     @Override
     public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -481,7 +519,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
-
+    /**
+     * Obtener producciones filtradas por director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param seleccion1
+     * @param seleccion2
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     @Override
     public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -507,7 +552,14 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
-
+    /**
+     * Obtener producciones filtradas por un tipo de filtrado que se le pasa. Tambien ordenarlo por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param columnaFiltro
+     * @param patron
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones filtradas
+     */
     @Override
     public ArrayList<Produccion> getUnFiltrado(String columnaFiltro, String patron, String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();
@@ -532,6 +584,12 @@ public class SQLProduccionDAO implements ProduccionDAO {
         }
         return null;
     }
+    /**
+     * Obtener producciones ordenado por el parámetro que se le pase.
+     * @author Marcos Sanz
+     * @param columnaOrdenamiento
+     * @return Una lista de Strings de las las producciones ordenadas
+     */
     @Override
     public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento) {
         ArrayList<Produccion> produccions = new ArrayList<>();

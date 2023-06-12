@@ -125,34 +125,95 @@ public class ProduccionRepository {
     public ArrayList<Produccion> getCoincidenciaGeneroTitulo(String titulo, Genero genero) {
         return produccionDAO.getCoincidenciaGeneroTitulo(titulo, genero);
     }
+
+    /**
+     * Obtener los 10 ultimos directores de la BBDD
+     * @author Marcos Sanz
+     * @return Una lista de Strings de 10 directores
+     */
     public ArrayList<String> get10Direcotores(){
         return produccionDAO.get10Direcotores();
     }
+
+        /**
+         * Obtener todas las platadormas disponibles de las producciones
+         * @author Marcos Sanz
+         * @return Una lista de Strings de las platadormas donde se emiten las producciones
+         */
     public ArrayList<String> getPlataformas(){
         return produccionDAO.getPlataformas();
     }
+        /**
+         * Obtener todas las calificaciones de las producciones
+         * @author Marcos Sanz
+         * @return Una lista de Strings de las calificaciones las producciones
+         */
     public ArrayList<String> getCalificaciones(){
         return produccionDAO.getCalificaciones();
     }
+
+        /**
+         * Obtener producciones filtradas por calificacion, director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param seleccion1
+         * @param seleccion2
+         * @param seleccion3
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones filtradas
+         */
     public ArrayList<Produccion> getClasDirPlat(String seleccion1, String seleccion2, String seleccion3, String columnaOrdenamiento){
         return produccionDAO.getClasDirPlat(seleccion1, seleccion2, seleccion3, columnaOrdenamiento);
     }
-
+        /**
+         * Obtener producciones filtradas por calificacion y director. Tambien ordenarlo por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param seleccion1
+         * @param seleccion2
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones filtradas
+         */
     public ArrayList<Produccion> getClasDir(String seleccion1, String seleccion2, String columnaOrdenamiento){
         return produccionDAO.getClasDir(seleccion1, seleccion2, columnaOrdenamiento);
     }
-
+        /**
+         * Obtener producciones filtradas por calificacion y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param seleccion1
+         * @param seleccion2
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones filtradas
+         */
     public ArrayList<Produccion> getClasPlat(String seleccion1, String seleccion2, String columnaOrdenamiento){
         return produccionDAO.getClasPlat(seleccion1, seleccion2, columnaOrdenamiento);
     }
-
+        /**
+         * Obtener producciones filtradas por director y plataforma. Tambien ordenarlo por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param seleccion1
+         * @param seleccion2
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones filtradas
+         */
     public ArrayList<Produccion> getDirPlat(String seleccion1, String seleccion2, String columnaOrdenamiento){
         return produccionDAO.getDirPlat(seleccion1, seleccion2, columnaOrdenamiento);
     }
-
+        /**
+         * Obtener producciones filtradas por un tipo de filtrado que se le pasa. Tambien ordenarlo por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param seleccion1
+         * @param seleccion2
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones filtradas
+         */
     public ArrayList<Produccion> getUnFiltrado(String seleccion1, String seleccion2, String columnaOrdenamiento){
         return produccionDAO.getUnFiltrado(seleccion1, seleccion2, columnaOrdenamiento);
     }
+        /**
+         * Obtener producciones ordenado por el parámetro que se le pase.
+         * @author Marcos Sanz
+         * @param columnaOrdenamiento
+         * @return Una lista de Strings de las las producciones ordenadas
+         */
     public ArrayList<Produccion> getOrdenacion(String columnaOrdenamiento){
         return produccionDAO.getOrdenacion(columnaOrdenamiento);
     }

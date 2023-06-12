@@ -1,5 +1,6 @@
 package es.cipfpbatoi.controllers;
 
+import es.cipfpbatoi.exception.UserNotExistException;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ChangeScene {
+
+    /**
+     * Nos sirve para poder cambiar de vista con stage
+     * @author Marcos Sanz
+     * @param stage, controller, pathToViewFile
+     */
+
     public static void change(Stage stage, Initializable controller, String pathToViewFile) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -24,6 +32,12 @@ public class ChangeScene {
         stage.setResizable(true);
         stage.show();
     }
+
+    /**
+     * Nos sirve para poder cambiar de vista, pero con esta vez un parametro de event en vez de stage
+     * @author Pablo Marin
+     * @param event, controller, pathToViewFile
+     */
 
     public static void change(Event event, Initializable controller,
                               String path_to_view_file) throws IOException {

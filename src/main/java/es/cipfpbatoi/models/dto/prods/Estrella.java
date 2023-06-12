@@ -42,7 +42,7 @@ public class Estrella extends HBox {
     }
 
     /**
-     * Apaga la estrella de la valoración
+     * Enciende la estrella de la valoración
      * @author Pablo Marin
      * @param event
      */
