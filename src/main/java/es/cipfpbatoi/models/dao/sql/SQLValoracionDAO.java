@@ -90,18 +90,15 @@ public class SQLValoracionDAO implements ValoracionDAO {
     }
 
     @Override
-    public void update(Valoracion valoracion) throws DatabaseErrorException {
-        String sql = String.format("UPDATE %s SET nota = ?, comentario = ? WHERE id_produccion = ? AND id_usuario = ?",
+    public void update(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        String sql = String.format("INSERT %s SET nota = ?, comentario = ? WHERE id_produccion = ? AND id_usuario = ?",
                 NOMBRE_TABLA);
 
         try (
                 Connection connection = new MySqlConnection().conectar();
                 PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            statement.setInt(1, valoracion.getNota());
-            statement.setString(2, valoracion.getComentario());
-            statement.setString(3, valoracion.getId_produccion());
-            statement.setInt(4, valoracion.getId_usuario());
+
 
             statement.executeUpdate();
 
@@ -109,6 +106,7 @@ public class SQLValoracionDAO implements ValoracionDAO {
             e.printStackTrace();
             throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (update)");
         }
+        save(valoracion);
     }
 
     /**
@@ -138,9 +136,25 @@ public class SQLValoracionDAO implements ValoracionDAO {
     @Override
     public void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
         if (getById(valoracion.getId_produccion(), valoracion.getId_usuario())) {
-            update(valoracion);
+            remove(valoracion);
+            insert(valoracion);
         } else {
             insert(valoracion);
+        }
+    }
+
+    private void remove(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        String sql = String.format("DELETE FROM %s WHERE id_produccion = ? AND id_usuario = ?", NOMBRE_TABLA);
+        connection = new MySqlConnection().conectar();
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, valoracion.getId_produccion());
+            statement.setInt(2, valoracion.getId_usuario());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (delete)");
         }
     }
 

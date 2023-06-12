@@ -49,8 +49,8 @@ public class ValoracionRepository {
     }
 
 
-    public void update(Valoracion valoracion) throws DatabaseErrorException {
-        return;
+    public void update(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        valoracionDAO.update(valoracion);
     }
 
 

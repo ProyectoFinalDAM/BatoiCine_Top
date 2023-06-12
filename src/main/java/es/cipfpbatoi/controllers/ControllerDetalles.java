@@ -2,21 +2,14 @@ package es.cipfpbatoi.controllers;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
-import es.cipfpbatoi.models.dao.RankingDAO;
-import es.cipfpbatoi.models.dao.ValoracionDAO;
 import es.cipfpbatoi.models.dao.sql.SQLEsFavoritaDAO;
 import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
-import es.cipfpbatoi.models.dto.prods.Estrella;
-import es.cipfpbatoi.models.dto.prods.Produccion;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
 import es.cipfpbatoi.models.dto.prods.Valoracion;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.URLChecker;
-import javafx.beans.binding.Bindings;
-
-import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,12 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 
 import java.io.IOException;
@@ -71,12 +58,6 @@ public class ControllerDetalles implements Initializable {
     private ImageView estrella5;
     @FXML
     private TextField opinionComentario;
-
-
-    private static final int NUM_ESTRELLAS = 5;
-    private static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
-    private static final Color ESTRELLA_APAGADA_COLOR = Color.LIGHTGRAY;
-
     private ProduccionRepository produccionRepository;
     private RankingRepository rankingRepository;
     private ValoracionRepository valoracionRepository;
@@ -86,6 +67,7 @@ public class ControllerDetalles implements Initializable {
     private Initializable controllerAnterior;
 
     private String vista;
+    private int valorar;
 
     public ControllerDetalles(ValoracionRepository valoracionRepository, RankingRepository rankingRepository, Produccion produccion, ProduccionRepository produccionRepository, Initializable controllerAnterior, String vista, User user) {
         this.valoracionRepository = valoracionRepository;
@@ -96,70 +78,88 @@ public class ControllerDetalles implements Initializable {
         this.user = user;
         this.controllerAnterior = controllerAnterior;
         this.vista = vista;
+        valorar = 0;
     }
 
     @FXML
-    private void encender1(MouseEvent event) throws URISyntaxException, DatabaseErrorException, NotFoundException {
-        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        valorar(new Valoracion(produccion.getId(),user.getId(),1," "));
+    private void encender1(MouseEvent event) throws URISyntaxException{
+        valorar = 1;
+        encender(valorar);
     }
-
     @FXML
-    private void encender2(MouseEvent event) throws URISyntaxException, DatabaseErrorException, NotFoundException {
-        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        valorar(new Valoracion(produccion.getId(),user.getId(),2," "));
-
+    private void encender2(MouseEvent event) throws URISyntaxException{
+        valorar = 2;
+        encender(valorar);
     }
-
     @FXML
-    private void encender3(MouseEvent event) throws URISyntaxException, NotFoundException, DatabaseErrorException {
-        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        valorar(new Valoracion(produccion.getId(),user.getId(),3," "));
+    private void encender3(MouseEvent event) throws URISyntaxException {
+        valorar = 3;
+        encender(valorar);
     }
-
     @FXML
-    private void encender4(MouseEvent event) throws URISyntaxException, DatabaseErrorException, NotFoundException {
-        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
-        valorar(new Valoracion(produccion.getId(),user.getId(),4," "));
+    private void encender4(MouseEvent event) throws URISyntaxException{
+        valorar = 4;
+        encender(valorar);
     }
-
     @FXML
-    private void encender5(MouseEvent event) throws URISyntaxException, DatabaseErrorException, NotFoundException {
-        estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        estrella5.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
-        valorar(new Valoracion(produccion.getId(),user.getId(),5," "));
+    private void encender5(MouseEvent event) throws URISyntaxException {
+        valorar = 5;
+        encender(valorar);
     }
-    private void valorar(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
-        valoracionRepository.save(valoracion);
+    private void encender(int nota) throws URISyntaxException {
+        if (nota==1){
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        }else if (nota==2){
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        }else if (nota==3){
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        }else if (nota==4){
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaBlanca.png")));
+        }else if (nota==5){
+            estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella2.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella3.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella4.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+            estrella5.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
+        }
     }
 
     @FXML
     private void comentar(MouseEvent event) throws DatabaseErrorException, NotFoundException {
-        valorar(new Valoracion(produccion.getId(),user.getId(),5,opinionComentario.getText()));
-        Alert alert = new Alert( Alert.AlertType.CONFIRMATION );
-        alert.setTitle( "Comentario guardado con éxito" );
-        alert.setHeaderText( "" );
-        alert.setContentText( "Tu comentario ha sido guardado con éxito, gracias por tu colaboración");
-        alert.showAndWait();
+        Valoracion valoracion = new Valoracion(produccion.getId(),user.getId(),valorar,opinionComentario.getText());
+        if (valoracionRepository.getById(produccion.getId(), user.getId())){
+            valoracionRepository.save(valoracion);
+            Alert alert = new Alert( Alert.AlertType.INFORMATION );
+            alert.setTitle( "Comentario actualizado con éxito" );
+            alert.setHeaderText( "" );
+            alert.setContentText( "Tu comentario ha sido actualizado con éxito, gracias por tu colaboración");
+            alert.showAndWait();
+        }else {
+            Alert alert = new Alert( Alert.AlertType.INFORMATION );
+            valoracionRepository.save(valoracion);
+            alert.setTitle( "Comentario guardado con éxito" );
+            alert.setHeaderText( "" );
+            alert.setContentText( "Tu comentario ha sido guardado con éxito, gracias por tu colaboración");
+            alert.showAndWait();
+        }
+
+
     }
 
     //Método para salir de la vista de detalles y volver a la principal
@@ -200,17 +200,6 @@ public class ControllerDetalles implements Initializable {
         }
     }
 
-    @FXML
-    private String recogerComentario(ActionEvent event) {
-        String comentarioProduccion = null;
-
-        if (opinionComentario != null) {
-            comentarioProduccion = opinionComentario.getText();
-        }
-        return comentarioProduccion;
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -233,9 +222,19 @@ public class ControllerDetalles implements Initializable {
         }
         try {
             if (valoracionRepository.getById(produccion.getId(), user.getId())){
+                Valoracion valoracion ;
+                for (Valoracion valoracio:valoracionRepository.findAll()) {
+                    if (valoracio.getId_produccion().equals(produccion.getId())&&valoracio.getId_usuario()==(user.getId())){
+                        valoracion=valoracio;
+                        encender(valoracion.getNota());
+                        valorar=valoracion.getNota();
+                        opinionComentario.setText(valoracion.getComentario());
+                    }
+                }
 
+                
             }
-        } catch (NotFoundException | DatabaseErrorException e) {
+        } catch (NotFoundException | DatabaseErrorException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
         descripcion.setText(produccion.getGuion());
