@@ -231,8 +231,13 @@ public class ControllerDetalles implements Initializable {
         } catch (URISyntaxException | DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
+        try {
+            if (valoracionRepository.getById(produccion.getId(), user.getId())){
 
-
+            }
+        } catch (NotFoundException | DatabaseErrorException e) {
+            throw new RuntimeException(e);
+        }
         descripcion.setText(produccion.getGuion());
         descripcion.setWrapText(true);
         descripcion.setPrefWidth(370);

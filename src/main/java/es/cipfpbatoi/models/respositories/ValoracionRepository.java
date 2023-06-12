@@ -44,6 +44,14 @@ public class ValoracionRepository {
         valoracionDAO.save(valoracion);
     }
 
+    public boolean getById(String idProduccion, int idUsuario) throws NotFoundException, DatabaseErrorException {
+        return valoracionDAO.getById(idProduccion,idUsuario);
+    }
+
+
+    public void update(Valoracion valoracion) throws DatabaseErrorException {
+        return;
+    }
 
 
 }

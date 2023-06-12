@@ -56,20 +56,20 @@ public class SQLValoracionDAO implements ValoracionDAO {
 
 
     @Override
-    public boolean getById(Valoracion valoracion) throws NotFoundException, DatabaseErrorException {
+    public boolean getById(String idProduccion, int idUsuario) throws NotFoundException, DatabaseErrorException {
         String sql = String.format("SELECT * FROM %s WHERE id_produccion = ? AND id_usuario = ?", NOMBRE_TABLA);
 
 
         try (
                 PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         ) {
-            statement.setString(1, valoracion.getId_produccion());
-            statement.setInt( 2, valoracion.getId_usuario());
+            statement.setString(1, idProduccion);
+            statement.setInt( 2, idUsuario);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 Valoracion valoracion2 = getValoraFromRegister(resultSet);
-                if (Objects.equals(valoracion2.getId_produccion(), valoracion.getId_produccion())&&valoracion2.getId_usuario()==valoracion.getId_usuario()) {
+                if (Objects.equals(valoracion2.getId_produccion(), idProduccion)&&valoracion2.getId_usuario()==idUsuario) {
                     return true;
                 }
             }
@@ -89,7 +89,8 @@ public class SQLValoracionDAO implements ValoracionDAO {
         return new Valoracion(idProduccion, idUsuario, nota, comentario);
     }
 
-    private void update(Valoracion valoracion) throws DatabaseErrorException {
+    @Override
+    public void update(Valoracion valoracion) throws DatabaseErrorException {
         String sql = String.format("UPDATE %s SET nota = ?, comentario = ? WHERE id_produccion = ? AND id_usuario = ?",
                 NOMBRE_TABLA);
 
@@ -136,7 +137,7 @@ public class SQLValoracionDAO implements ValoracionDAO {
 
     @Override
     public void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
-        if (getById(valoracion)) {
+        if (getById(valoracion.getId_produccion(), valoracion.getId_usuario())) {
             update(valoracion);
         } else {
             insert(valoracion);
@@ -151,7 +152,7 @@ public class SQLValoracionDAO implements ValoracionDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
         ) {
             preparedStatement.setString( 1, valoracion.getId_produccion() );
-            preparedStatement.setString( 2, valoracion.getId_usuario() );
+            preparedStatement.setInt( 2, valoracion.getId_usuario() );
             preparedStatement.setInt( 3, valoracion.getNota() );
             preparedStatement.setString( 4, valoracion.getComentario() );
             preparedStatement.executeUpdate();

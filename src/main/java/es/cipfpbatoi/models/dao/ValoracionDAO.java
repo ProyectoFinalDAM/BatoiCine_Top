@@ -14,5 +14,6 @@ public interface ValoracionDAO {
 
     void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException;
 
-    boolean getById(Valoracion valoracion) throws NotFoundException, DatabaseErrorException;
+    boolean getById(String idProduccion, int idUsuario) throws NotFoundException, DatabaseErrorException;
+    void update(Valoracion valoracion) throws DatabaseErrorException;
 }
