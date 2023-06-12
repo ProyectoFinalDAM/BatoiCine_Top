@@ -7,6 +7,7 @@ import es.cipfpbatoi.models.dao.sql.SQLUserDAO;
 import es.cipfpbatoi.models.dto.User;
 import es.cipfpbatoi.models.dto.prods.Produccion;
 
+import es.cipfpbatoi.models.dto.prods.Ranking;
 import es.cipfpbatoi.models.dto.prods.Valoracion;
 import es.cipfpbatoi.models.respositories.*;
 import es.cipfpbatoi.utils.URLChecker;
@@ -150,6 +151,7 @@ public class ControllerDetalles implements Initializable {
             alert.setHeaderText( "" );
             alert.setContentText( "Tu comentario ha sido actualizado con éxito, gracias por tu colaboración");
             alert.showAndWait();
+            rankingRepository.save(new Ranking(produccion.getId(), valorar));
         }else {
             Alert alert = new Alert( Alert.AlertType.INFORMATION );
             valoracionRepository.save(valoracion);
@@ -157,6 +159,7 @@ public class ControllerDetalles implements Initializable {
             alert.setHeaderText( "" );
             alert.setContentText( "Tu comentario ha sido guardado con éxito, gracias por tu colaboración");
             alert.showAndWait();
+            rankingRepository.save(new Ranking(produccion.getId(), valorar));
         }
 
 
