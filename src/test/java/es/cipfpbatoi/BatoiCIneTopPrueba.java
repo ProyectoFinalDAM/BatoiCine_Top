@@ -80,16 +80,14 @@ public class BatoiCIneTopPrueba {
             Temporada temporada = sqlTemporadaDAO.getByIdProdTemporada("145", 1);
             int result1 = temporada.getAnyoLanzamiento();
             assertTrue(result1 == 2017);
+
+            Temporada temporada2 = sqlTemporadaDAO.getByIdProdTemporada("146", 2);
+            String result2 = temporada2.getGuion();
+            assertFalse(result2.equals("Ejemplo"));
+
         } catch (DatabaseErrorException | NotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        try {
-            Temporada temporada = sqlTemporadaDAO.getByIdProdTemporada("146", 2);
-            String result1 = temporada.getGuion();
-            assertFalse(result1.equals("Ejemplo"));
-        } catch (DatabaseErrorException | NotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

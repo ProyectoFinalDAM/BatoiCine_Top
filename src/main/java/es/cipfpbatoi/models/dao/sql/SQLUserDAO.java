@@ -150,11 +150,10 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public User getUser(String name, String password) throws UserNotExistException {
         for (User user: findAll()) {
-            if (user.getNombre().equals(name)){
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
+            if (user.getNombre().equals(name)) {
+                if (validUser(name, password)) {
                     return user;
                 }
-
             }
         }
         throw new UserNotExistException();
@@ -170,15 +169,24 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean validUser(String name, String password) {
-        for (User user : findAll()) {
-            if (user.getNombre().equals(name)) {
-                if (BCrypt.checkpw(password, user.getContrasenya())) {
-                    return true;
+
+        String sql = "SELECT verificar_usuario(?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int result = resultSet.getInt(1);
+                    return result == 1;
                 }
-
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
 
+        return false;
     }
 }
+
