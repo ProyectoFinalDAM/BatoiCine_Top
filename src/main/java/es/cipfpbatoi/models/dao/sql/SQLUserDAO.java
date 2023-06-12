@@ -170,8 +170,8 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean validUser(String name, String password) {
-        for (User user : findAll()) {
-            if (user.getNombre().equals(name)) {
+        for (User user: findAll()) {
+            if (user.getNombre().equals(name)){
                 if (BCrypt.checkpw(password, user.getContrasenya())) {
                     return true;
                 }
@@ -179,6 +179,5 @@ public class SQLUserDAO implements UserDAO {
             }
         }
         return false;
-
     }
 }

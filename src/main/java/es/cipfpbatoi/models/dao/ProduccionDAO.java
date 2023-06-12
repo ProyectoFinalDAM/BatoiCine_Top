@@ -2,13 +2,10 @@ package es.cipfpbatoi.models.dao;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
 import es.cipfpbatoi.exception.NotFoundException;
-import es.cipfpbatoi.models.dto.Valoracion;
 import es.cipfpbatoi.models.dto.prods.Genero;
 import es.cipfpbatoi.models.dto.prods.Produccion;
-import es.cipfpbatoi.models.respositories.ProduccionRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface ProduccionDAO {
 

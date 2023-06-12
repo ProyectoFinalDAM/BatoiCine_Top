@@ -100,6 +100,8 @@ public class LoginController implements Initializable {
                         String encryptedPassword = PasswordEncryptor.encryptPassword(passwordTextField.getText());
                         userRepository.save(new User(userRepository.getLastCod(), nameTextField.getText(), encryptedPassword));
                         AlertCreator.infoAlert("Registrado correctamente.");
+                        MainController mainController= new MainController(produccionRepository, valoracionRepository, rankingRepository, generoRepository,userRepository.getUser(nameTextField.getText(), passwordTextField.getText()), visualizarRepository, esFavoritaRepository);
+                        ChangeScene.change(event, mainController, "/views/main.fxml");
                     } else {
                         AlertCreator.errorAlert("Contraseña debe contener:\n" +
                                 "- Carácter especial\n" +
@@ -113,6 +115,8 @@ public class LoginController implements Initializable {
             }
         } catch (UserAlreadyExistsException e) {
             AlertCreator.errorAlert(e.getMessage());
+        } catch (IOException | UserNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
     /**
