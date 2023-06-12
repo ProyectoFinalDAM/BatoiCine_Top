@@ -1,12 +1,17 @@
 package es.cipfpbatoi.models.dao.sql;
 
 import es.cipfpbatoi.exception.DatabaseErrorException;
+import es.cipfpbatoi.exception.NotFoundException;
 import es.cipfpbatoi.models.dao.ValoracionDAO;
-import es.cipfpbatoi.models.dto.Valoracion;
+import es.cipfpbatoi.models.dto.User;
+import es.cipfpbatoi.models.dto.prods.Valoracion;
 import es.cipfpbatoi.models.services.MySqlConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SQLValoracionDAO implements ValoracionDAO {
 
@@ -49,6 +54,61 @@ public class SQLValoracionDAO implements ValoracionDAO {
         return valoracions;
     }
 
+
+    @Override
+    public boolean getById(String idProduccion, int idUsuario) throws NotFoundException, DatabaseErrorException {
+        String sql = String.format("SELECT * FROM %s WHERE id_produccion = ? AND id_usuario = ?", NOMBRE_TABLA);
+
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setString(1, idProduccion);
+            statement.setInt( 2, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Valoracion valoracion2 = getValoraFromRegister(resultSet);
+                if (Objects.equals(valoracion2.getId_produccion(), idProduccion)&&valoracion2.getId_usuario()==idUsuario) {
+                    return true;
+                }
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (select)");
+        }
+        return false;
+    }
+    private Valoracion getValoraFromRegister(ResultSet resultSet) throws SQLException {
+        String idProduccion = resultSet.getString("id_produccion");
+        int idUsuario = resultSet.getInt("id_usuario");
+        int nota = resultSet.getInt("nota");
+        String comentario = resultSet.getString("comentario");
+        return new Valoracion(idProduccion, idUsuario, nota, comentario);
+    }
+
+    @Override
+    public void update(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        String sql = String.format("INSERT %s SET nota = ?, comentario = ? WHERE id_produccion = ? AND id_usuario = ?",
+                NOMBRE_TABLA);
+
+        try (
+                Connection connection = new MySqlConnection().conectar();
+                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (update)");
+        }
+        save(valoracion);
+    }
+
     /**
      * Convierte los campos string a Valoración
      * @author Pablo Marín
@@ -59,7 +119,7 @@ public class SQLValoracionDAO implements ValoracionDAO {
 
     private Valoracion geValoracionFromResultset(ResultSet rs) throws SQLException {
         String id_produccion = rs.getString("id_produccion");
-        String id_usuario = rs.getString("id_usuario");
+        int id_usuario = rs.getInt("id_usuario");
         int nota = rs.getInt("nota");
         String comentario = rs.getString("comentario");
 
@@ -74,14 +134,39 @@ public class SQLValoracionDAO implements ValoracionDAO {
      */
 
     @Override
-    public void save(Valoracion valoracion) throws DatabaseErrorException {
+    public void save(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        if (getById(valoracion.getId_produccion(), valoracion.getId_usuario())) {
+            remove(valoracion);
+            insert(valoracion);
+        } else {
+            insert(valoracion);
+        }
+    }
+
+    private void remove(Valoracion valoracion) throws DatabaseErrorException, NotFoundException {
+        String sql = String.format("DELETE FROM %s WHERE id_produccion = ? AND id_usuario = ?", NOMBRE_TABLA);
+        connection = new MySqlConnection().conectar();
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, valoracion.getId_produccion());
+            statement.setInt(2, valoracion.getId_usuario());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseErrorException("Ha ocurrido un error en el acceso o conexión a la base de datos (delete)");
+        }
+    }
+
+    private void insert(Valoracion valoracion) throws DatabaseErrorException {
+
         String sql = String.format( "INSERT INTO %s (id_produccion, id_usuario, nota, comentario) VALUES (?,?,?,?)", NOMBRE_TABLA );
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS )
         ) {
             preparedStatement.setString( 1, valoracion.getId_produccion() );
-            preparedStatement.setString( 2, valoracion.getId_usuario() );
+            preparedStatement.setInt( 2, valoracion.getId_usuario() );
             preparedStatement.setInt( 3, valoracion.getNota() );
             preparedStatement.setString( 4, valoracion.getComentario() );
             preparedStatement.executeUpdate();
@@ -91,4 +176,6 @@ public class SQLValoracionDAO implements ValoracionDAO {
             throw new DatabaseErrorException( "Ha ocurrido un error en el acceso o conexión a la base de datos" );
         }
     }
+
+
 }

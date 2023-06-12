@@ -185,7 +185,6 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 }
