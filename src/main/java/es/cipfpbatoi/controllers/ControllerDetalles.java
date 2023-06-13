@@ -81,31 +81,66 @@ public class ControllerDetalles implements Initializable {
         valorar = 0;
     }
 
+    /**
+     * Para que cuando vayamos a valorar una producción si la valoramos con 1 estrella, se encenderá 1 solamente 1 estrella (cambiará la imagen).
+     * @author Andreu Francés
+     * @param event
+     */
     @FXML
     private void encender1(MouseEvent event) throws URISyntaxException{
         valorar = 1;
         encender(valorar);
     }
+
+    /**
+     * Para que cuando vayamos a valorar una producción si la valoramos con 2 estrellas, se encenderan la misma y la anterior, es decir, cambiarán las imagenes.
+     * @author Andreu Francés
+     * @param event
+     */
     @FXML
     private void encender2(MouseEvent event) throws URISyntaxException{
         valorar = 2;
         encender(valorar);
     }
+
+    /**
+     * Para que cuando vayamos a valorar una producción si la valoramos con 3 estrellas, se encenderan la misma y las anteriores, es decir, cambiarán las imagenes.
+     * @author Andreu Francés
+     * @param event
+     */
     @FXML
     private void encender3(MouseEvent event) throws URISyntaxException {
         valorar = 3;
         encender(valorar);
     }
+
+    /**
+     * Para que cuando vayamos a valorar una producción si la valoramos con 4 estrellas, se encenderan la misma y las anteriores, es decir, cambiarán las imagenes.
+     * @author Andreu Francés
+     * @param event
+     */
     @FXML
     private void encender4(MouseEvent event) throws URISyntaxException{
         valorar = 4;
         encender(valorar);
     }
+
+    /**
+     * Para que cuando vayamos a valorar una producción si la valoramos con 5 estrellas, se encenderan la misma y las anteriores
+     * es decir, todas las posibles (cambiando la imagen de todas las estrellas).
+     * @author Andreu Francés
+     * @param event
+     */
     @FXML
     private void encender5(MouseEvent event) throws URISyntaxException {
         valorar = 5;
         encender(valorar);
     }
+
+    /**
+     * Esta clase se encarga de dependiendo de la nota que recibe, enciende ese número de estrellas
+     * @author Andreu Francés
+     */
     private void encender(int nota) throws URISyntaxException {
         if (nota==1){
             estrella1.setImage(new Image(getPathImage("/images/EstrellaSeleccionada.png")));
@@ -140,6 +175,11 @@ public class ControllerDetalles implements Initializable {
         }
     }
 
+    /**
+     * Se encarga de recoger el comentario introducido a la hora de valorar una pelicula, y de pasarle
+     * a la base de datos tanto el comentario como la valoracion
+     * @author Pablo Marin
+     */
     @FXML
     private void comentar(MouseEvent event) throws DatabaseErrorException, NotFoundException {
         Valoracion valoracion = new Valoracion(produccion.getId(),user.getId(),valorar,opinionComentario.getText());
@@ -162,7 +202,11 @@ public class ControllerDetalles implements Initializable {
 
     }
 
-    //Método para salir de la vista de detalles y volver a la principal
+    /**
+     * Para que cuando estemos en esta vista y le demos atrás, se encarga de llevarnos al controlador Main
+     * @author Pablo Marin
+     * @param event
+     */
     @FXML
     private void haciaAtras(MouseEvent event) {
         try {
@@ -172,6 +216,13 @@ public class ControllerDetalles implements Initializable {
         }
     }
 
+    /**
+     * Cuando nos encontremos dentro de una producción y queramos guardarla, este método se encarga de guardarla para que mas tarde la podamos ver
+     * y en caso de ya estar, eliminarla de ver mas tarde y de favoritas (también actualiza su imagen).
+     * @author Andreu Francés
+     * @author Pablo Marín
+     * @param event
+     */
     @FXML
     private void verMasTarde(MouseEvent event) throws DatabaseErrorException, NotFoundException, URISyntaxException {
         if (esFavorita()) {
@@ -183,6 +234,12 @@ public class ControllerDetalles implements Initializable {
         }
     }
 
+    /**
+     * Recorremos todas las producciones con el usuario ya registrado.
+     * @author Andreu Francés
+     * @return si la produccion ya está como favorita retorna true
+     * @return si la produccion no está como favorita retorna false
+     */
     private boolean esFavorita() throws DatabaseErrorException, NotFoundException {
         for (Produccion produccion1 : esFavoritaRepository.getUserFavs(this.user)) {
             if (produccion1.getId().equals(this.produccion.getId())) {
@@ -192,6 +249,10 @@ public class ControllerDetalles implements Initializable {
         return false;
     }
 
+    /**
+     * Se encarga de actualizar la imagen de la produccion dependiendo de si favorita o sino lo es.
+     * @author Andreu Francés
+     */
     private void actualizarEsFavorita(boolean favorita) throws URISyntaxException {
         if (favorita) {
             corazon.setImage(new Image(getPathImage("/images/CorazonColor.png")));
@@ -244,6 +305,11 @@ public class ControllerDetalles implements Initializable {
 
     }
 
+    /**
+     * Para poder cargar las imagenes locales mediante su url
+     * @author Pablo Marin
+     * @return String , la ruta de dicha imagen.
+     */
     private String getPathImage(String fileName) throws URISyntaxException {
         return getClass().getResource(fileName).toURI().toString();
     }
