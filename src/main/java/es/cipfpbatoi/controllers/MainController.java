@@ -119,6 +119,7 @@ public class MainController implements Initializable {
     /**
      * Cambia a la vista de SearchController pasandole como parámetros el nombre de la película y su género.
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void buscarProduccion(ActionEvent event){
@@ -133,6 +134,7 @@ public class MainController implements Initializable {
     /**
      * Cambia a la vista de SearchController pasandole como parámetro filtrar por películas
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void changeToPeliculas(MouseEvent event){
@@ -147,6 +149,7 @@ public class MainController implements Initializable {
     /**
      * Cambia a la vista de SearchController pasandole como parámetro filtrar por series
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void changeToSeries(MouseEvent event){
@@ -160,6 +163,7 @@ public class MainController implements Initializable {
     /**
      * Cambia a la vista de FavoritasController para ver las producciones favoritas del usuario
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void changeToFavoritas(ActionEvent event){
@@ -173,6 +177,7 @@ public class MainController implements Initializable {
     /**
      * Cambia a la vista de HistorialController para ver las producciones vistas por el usuario
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void changeToHistorial(ActionEvent event){

@@ -156,10 +156,10 @@ public class HistorialController implements Initializable {
     /**
      * Va a la página siguiente
      * @author Marcos Sanz
-     * @param listView
-     * @param atras
-     * @param siguiente
-     * @throws WrongParameterException
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
     private void nextPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException{
         currentPageIndex++;
@@ -168,9 +168,10 @@ public class HistorialController implements Initializable {
     /**
      * Muestra la paginación con transición
      * @author Marcos Sanz
-     * @param listView
-     * @param atras
-     * @param siguiente
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
     private void showPageWithTransition(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) {
         FadeTransition fadeOut = createFadeTransition(1.0, 0.0);
@@ -188,10 +189,10 @@ public class HistorialController implements Initializable {
     /**
      * Vuelve a la página previa
      * @author Marcos Sanz
-     * @param listView
-     * @param atras
-     * @param siguiente
-     * @throws WrongParameterException
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
     private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         if (currentPageIndex > 0) {
@@ -214,10 +215,10 @@ public class HistorialController implements Initializable {
     /**
      * Muestra la paginación
      * @author Marcos Sanz
-     * @param listView
-     * @param atras
-     * @param siguiente
-     * @throws WrongParameterException
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
     private void showPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
         listView.getItems().clear();
@@ -229,7 +230,7 @@ public class HistorialController implements Initializable {
      * Recoge las producciones que se va a mostrar según su posición
      * @author Marcos Sanz
      * @return una lista con las producciones a mostrar
-     * @throws WrongParameterException
+     * @throws WrongParameterException si esta mal
      */
     private List<Produccion> fetchDataForPage() throws WrongParameterException {
         int startIndex = currentPageIndex * FILAS_POR_PAGINA;
@@ -239,8 +240,8 @@ public class HistorialController implements Initializable {
     /**
      * Actualiza la página de la paginación
      * @author Marcos Sanz
-     * @param previousPageButton
-     * @param nextPageButton
+     * @param previousPageButton boton atras
+     * @param nextPageButton boton siguiente
      */
     private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
         previousPageButton.setDisable(currentPageIndex <= 0);
@@ -250,8 +251,8 @@ public class HistorialController implements Initializable {
     /**
      * Crea una transición
      * @author Marcos Sanz
-     * @param fromValue
-     * @param toValue
+     * @param fromValue desde el valor
+     * @param toValue hasta ese valor
      * @return devuleve una transición
      */
     private FadeTransition createFadeTransition(double fromValue, double toValue) {
@@ -263,8 +264,8 @@ public class HistorialController implements Initializable {
     /**
      * Recoge los elementos que van a ser mostrados en la página
      * @@author Marcos Sanz
-     * @param fromIndex
-     * @param toIndex
+     * @param fromIndex principio
+     * @param toIndex fin
      * @return una lista de los productos encontrados
      * @throws WrongParameterException
      */
@@ -284,7 +285,7 @@ public class HistorialController implements Initializable {
      * Muestra todas las peliculas con paginación
      * @author Martin Peidro
      * @author Marcos Sanz
-     * @param event
+     * @param event clic
      */
     @FXML
     private void showFilms(MouseEvent event){
@@ -304,7 +305,7 @@ public class HistorialController implements Initializable {
      * Muestra todas las series con paginación
      * @author Martin Peidro
      * @author Marcos Sanz
-     * @param event
+     * @param event clic
      */
     @FXML
     private void showShows(MouseEvent event){

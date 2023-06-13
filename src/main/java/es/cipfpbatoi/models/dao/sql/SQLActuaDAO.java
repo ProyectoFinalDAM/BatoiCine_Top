@@ -17,7 +17,6 @@ public class SQLActuaDAO implements ActuaDAO {
      * Busca todas las Actuaciones
      * @author Pablo Marin
      * @return Una lista de las actuaciones
-     * @throws DatabaseErrorException
      */
 
     @Override
@@ -63,7 +62,6 @@ public class SQLActuaDAO implements ActuaDAO {
      * Gurada una actuación
      * @author Pablo Marin
      * @param actua
-     * @throws DatabaseErrorException
      */
 
     @Override

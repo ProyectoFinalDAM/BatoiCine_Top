@@ -66,6 +66,7 @@ public class LoginController implements Initializable {
     /**
      * Obtiene los datos de los textField y los valida para logear al usuario, este pasa a la vista MainController con el user logeado
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void loginUser(ActionEvent event) throws IOException {
@@ -88,6 +89,7 @@ public class LoginController implements Initializable {
     /**
      * Obtiene los datos de los textField y los valida para logear al usuario, este registra el nuevo usuario si es válido, si no lanza una alerta
      * @author Marcos Sanz
+     * @param event clic
      */
     @FXML
     private void signUpUser(ActionEvent event){
@@ -130,6 +132,7 @@ public class LoginController implements Initializable {
     /**
      * Genera una alerta con los erres al logearse. Este puede ser por no introducir el nombre o la contraseña.
      * @author Marcos Sanz
+     * @return String del error
      */
     private String errorTextFields(){
         StringBuilder error= new StringBuilder();

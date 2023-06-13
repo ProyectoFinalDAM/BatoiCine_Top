@@ -279,10 +279,10 @@ public class SearchController implements Initializable {
     /**
      * Vuelve a la página previa
      * @author Martin Peidro
-     * @param listView
-     * @param atras
-     * @param siguiente
-     * @throws WrongParameterException
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
 
     private void previousPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
@@ -309,10 +309,10 @@ public class SearchController implements Initializable {
     /**
      * Muestra la paginación
      * @author Martin Peidro
-     * @param listView
-     * @param atras
-     * @param siguiente
-     * @throws WrongParameterException
+     * @param listView el listView de la pagina
+     * @param atras boton de atras
+     * @param siguiente boton de siguiente
+     * @throws WrongParameterException si el parametro es invalido
      */
 
     private void showPage(ListView<Produccion> listView, Hyperlink atras, Hyperlink siguiente) throws WrongParameterException {
@@ -326,7 +326,7 @@ public class SearchController implements Initializable {
      * Recoge las producciones que se va a mostrar según su posición
      * @author Martin Peidro
      * @return una lista con las producciones a mostrar
-     * @throws WrongParameterException
+     * @throws WrongParameterException si esta mal
      */
 
     private List<Produccion> fetchDataForPage() throws WrongParameterException {
@@ -338,8 +338,8 @@ public class SearchController implements Initializable {
     /**
      * Actualiza la página de la paginación
      * @author Martin Peidro
-     * @param previousPageButton
-     * @param nextPageButton
+     * @param previousPageButton boton anterior
+     * @param nextPageButton boton siguiente
      */
 
     private void updateLinksState(Hyperlink previousPageButton, Hyperlink nextPageButton) {
@@ -351,8 +351,8 @@ public class SearchController implements Initializable {
     /**
      * Crea una transición
      * @author Martin Peidro
-     * @param fromValue
-     * @param toValue
+     * @param fromValue desde valor
+     * @param toValue hasta valor
      * @return devuleve una transición
      */
 
@@ -365,11 +365,11 @@ public class SearchController implements Initializable {
 
     /**
      * Recoge los elementos que van a ser mostrados en la página
-     * @@author Martin Peidro
-     * @param fromIndex
-     * @param toIndex
+     * @author Martin Peidro
+     * @param fromIndex desde el indice
+     * @param toIndex hasta el indice
      * @return una lista de los productos encontrados
-     * @throws WrongParameterException
+     * @throws WrongParameterException si esta mal
      */
 
     private List<Produccion> findAll(int fromIndex, int toIndex) throws WrongParameterException {
@@ -392,7 +392,7 @@ public class SearchController implements Initializable {
      * Muestra todas las peliculas con paginación
      * @author Martin Peidro
      * @author Marcos Sanz
-     * @param event
+     * @param event clic
      */
 
     @FXML
@@ -414,7 +414,7 @@ public class SearchController implements Initializable {
      * Muestra todas las series con paginación
      * @author Martin Peidro
      * @author Marcos Sanz
-     * @param event
+     * @param event clic
      */
 
     @FXML

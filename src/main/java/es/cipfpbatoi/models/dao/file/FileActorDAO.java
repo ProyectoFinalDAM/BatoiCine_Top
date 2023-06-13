@@ -43,7 +43,6 @@ public class FileActorDAO implements ActorDAO {
      * Busca todos los actores
      * @author Pablo Marin
      * @return Una lista de los actores
-     * @throws DatabaseErrorException
      */
 
     @Override

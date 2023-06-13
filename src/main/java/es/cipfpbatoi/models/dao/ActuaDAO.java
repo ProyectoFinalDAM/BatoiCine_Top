@@ -11,7 +11,6 @@ public interface ActuaDAO {
      * Busca todas las Actuaciones
      * @author Pablo Marin
      * @return Una lista de las actuaciones
-     * @throws DatabaseErrorException
      */
 
     ArrayList<Actua> findAll();

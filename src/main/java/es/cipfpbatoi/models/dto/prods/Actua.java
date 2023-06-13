@@ -12,7 +12,7 @@ public class Actua {
     }
 
     /**
-     * @uthor Pablo Marin
+     * @author Pablo Marin
      * @return Devuelve el id del actor
      */
 
@@ -21,7 +21,7 @@ public class Actua {
     }
 
     /**
-     * @uthor Pablo Marin
+     * @author Pablo Marin
      * @return Devuelve el id de la producción
      */
 

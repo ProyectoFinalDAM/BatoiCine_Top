@@ -10,7 +10,7 @@ public class Actor {
     }
 
     /**
-     * @uthor Pablo Marin
+     * @author Pablo Marin
      * @return Devuelve el id del actor
      */
 
@@ -19,7 +19,7 @@ public class Actor {
     }
 
     /**
-     * @uthor Pablo Marin
+     * @author Pablo Marin
      * @return Devuelve el nombre del actor
      */
 

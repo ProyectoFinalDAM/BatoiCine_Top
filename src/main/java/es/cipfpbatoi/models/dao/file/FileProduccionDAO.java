@@ -28,7 +28,6 @@ public class FileProduccionDAO implements ProduccionDAO {
      * Busca todas las producciones de la base de datos
      * @author Marcos Sanz
      * @return Una lista de todas las producciones
-     * @throws DatabaseErrorException
      */
 
     @Override

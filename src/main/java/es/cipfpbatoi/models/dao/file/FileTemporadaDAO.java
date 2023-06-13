@@ -38,7 +38,6 @@ public class FileTemporadaDAO implements TemporadaDAO {
      * Busca todos los elementos de las temporadas
      * @author Martin Peidro
      * @return Una lista de todos los episodios de la temporada
-     * @throws DatabaseErrorException
      */
 
     @Override
