@@ -34,7 +34,6 @@ public class App extends Application {
 
     private static Scene scene;
 
-    private static final int NUM_ESTRELLAS = 5;
     public static final Color ESTRELLA_ENCENDIDA_COLOR = Color.GOLD;
     public static final Color ESTRELLA_APAGADA_COLOR = Color.LIGHTGRAY;
 
@@ -49,7 +48,6 @@ public class App extends Application {
         SQLRankingDAO sqlRankingDAO = new SQLRankingDAO();
         RankingRepository rankingRepository = new RankingRepository(sqlRankingDAO);
         ValoracionRepository valoracionRepository = new ValoracionRepository(sqlValoracionDAO);
-        ArrayList<Produccion> produccions = new SQLProduccionDAO().findAll();
         SQLVisualizarDAO sqlVisualizarDAO= new SQLVisualizarDAO();
         ProduccionRepository produccionRepository = new ProduccionRepository(sqlProduccionDAO);
         SQLGeneroDAO sqlGeneroDAO= new SQLGeneroDAO();

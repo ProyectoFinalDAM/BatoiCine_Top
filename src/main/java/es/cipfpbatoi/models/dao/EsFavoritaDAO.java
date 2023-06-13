@@ -16,7 +16,6 @@ public interface EsFavoritaDAO {
      * @param user
      * @return ArrayList de producciones
      * @throws DatabaseErrorException
-     * @throws NotFoundException
      */
 
     ArrayList<Produccion> getUserFavs(User user) throws DatabaseErrorException;
@@ -27,7 +26,6 @@ public interface EsFavoritaDAO {
      * @param produccion
      * @return ArrayList de usuarios
      * @throws DatabaseErrorException
-     * @throws UserNotExistException
      */
 
     ArrayList<User> getProdUsers(Produccion produccion) throws DatabaseErrorException;

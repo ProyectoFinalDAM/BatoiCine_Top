@@ -93,7 +93,8 @@ public class SQLTemporadaDAO implements TemporadaDAO {
      * @param id_produccion
      * @param temporada
      * @return retorna una temporada filtrada
-     * @throws SQLException
+     * @throws DatabaseErrorException
+     * @throws NotFoundException
      */
     @Override
     public Temporada getByIdProdTemporada(String id_produccion, int temporada) throws DatabaseErrorException, NotFoundException {

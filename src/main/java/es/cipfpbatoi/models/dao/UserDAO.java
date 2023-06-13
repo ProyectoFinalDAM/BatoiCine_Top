@@ -13,7 +13,6 @@ public interface UserDAO {
      * Busca todos los usuarios del programa
      * @author Marcos Sanz
      * @return Una lista de todos los usuarios
-     * @throws DatabaseErrorException
      */
 
     ArrayList<User> findAll();

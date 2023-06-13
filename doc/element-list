@@ -1,0 +1,12 @@
+module:es.cipfpbatoi
+es.cipfpbatoi
+es.cipfpbatoi.controllers
+es.cipfpbatoi.exception
+es.cipfpbatoi.models.dao
+es.cipfpbatoi.models.dao.file
+es.cipfpbatoi.models.dao.sql
+es.cipfpbatoi.models.dto
+es.cipfpbatoi.models.dto.prods
+es.cipfpbatoi.models.respositories
+es.cipfpbatoi.models.services
+es.cipfpbatoi.utils

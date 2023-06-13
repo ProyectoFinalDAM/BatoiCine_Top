@@ -26,7 +26,6 @@ public class SQLUserDAO implements UserDAO {
      * Busca todos los usuarios del programa
      * @author Marcos Sanz
      * @return Una lista de todos los usuarios
-     * @throws DatabaseErrorException
      */
 
     @Override

@@ -28,7 +28,6 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
      * @param user
      * @return ArrayList de producciones
      * @throws DatabaseErrorException
-     * @throws NotFoundException
      */
 
     @Override
@@ -58,7 +57,6 @@ public class SQLEsFavoritaDAO implements EsFavoritaDAO {
      * @param produccion
      * @return ArrayList de usuarios
      * @throws DatabaseErrorException
-     * @throws UserNotExistException
      */
 
     @Override

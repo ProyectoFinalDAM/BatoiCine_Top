@@ -69,6 +69,8 @@ public class FavoritasController implements Initializable {
      * Inicializamos todas las producciones que son favoritas por el usuario, cargando su portada y dividiendolas en peliculas y series
      * insertar la descripción de la producción junto a las plataformas en las que está disponible y sus actores.
      * @author Marcos Sanz
+     * @param url url
+     * @param resourceBundle resource
      */
 
     @Override
@@ -145,6 +147,7 @@ public class FavoritasController implements Initializable {
     /**
      * En este método nos encargamos de que cuando cliquemos en el título de "películas" nos lleve al catálogo de todas las peliculas disponibles.
      * @author Marcos Sanz
+     * @param event clic
      */
 
     @FXML
@@ -161,6 +164,7 @@ public class FavoritasController implements Initializable {
     /**
      * En este método nos encargamos de que cuando cliquemos en el título de "series" nos carge el catálogo de todas las series disponibles
      * @author Marcos Sanz
+     * @param event clic
      */
 
     @FXML
@@ -177,6 +181,7 @@ public class FavoritasController implements Initializable {
     /**
      * Volvemos atrás a la vista main del programa
      * @author Marcos Sanz
+     * @param event clic
      */
 
     @FXML
@@ -192,6 +197,7 @@ public class FavoritasController implements Initializable {
     /**
      * Para poder cargar las imagenes locales mediante su url
      * @author Marcos Sanz
+     * @param fileName nombre fichero
      * @return String , la ruta de dicha imagen.
      */
 

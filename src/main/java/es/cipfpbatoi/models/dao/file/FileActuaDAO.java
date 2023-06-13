@@ -35,7 +35,6 @@ public class FileActuaDAO implements ActuaDAO {
      * Busca todas las Actuaciones
      * @author Pablo Marin
      * @return Una lista de las actuaciones
-     * @throws DatabaseErrorException
      */
 
     @Override
